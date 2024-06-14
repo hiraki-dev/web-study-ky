@@ -13,4 +13,6 @@ HTML/CSS/JavaScriptを理解するためにエコシステムを使わずバニ�
 
 ## ホスティング
 
+**正常にホスティング出来ているかの確認用に未完成のものを一旦アップロードしている。（2024/6/14）**
+
 https://keisei.cloudfree.jp/web-study-ky
