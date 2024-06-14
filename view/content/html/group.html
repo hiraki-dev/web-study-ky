@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+
+<html>
+  <!-- ヘッダー情報 -->
+  <head>
+    <!-- ページ内基底URL target属性でタブの表示方法を指定 -->
+    <base href="./group.html" target="_self" />
+    <!-- ページタイトル -->
+    <title>HTML グルーピングタグ</title>
+
+    <!-- メタデータ設定 -->
+    <!-- 文字コード -->
+    <meta charset="utf-8" />
+    <!-- 読み込み時のページサイズ -->
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <!-- Webページの概要と説明 -->
+    <meta
+      name="description"
+      content="HTMLのグルーピングタグに関してまとめたページ"
+    />
+    <!-- 電話番号の自動リンク機能オフ -->
+    <meta name="format-detection" content="telephone=no" />
+
+    <!-- 外部リソース読み込み -->
+    <!-- CSS -->
+    <link rel="stylesheet" href="../../asset/css/common.css" />
+    <!-- ファビコン -->
+    <!-- <link rel="icon" href="" /> -->
+
+    <!-- スクリプト読み込み -->
+    <script src="../../asset/js/main.js"></script>
+  </head>
+
+  <!-- ページコンテンツ -->
+  <body>
+    <main>
+      <h1>グルーピングタグ</h1>
+
+      <!-- main -->
+      <section>
+        <h2>mainタグ</h2>
+        <p>
+          ページ内のメインコンテンツであることを示す。<br />
+          bodyタグの子要素として指定する。
+        </p>
+      </section>
+
+      <!-- p -->
+      <section>
+        <h2>pタグ</h2>
+        <p>段落を示す。独立したテキストをページ内に挿入する際に使用する。</p>
+      </section>
+
+      <!-- hr -->
+      <section>
+        <h2>hrタグ</h2>
+        <p>水平線を表示。セクション内で部分的な区切りをつける際などで使用。</p>
+
+        <hr />
+      </section>
+
+      <!-- pre -->
+      <section>
+        <h2>preタグ</h2>
+        <p>
+          PREformatted
+          textのこと。ソース中のスペースや改行をそのまま表示する。<br />ソースコード等の表示に適している。
+        </p>
+
+        <pre>
+          console.log("hello world");
+        </pre>
+      </section>
+
+      <!-- blockquote -->
+      <section>
+        <h2>blockquoteタグ</h2>
+        <p>引用文を表示する。</p>
+
+        <blockquote cite="url">
+          引用文を表示する。 <br />
+          cite属性で引用元のURLや詳細情報を記述する。
+        </blockquote>
+      </section>
+
+      <!-- ol/ul -->
+      <section>
+        <h2>ol/ulタグ</h2>
+        <p>
+          リストを表示する。<br />
+          リスト項目はliタグを子要素として用いて表示する。
+        </p>
+
+        <ol>
+          <li>olタグは順序付きリスト</li>
+          <li>reversed属性を指定すると順序を逆にする</li>
+          <li>start属性を指定すると順序の開始位置を指定できる</li>
+          <li>type属性ではリスト番号の表記を指定できる</li>
+        </ol>
+
+        <ul>
+          <li>ulタグは順序なしリスト</li>
+          <li>リスト1</li>
+          <li>リスト2</li>
+          <li>リスト3</li>
+        </ul>
+      </section>
+
+      <!-- dl/dt/dd -->
+      <section>
+        <h2>dlタグ</h2>
+        <p>
+          説明リストを表示する。<br />
+          名前と値でセットで表記され、名前はdtタグ、説明内容となる値はddタグで表現する。
+        </p>
+
+        <dl>
+          <dt>dtタグでタイトル、概要を示す</dt>
+          <dd>ddタグで詳細を記述する</dd>
+          <dt>使用例</dt>
+          <dd>用語集やkey/valueの表記に利用できる</dd>
+          <dt>key</dt>
+          <dd>value</dd>
+        </dl>
+      </section>
+
+      <!-- figure -->
+      <section>
+        <h2>figureタグ</h2>
+        <p>
+          コンテンツから独立したイメージやソースコードなどを表示する。<br />
+          figcaptionタグでイメージのキャプション（見出し・注釈）を指定可能。
+        </p>
+
+        <figure>
+          <figcaption>サンプル画像の表示</figcaption>
+          <img src="../../asset/images/sample.png" />
+        </figure>
+      </section>
+
+      <!-- search -->
+      <section>
+        <h2>searchタグ</h2>
+        <p>
+          ページ内の検索・フィルタリングを行うコンテンツであることを示す。<br />
+          fromなどで検索機能を実装する場合、searchタグで検索機能であることを明示する。
+        </p>
+
+        <search>
+          <form>
+            <label for="example">検索フォームの例</label>
+            <input type="search" id="example" name="example_form" />
+            <button type="submit">検索</button>
+          </form>
+        </search>
+      </section>
+
+      <!-- div -->
+      <section>
+        <h2>divタグ</h2>
+        <p>要素のグルーピングを行う。</p>
+
+        <ul>
+          <li>divタグそのものはスタイリングやスクリプトの適用に使用する</li>
+          <li>
+            汎用的にグルーピング可能だが、ほかに適した要素がある場合はそちらを使用することが望ましい
+          </li>
+          <li>class、id、nameなどの属性を付与して詳細なグルーピングが可能</li>
+        </ul>
+      </section>
+
+      <!-- span -->
+      <section>
+        <h2>spanタグ</h2>
+        <p>
+          divと同じだが、こちらは単一の要素のスタイリングやスクリプトに使用する。
+        </p>
+      </section>
+
+      <!-- 説明を省略するタグ -->
+      <section>
+        <h2>説明を省略するタグ</h2>
+        <ul>
+          <li>
+            <a href="https://www.htmq.com/htmls/menu.shtml"
+              >menuタグ（リストにonclickでイベントを紐付ける際などはmenuタグの使用を検討）</a
+            >
+          </li>
+        </ul>
+      </section>
+    </main>
+
+    <footer></footer>
+  </body>
+</html>

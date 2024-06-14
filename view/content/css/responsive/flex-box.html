@@ -1,0 +1,1279 @@
+<div>
+  <h1>フレックスボックス</h1>
+
+  <section id="content_link">
+    <h2>目次</h2>
+
+    <nav>
+      <ol>
+        <li><a href="#section_1">フレックスボックスとは</a></li>
+        <li>
+          <a href="#section_2">フレックスコンテナ/フレックスアイテム</a>
+        </li>
+        <li><a href="#section_3">フレックスアイテムの配置</a></li>
+        <ol type="I">
+          <li><a href="#section_3_1">行/列</a></li>
+          <li><a href="#section_3_2">折り返し</a></li>
+          <li><a href="#section_3_3">一括指定</a></li>
+        </ol>
+        <li>
+          <a href="#section_4">フレックスアイテムの順序付け/余白</a>
+        </li>
+        <li><a href="#section_5">フレックスアイテムのサイズ</a></li>
+        <ol type="I">
+          <li><a href="#section_5_1">アイテム毎のサイズ指定</a></li>
+          <li><a href="#section_5_2">アイテムのデフォルトサイズ指定</a></li>
+          <li><a href="#section_5_3">サイズオーバー時の縮小値指定</a></li>
+          <li><a href="#section_5_4">一括指定</a></li>
+        </ol>
+        <li><a href="#section_6">フレックスアイテムのレイアウト</a></li>
+        <ol type="I">
+          <li><a href="#section_6_1">主軸方向</a></li>
+          <li><a href="#section_6_2">交差軸方向（全体）</a></li>
+          <li><a href="#section_6_3">交差軸方向（行）</a></li>
+          <li><a href="#section_6_4">交差軸方向（単体）</a></li>
+          <li><a href="#section_6_5">一括指定</a></li>
+        </ol>
+      </ol>
+    </nav>
+  </section>
+
+  <section id="section_1">
+    <h2>フレックスボックスとは</h2>
+    <p>
+      <b>要素を行または列に一次元的に並べるレイアウト方法。</b>
+    </p>
+
+    <p>例えば、以下のような要素があるとする。</p>
+    <div>
+      <style>
+        div.container-1_1 {
+          border: 2px solid rgb(0, 0, 0);
+          width: 100px;
+          margin: 10px;
+
+          .item {
+            background-color: rgb(255, 201, 201);
+            border: 2px dashed rgb(255, 0, 0);
+            width: 50px;
+            margin: 10px;
+            text-align: center;
+          }
+        }
+      </style>
+
+      <div class="container-1_1">
+        <div class="item">a</div>
+        <div class="item">b</div>
+        <div class="item">c</div>
+      </div>
+    </div>
+
+    <div>
+      <pre><code class="language-html">&lt;style&gt;
+div.container-1_1 {
+  border: 2px solid rgb(0, 0, 0);
+  width: 100px;
+  margin: 10px;
+
+    .item {
+      background-color: rgb(255, 201, 201);
+      border: 2px dashed rgb(255, 0, 0);
+      width: 50px;
+      margin: 10px;
+      text-align: center;
+    }
+  }
+&lt;/style&gt;
+
+&lt;div class=&quot;container-1_1&quot;&gt;
+  &lt;div class=&quot;item&quot;&gt;a&lt;/div&gt;
+  &lt;div class=&quot;item&quot;&gt;b&lt;/div&gt;
+  &lt;div class=&quot;item&quot;&gt;c&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+    </div>
+
+    <p>
+      フレックスボックス化したい要素の親要素に<b>display: flex</b
+      >を指定することで、親要素が<b>フレックスコンテナ</b>、子要素が<b>フレックスアイテム</b>となる。<br />
+    </p>
+
+    <div>
+      <style>
+        div.container-1_2 {
+          display: flex;
+          border: 2px solid rgb(0, 0, 0);
+          width: 100px;
+          margin: 10px;
+
+          .item {
+            background-color: rgb(255, 201, 201);
+            border: 2px dashed rgb(255, 0, 0);
+            width: 50px;
+            margin: 10px;
+            text-align: center;
+          }
+        }
+      </style>
+
+      <div class="container-1_2">
+        <div class="item">a</div>
+        <div class="item">b</div>
+        <div class="item">c</div>
+      </div>
+    </div>
+
+    <div>
+      <pre><code class="language-html">&lt;style&gt;
+div.container-1_2 {
+  /* フレックスボックス化 */
+  display: flex;
+  border: 2px solid rgb(0, 0, 0);
+  width: 100px;
+  margin: 10px;
+
+    .item {
+      background-color: rgb(255, 201, 201);
+      border: 2px dashed rgb(255, 0, 0);
+      width: 50px;
+      margin: 10px;
+      text-align: center;
+    }
+  }
+&lt;/style&gt;
+
+&lt;div class=&quot;container-1_2&quot;&gt;
+  &lt;div class=&quot;item&quot;&gt;a&lt;/div&gt;
+  &lt;div class=&quot;item&quot;&gt;b&lt;/div&gt;
+  &lt;div class=&quot;item&quot;&gt;c&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+    </div>
+
+    <p>
+      フレックスコンテナはボックスモデルに属するが、displayプロパティに指定する値に応じてブロックボックスかインラインボックスかを指定できる。
+    </p>
+
+    <div>
+      <table>
+        <thead>
+          <tr>
+            <th scope="rowgroup">プロパティ/値</th>
+            <th>説明</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>display: flex</td>
+            <td>親要素がブロックボックスのフレックスコンテナを作成する。</td>
+          </tr>
+          <tr>
+            <td>display: inline-flex</td>
+            <td>親要素がインラインボックスのフレックスコンテナを作成する。</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="section_2">
+    <h2>フレックスコンテナ/フレックスアイテム</h2>
+    <p>
+      フレックスボックス化した要素は<b>フレックスコンテナ</b>と<b>フレックスアイテム</b>に区分される。
+    </p>
+
+    <ul>
+      <li>フレックスボックス化した親要素は<b>フレックスコンテナ</b>となる。</li>
+      <li>フレックスコンテナの子要素は<b>フレックスアイテム</b>となる。</li>
+      <li>フレックスアイテムを並べる方向を<b>主軸</b>という。</li>
+      <li>主軸に対して垂直の方向性を<b>交差軸</b>という。</li>
+    </ul>
+
+    <figure>
+      <figcaption>
+        フレックスコンテナとフレックスアイテムの図解（MDNから引用）
+      </figcaption>
+      <img
+        src="https://developer.mozilla.org/ja/docs/Learn/CSS/CSS_layout/Flexbox/flex_terms.png"
+        alt="フレックスコンテナとフレックスアイテムの図解（MDNから引用）"
+      />
+    </figure>
+  </section>
+
+  <section id="section_3">
+    <h2>フレックスアイテムの配置</h2>
+
+    <section id="section_3_1">
+      <h3>列/行</h3>
+      <p>
+        <b>flex-direction</b
+        >プロパティでフレックスアイテムの配置方向を指定できる。
+      </p>
+
+      <div>
+        <table>
+          <thead>
+            <tr>
+              <th scope="rowgroup">プロパティ値</th>
+              <th>説明</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>row</td>
+              <td>左から右</td>
+            </tr>
+            <tr>
+              <td>row-reverse</td>
+              <td>右から左</td>
+            </tr>
+            <tr>
+              <td>column</td>
+              <td>上から下</td>
+            </tr>
+            <tr>
+              <td>column-reverse</td>
+              <td>下から上</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>以下は適用例。</p>
+      <div>
+        <style>
+          div.container-3_1 {
+            display: flex;
+            flex-direction: row;
+            margin: 10px;
+            gap: 10px;
+
+            .item {
+              background-color: rgb(168, 232, 227);
+              border: 2px dashed rgba(155, 34, 132, 0.793);
+              font-size: smaller;
+            }
+          }
+        </style>
+
+        <div class="container-3_1">
+          <article class="item">
+            <p>
+              ビデオを使うと、伝えたい内容を明確に表現できます。[オンラインビデオ]をクリックすると、追加したいビデオを、それに応じた埋め込みコードの形式で貼り付けできるようになります。キーワードを入力して、文書に最適なビデオをオンラインで検索することもできます。
+            </p>
+          </article>
+          <article class="item">
+            <p>
+              Word
+              に用意されているヘッダー、フッター、表紙、テキストボックスデザインを組み合わせると、プロのようなできばえの文書を作成できます。たとえば、一致する表紙、ヘッダー、サイドバーを追加できます。[挿入]をクリックしてから、それぞれのギャラリーで目的の要素を選んでください。テーマとスタイルを使って、文書全体の統一感を出すこともできます。[デザイン]をクリックし新しいテーマを選ぶと、図やグラフ、SmartArtグラフィックが新しいテーマに合わせて変わります。スタイルを適用すると、新しいテーマに適合するように見出しが変更されます。
+            </p>
+          </article>
+          <article class="item">
+            <p>
+              では、必要に応じてその場に新しいボタンが表示されるため、効率よく操作を進めることができます。文書内に写真をレイアウトする方法を変更するには、写真をクリックすると、隣にレイアウトオプションのボタンが表示されます。表で作業している場合は、行または列を追加する場所をクリックして、プラス記号をクリックします。新しい閲覧ビューが導入され、閲覧もさらに便利になりました。文書の一部を折りたたんで、必要な箇所に集中することができます。最後まで読み終わる前に中止する必要がある場合、Wordでは、たとえ別のデバイスであっても、どこまで読んだかが記憶されます。
+            </p>
+          </article>
+        </div>
+      </div>
+
+      <div>
+        <pre><code class="language-html">&lt;style&gt;
+  div.container-3_1 {
+    display: flex;
+    flex-direction: row;
+    margin: 10px;
+    gap: 10px;
+
+    .item {
+      background-color: rgb(168, 232, 227);
+      border: 2px dashed rgba(155, 34, 132, 0.793);
+      font-size: smaller;
+    }
+  }
+&lt;/style&gt;
+
+&lt;div class=&quot;container-3_1&quot;&gt;
+  &lt;article class=&quot;item&quot;&gt;
+    &lt;p&gt;
+      ビデオを使うと、伝えたい内容を明確に表現できます。[オンラインビデオ]をクリックすると、追加したいビデオを、それに応じた埋め込みコードの形式で貼り付けできるようになります。キーワードを入力して、文書に最適なビデオをオンラインで検索することもできます。
+    &lt;/p&gt;
+  &lt;/article&gt;
+  &lt;article class=&quot;item&quot;&gt;
+    &lt;p&gt;
+      Word に用意されているヘッダー、フッター、表紙、テキストボックスデザインを組み合わせると、プロのようなできばえの文書を作成できます。たとえば、一致する表紙、ヘッダー、サイドバーを追加できます。[挿入]をクリックしてから、それぞれのギャラリーで目的の要素を選んでください。テーマとスタイルを使って、文書全体の統一感を出すこともできます。[デザイン]をクリックし新しいテーマを選ぶと、図やグラフ、SmartArtグラフィックが新しいテーマに合わせて変わります。スタイルを適用すると、新しいテーマに適合するように見出しが変更されます。
+    &lt;/p&gt;
+  &lt;/article&gt;
+  &lt;article class=&quot;item&quot;&gt;
+    &lt;p&
+      では、必要に応じてその場に新しいボタンが表示されるため、効率よく操作を進めることができます。文書内に写真をレイアウトする方法を変更するには、写真をクリックすると、隣にレイアウトオプションのボタンが表示されます。表で作業している場合は、行または列を追加する場所をクリックして、プラス記号をクリックします。新しい閲覧ビューが導入され、閲覧もさらに便利になりました。文書の一部を折りたたんで、必要な箇所に集中することができます。最後まで読み終わる前に中止する必要がある場合、Wordでは、たとえ別のデバイスであっても、どこまで読んだかが記憶されます。
+    &lt;/p&gt;
+  &lt;/article&gt;
+&lt;/div&gt;</code></pre>
+      </div>
+    </section>
+
+    <section id="section_3_2">
+      <h3>折り返し</h3>
+      <p>
+        <b>flex-wrap</b>プロパティでフレックスアイテムの折り返しを指定できる。
+      </p>
+
+      <div>
+        <table>
+          <thead>
+            <tr>
+              <th scope="rowgroup">プロパティ値</th>
+              <th>説明</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>wrap</td>
+              <td>折り返す</td>
+            </tr>
+            <tr>
+              <td>nowrap</td>
+              <td>折り返さない</td>
+            </tr>
+            <tr>
+              <td>wrap-reverse</td>
+              <td>逆方向に折り返す</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>以下は適用例。</p>
+      <div>
+        <style>
+          div.container-3_2 {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            margin: 10px;
+            gap: 10px;
+
+            .item {
+              background-color: rgb(168, 232, 227);
+              border: 2px dashed rgba(155, 34, 132, 0.793);
+              font-size: smaller;
+            }
+          }
+        </style>
+
+        <div class="container-3_2">
+          <article class="item">
+            <p>
+              ビデオを使うと、伝えたい内容を明確に表現できます。[オンラインビデオ]をクリックすると、追加したいビデオを、それに応じた埋め込みコードの形式で貼り付けできるようになります。
+            </p>
+          </article>
+          <article class="item">
+            <p>
+              キーワードを入力して、文書に最適なビデオをオンラインで検索することもできます。ビデオを使うと、伝えたい内容を明確に表現できます。[オンラインビデオ]をクリックすると、追加したいビデオを、それに応じた埋め込みコードの形式で貼り付けできるようになります。
+            </p>
+          </article>
+          <article class="item">
+            <p>
+              キーワードを入力して、文書に最適なビデオをオンラインで検索することもできます。Wordに用意されているヘッダー、フッター、表紙、テキストボックスデザインを組み合わせると、プロのようなできばえの文書を作成できます。たとえば、一致する表紙、ヘッダー、サイドバーを追加できます。[挿入]をクリックしてから、それぞれのギャラリーで目的の要素を選んでください。
+            </p>
+          </article>
+          <article class="item">
+            <p>
+              テーマとスタイルを使って、文書全体の統一感を出すこともできます。[デザイン]をクリックし新しいテーマを選ぶと、図やグラフ、SmartArtグラフィックが新しいテーマに合わせて変わります。スタイルを適用すると、新しいテーマに適合するように見出しが変更されます。
+            </p>
+          </article>
+          <article class="item">
+            <p>
+              では、必要に応じてその場に新しいボタンが表示されるため、効率よく操作を進めることができます。文書内に写真をレイアウトする方法を変更するには、写真をクリックすると、隣にレイアウトオプションのボタンが表示されます。表で作業している場合は、行または列を追加する場所をクリックして、プラス記号をクリックします。
+            </p>
+          </article>
+          <article class="item">
+            <p>
+              新しい閲覧ビューが導入され、閲覧もさらに便利になりました。文書の一部を折りたたんで、必要な箇所に集中することができます。最後まで読み終わる前に中止する必要がある場合、Wordでは、たとえ別のデバイスであっても、どこまで読んだかが記憶されます。
+            </p>
+          </article>
+        </div>
+      </div>
+
+      <div>
+        <pre><code class="language-html">&lt;style&gt;
+  div.container-3_2 {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin: 10px;
+    gap: 10px;
+
+    .item {
+      background-color: rgb(168, 232, 227);
+      border: 2px dashed rgba(155, 34, 132, 0.793);
+      font-size: smaller;
+    }
+  }
+&lt;/style&gt;
+
+&lt;div class=&quot;container-3_2&quot;&gt;
+  &lt;article class=&quot;item&quot;&gt;
+    &lt;p&gt;
+      ビデオを使うと、伝えたい内容を明確に表現できます。[オンラインビデオ]をクリックすると、追加したいビデオを、それに応じた埋め込みコードの形式で貼り付けできるようになります。
+    &lt;/p&gt;
+  &lt;/article&gt;
+  &lt;article class=&quot;item&quot;&gt;
+    &lt;p&gt;
+      キーワードを入力して、文書に最適なビデオをオンラインで検索することもできます。ビデオを使うと、伝えたい内容を明確に表現できます。[オンラインビデオ]をクリックすると、追加したいビデオを、それに応じた埋め込みコードの形式で貼り付けできるようになります。
+    &lt;/p&gt;
+  &lt;/article&gt;
+  &lt;article class=&quot;item&quot;&gt;
+    &lt;p&gt;
+      キーワードを入力して、文書に最適なビデオをオンラインで検索することもできます。Wordに用意されているヘッダー、フッター、表紙、テキストボックスデザインを組み合わせると、プロのようなできばえの文書を作成できます。たとえば、一致する表紙、ヘッダー、サイドバーを追加できます。[挿入]をクリックしてから、それぞれのギャラリーで目的の要素を選んでください。
+    &lt;/p&gt;
+  &lt;/article&gt;
+  &lt;article class=&quot;item&quot;&gt;
+    &lt;p&gt;
+      テーマとスタイルを使って、文書全体の統一感を出すこともできます。[デザイン]をクリックし新しいテーマを選ぶと、図やグラフ、SmartArtグラフィックが新しいテーマに合わせて変わります。スタイルを適用すると、新しいテーマに適合するように見出しが変更されます。
+    &lt;/p&gt;
+  &lt;/article&gt;
+  &lt;article class=&quot;item&quot;&gt;
+    &lt;p&gt;
+      では、必要に応じてその場に新しいボタンが表示されるため、効率よく操作を進めることができます。文書内に写真をレイアウトする方法を変更するには、写真をクリックすると、隣にレイアウトオプションのボタンが表示されます。表で作業している場合は、行または列を追加する場所をクリックして、プラス記号をクリックします。
+    &lt;/p&gt;
+  &lt;/article&gt;
+  &lt;article class=&quot;item&quot;&gt;
+    &lt;p&gt;
+      新しい閲覧ビューが導入され、閲覧もさらに便利になりました。文書の一部を折りたたんで、必要な箇所に集中することができます。最後まで読み終わる前に中止する必要がある場合、Wordでは、たとえ別のデバイスであっても、どこまで読んだかが記憶されます。
+    &lt;/p&gt;
+  &lt;/article&gt;
+&lt;/div&gt;</code></pre>
+      </div>
+    </section>
+
+    <section id="section_3_3">
+      <h3>一括指定</h3>
+      <p>
+        <b>flex-flow</b
+        >プロパティでflex-directionとflex-wrapの値を一括指定できる。
+      </p>
+
+      <div>
+        <style>
+          .container-1 {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+          }
+
+          /* 上記と同等 */
+          .container-2 {
+            flex-flow: row wrap;
+          }
+        </style>
+      </div>
+
+      <div>
+        <pre><code class="language-css">.container-1 {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+/* 上記と同等 */
+.container-2 {
+  flex-flow: row wrap;
+}</code></pre>
+      </div>
+    </section>
+  </section>
+
+  <section id="section_4">
+    <h2>フレックスアイテムの順序付け/余白</h2>
+    <ul>
+      <li><b>order</b>プロパティでフレックスアイテムの並び順を指定できる。</li>
+      <li><b>gap</b>プロパティでフレックスアイテム間の余白を指定できる。</li>
+    </ul>
+
+    <p>以下は適用例。</p>
+    <div>
+      <style>
+        div.container-4 {
+          display: flex;
+          flex-direction: row;
+          gap: 10px;
+          margin: 10px;
+
+          .item {
+            background-color: rgb(168, 232, 227);
+            border: 2px dashed rgba(155, 34, 132, 0.793);
+            font-size: smaller;
+          }
+        }
+
+        .item-1 {
+          order: 1;
+        }
+
+        .item-2 {
+          order: 2;
+        }
+
+        .item-3 {
+          order: 3;
+        }
+
+        /* 負数のため先頭配置される */
+        .item-4 {
+          order: -1;
+        }
+      </style>
+
+      <div class="container-4">
+        <article class="item item-1">
+          <p>item-1</p>
+        </article>
+        <article class="item item-2">
+          <p>item-2</p>
+        </article>
+        <article class="item item-3">
+          <p>item-3</p>
+        </article>
+        <article class="item item-4">
+          <p>item-4</p>
+        </article>
+      </div>
+    </div>
+
+    <div>
+      <pre><code>&lt;style&gt;
+  div.container-4 {
+    display: flex;
+    flex-direction: row;
+    margin: 10px;
+
+    .item {
+      background-color: rgb(168, 232, 227);
+      border: 2px dashed rgba(155, 34, 132, 0.793);
+      font-size: smaller;
+    }
+  }
+
+  .item-1 {
+    order: 1;
+  }
+
+  .item-2 {
+    order: 2;
+  }
+
+  .item-3 {
+    order: 3;
+  }
+
+  .item-4 {
+    order: -1;
+  }
+&lt;/style&gt;
+
+&lt;div class=&quot;container-4&quot;&gt;
+  &lt;article class=&quot;item item-1&quot;&gt;
+    &lt;p&gt;item-1&lt;/p&gt;
+  &lt;/article&gt;
+  &lt;article class=&quot;item item-2&quot;&gt;
+    &lt;p&gt;item-2&lt;/p&gt;
+  &lt;/article&gt;
+  &lt;article class=&quot;item item-3&quot;&gt;
+    &lt;p&gt;item-3&lt;/p&gt;
+  &lt;/article&gt;
+  &lt;article class=&quot;item item-4&quot;&gt;
+    &lt;p&gt;item-4&lt;/p&gt;
+  &lt;/article&gt;
+&lt;/div&gt;</code></pre>
+    </div>
+  </section>
+
+  <section id="section_5">
+    <h2>フレックスアイテムのサイズ</h2>
+
+    <section id="section_5_1">
+      <h3>アイテム毎のサイズ指定</h3>
+      <p>
+        <b>flex-grow</b
+        >プロパティでフレックスアイテムのサイズの伸縮を設定できる。<br />
+      </p>
+
+      <ul>
+        <li>
+          flex-growプロパティの値を指定するとフレックスアイテム内の余白部分を指定要素のサイズに割り当てる。
+        </li>
+        <li>
+          複数のflex-growプロパティを指定した場合、<b
+            >アイテム単体のflex-grow指定値 /
+            コンテナ内のflex-growプロパティの値の総数</b
+          >でサイズが計算される。
+        </li>
+        <li>widthやheightよりも優先される。</li>
+        <li>
+          参考:<a href="https://qiita.com/maaaashi/items/13cdf02c394cf9668de7"
+            >【CSS】flex-growを使おう</a
+          >
+        </li>
+      </ul>
+
+      <p>以下は適用例。</p>
+      <div>
+        <style>
+          div.container-5_1 {
+            display: flex;
+            flex-direction: row;
+            margin: 10px;
+            gap: 10px;
+
+            .item {
+              background-color: rgb(168, 232, 227);
+              border: 2px dashed rgba(155, 34, 132, 0.793);
+              font-size: smaller;
+            }
+
+            .item-1 {
+              /* 1/5(20%) */
+              flex-grow: 1;
+              order: 1;
+            }
+
+            .item-2 {
+              /* 1/5(20%) */
+              flex-grow: 1;
+              order: 2;
+            }
+
+            .item-3 {
+              /* 3/5(60%) */
+              flex-grow: 3;
+              order: 3;
+            }
+          }
+        </style>
+
+        <div class="container-5_1">
+          <article class="item item-1">
+            <p>item-1</p>
+          </article>
+          <article class="item item-2">
+            <p>item-2</p>
+          </article>
+          <article class="item item-3">
+            <p>item-3</p>
+          </article>
+        </div>
+      </div>
+
+      <div>
+        <pre><code class="language-html">&lt;style&gt;
+  div.container-5_1 {
+    display: flex;
+    flex-direction: row;
+    margin: 10px;
+    gap: 10px;
+
+    .item {
+      background-color: rgb(168, 232, 227);
+      border: 2px dashed rgba(155, 34, 132, 0.793);
+      font-size: smaller;
+    }
+
+    .item-1 {
+      /* 1/5(20%) */
+      flex-grow: 1;
+      order: 1;
+    }
+
+    .item-2 {
+      /* 1/5(20%) */
+      flex-grow: 1;
+      order: 2;
+    }
+
+    .item-3 {
+      /* 3/5(60%) */
+      flex-grow: 3;
+      order: 3;
+    }
+  }
+&lt;/style&gt;
+
+&lt;div class=&quot;container-5_1&quot;&gt;
+  &lt;article class=&quot;item item-1&quot;&gt;
+    &lt;p&gt;item-1&lt;/p&gt;
+  &lt;/article&gt;
+  &lt;article class=&quot;item item-2&quot;&gt;
+    &lt;p&gt;item-2&lt;/p&gt;
+  &lt;/article&gt;
+  &lt;article class=&quot;item item-3&quot;&gt;
+    &lt;p&gt;item-3&lt;/p&gt;
+  &lt;/article&gt;
+&lt;/div&gt;</code></pre>
+      </div>
+    </section>
+
+    <section id="section_5_2">
+      <h3>アイテムのデフォルトサイズ指定</h3>
+      <p>
+        <b>flex-basis</b
+        >プロパティでフレックスアイテムのデフォルトサイズを指定できる。<br />
+        以下の値を指定可能。
+      </p>
+
+      <div>
+        <table>
+          <thead>
+            <tr>
+              <th scope="rowgroup">プロパティ値</th>
+              <th>説明</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>auto</td>
+              <td>サイズを自動で調整（規定値）</td>
+            </tr>
+            <tr>
+              <td>width型</td>
+              <td>widthやheightで指定可能な値</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>
+        flex-growやflex-shrinkが指定されている場合はそちらの値も考慮される。<br />
+        以下は適用例。
+      </p>
+      <div>
+        <style>
+          div.container-5_2 {
+            display: flex;
+            flex-direction: row;
+            margin: 10px;
+            gap: 10px;
+
+            .item {
+              background-color: rgb(168, 232, 227);
+              border: 2px dashed rgba(155, 34, 132, 0.793);
+              font-size: smaller;
+            }
+
+            .item-1 {
+              /* 300px分のサイズ割り当て */
+              flex-basis: 300px;
+              order: 1;
+            }
+
+            .item-2 {
+              /* 全体の20% */
+              flex-basis: 20%;
+              order: 2;
+            }
+
+            .item-3 {
+              order: 3;
+            }
+          }
+        </style>
+
+        <div class="container-5_2">
+          <article class="item item-1">
+            <p>item-1</p>
+          </article>
+          <article class="item item-2">
+            <p>item-2</p>
+          </article>
+          <article class="item item-3">
+            <p>item-3</p>
+          </article>
+        </div>
+      </div>
+
+      <div>
+        <pre><code class="language-css">
+div.container-5_2 {
+  display: flex;
+  flex-direction: row;
+  margin: 10px;
+  gap: 10px;
+
+  .item {
+    background-color: rgb(168, 232, 227);
+    border: 2px dashed rgba(155, 34, 132, 0.793);
+    font-size: smaller;
+  }
+
+  .item-1 {
+    /* 300px分のサイズ割り当て */
+    flex-basis: 300px;
+    order: 1;
+  }
+
+  .item-2 {
+    /* 全体の20% */
+    flex-basis: 20%;
+    order: 2;
+  }
+
+  .item-3 {
+    order: 3;
+  }
+}</code></pre>
+      </div>
+    </section>
+
+    <section id="section_5_3">
+      <h3>サイズオーバー時の縮小値指定</h3>
+      <p>
+        <b>flex-shrink</b
+        >プロパティでフレックスアイテムのサイズの縮小値を指定できる。<br />
+        全フレックスアイテムのサイズがフレックスコンテナのサイズを超過した際にflex-shrinkの値が適用される。
+      </p>
+    </section>
+
+    <section id="section_5_4">
+      <h3>一括指定</h3>
+      <p><b>flex</b>プロパティで一括指定できる。</p>
+
+      <div>
+        <style>
+          .container {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+
+            .item-1 {
+              flex-grow: 1;
+              flex-shrink: 1;
+              flex-basis: auto;
+            }
+
+            /* .item-1と同等 */
+            .item-2 {
+              flex: 1 1 auto;
+            }
+          }
+        </style>
+      </div>
+
+      <div>
+        <pre><code class="language-css">.container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+
+  .item-1 {
+    flex-grow: 1;
+    flex-shrink: 1;
+    flex-basis: auto;
+  }
+
+  /* .item-1と同等 */
+  .item-2 {
+    flex: 1 1 auto;
+  }
+}</code></pre>
+      </div>
+    </section>
+  </section>
+
+  <section id="section_6">
+    <h2>フレックスアイテムのレイアウト</h2>
+
+    <section id="section_6_1">
+      <h3>主軸方向</h3>
+      <p>
+        <b>justify-content</b
+        >プロパティで主軸方向の全体的なレイアウトを指定できる。<br />
+        以下の値を指定できる。
+      </p>
+
+      <div>
+        <table>
+          <caption>
+            <a
+              href="https://zenn.dev/umatoma/articles/e6c4051f4c882d#justify-content"
+              >図で理解する Flexbox</a
+            >より引用
+          </caption>
+          <thead>
+            <tr>
+              <th scope="rowgroup">プロパティ値</th>
+              <th>説明</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>flex-start</td>
+              <td>先頭寄せ</td>
+            </tr>
+            <tr>
+              <td>flex-end</td>
+              <td>末尾寄せ</td>
+            </tr>
+            <tr>
+              <td>center</td>
+              <td>中央寄せ</td>
+            </tr>
+            <tr>
+              <td>space-between</td>
+              <td>
+                <ul>
+                  <li>均等配置</li>
+                  <li>コンテナとアイテム間の余白なし</li>
+                </ul>
+              </td>
+            </tr>
+            <tr>
+              <td>space-around</td>
+              <td>
+                <ul>
+                  <li>均等配置</li>
+                  <li>
+                    コンテナとアイテム間の余白は、隣接するアイテム間の余白の半分になる
+                  </li>
+                </ul>
+              </td>
+            </tr>
+            <tr>
+              <td>space-evenly</td>
+              <td>
+                <ul>
+                  <li>均等配置</li>
+                  <li>
+                    コンテナとアイテム間の余白は、隣接するアイテム間の余白と同じになる
+                  </li>
+                </ul>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <figure>
+        <figcaption>
+          <a
+            href="https://zenn.dev/umatoma/articles/e6c4051f4c882d#justify-content"
+            >図で理解する Flexbox</a
+          >より引用
+        </figcaption>
+        <img
+          src="https://storage.googleapis.com/zenn-user-upload/5d02e8be677e8d661d226ea6.png"
+          alt="図で理解するFlexboxから引用"
+        />
+      </figure>
+
+      <p>以下は適用例。</p>
+      <div>
+        <style>
+          .container-6_1_1 {
+            /* flex */
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+
+            /* border */
+            border: 2px solid black;
+            margin: 10px;
+            padding: 20px;
+            border-radius: 5px;
+
+            .item {
+              background-color: rgb(168, 232, 227);
+              border: 2px dashed rgba(155, 34, 132, 0.793);
+              font-size: smaller;
+              flex-basis: 15%;
+            }
+          }
+        </style>
+
+        <div class="container-6_1_1">
+          <article class="item">
+            <p>item-1</p>
+          </article>
+          <article class="item">
+            <p>item-2</p>
+          </article>
+          <article class="item">
+            <p>item-3</p>
+          </article>
+          <article class="item">
+            <p>item-4</p>
+          </article>
+        </div>
+      </div>
+
+      <div>
+        <style>
+          .container-6_1_2 {
+            /* flex */
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 10px;
+
+            /* border */
+            border: 2px solid black;
+            margin: 10px;
+            padding: 20px;
+            border-radius: 5px;
+
+            .item {
+              background-color: rgb(168, 232, 227);
+              border: 2px dashed rgba(155, 34, 132, 0.793);
+              font-size: smaller;
+              flex-basis: 15%;
+            }
+          }
+        </style>
+
+        <div class="container-6_1_2">
+          <article class="item">
+            <p>item-1</p>
+          </article>
+          <article class="item">
+            <p>item-2</p>
+          </article>
+          <article class="item">
+            <p>item-3</p>
+          </article>
+          <article class="item">
+            <p>item-4</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="section_6_2">
+      <h3>交差軸方向（全体）</h3>
+      <p>
+        <b>align-content</b>
+        プロパティで交差軸方向の全体的なレイアウトを指定できる。<br />
+        以下の値を指定できる。
+      </p>
+
+      <div>
+        <table>
+          <caption>
+            <a
+              href="https://zenn.dev/umatoma/articles/e6c4051f4c882d#align-content"
+              >図で理解する Flexbox</a
+            >より引用
+          </caption>
+          <thead>
+            <tr>
+              <th scope="rowgroup">プロパティ値</th>
+              <th>説明</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>flex-start</td>
+              <td>先頭寄せ</td>
+            </tr>
+            <tr>
+              <td>flex-end</td>
+              <td>末尾寄せ</td>
+            </tr>
+            <tr>
+              <td>center</td>
+              <td>中央寄せ</td>
+            </tr>
+            <tr>
+              <td>space-between</td>
+              <td>
+                <ul>
+                  <li>均等配置</li>
+                  <li>コンテナとアイテム間の余白なし</li>
+                </ul>
+              </td>
+            </tr>
+            <tr>
+              <td>space-around</td>
+              <td>
+                <ul>
+                  <li>均等配置</li>
+                  <li>
+                    コンテナとアイテム間の余白は、隣接するアイテム間の余白の半分になる
+                  </li>
+                </ul>
+              </td>
+            </tr>
+            <tr>
+              <td>space-evenly</td>
+              <td>
+                <ul>
+                  <li>均等配置</li>
+                  <li>
+                    コンテナとアイテム間の余白は、隣接するアイテム間の余白と同じになる
+                  </li>
+                </ul>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <figure>
+        <figcaption>
+          <a
+            href="https://zenn.dev/umatoma/articles/e6c4051f4c882d#align-content"
+            >図で理解する Flexbox</a
+          >より引用
+        </figcaption>
+        <img
+          src="https://storage.googleapis.com/zenn-user-upload/fb4834399afac4cc53a6ff75.png"
+          alt="図で理解するFlexboxから引用"
+        />
+      </figure>
+    </section>
+
+    <section id="section_6_3">
+      <h3>交差軸方向（行）</h3>
+      <p>
+        <b>align-items</b>
+        プロパティで各フレックスアイテム行の交差軸方向のレイアウトを指定できる。<br />
+        以下の値を指定できる。
+      </p>
+
+      <div>
+        <table>
+          <caption>
+            <a
+              href="https://zenn.dev/umatoma/articles/e6c4051f4c882d#align-items"
+              >図で理解する Flexbox</a
+            >より引用
+          </caption>
+
+          <thead>
+            <tr>
+              <th scope="rowgroup">プロパティ値</th>
+              <th>説明</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>flex-start</td>
+              <td>先頭寄せ</td>
+            </tr>
+            <tr>
+              <td>flex-end</td>
+              <td>末尾寄せ</td>
+            </tr>
+            <tr>
+              <td>center</td>
+              <td>中央寄せ</td>
+            </tr>
+            <tr>
+              <td>baseline</td>
+              <td>
+                各アイテムのベースライン（テキストの位置）が同じになるよう配置
+              </td>
+            </tr>
+            <tr>
+              <td>stretch</td>
+              <td>各アイテムのサイズが同じになるよう配置</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <figure>
+        <figcaption>
+          <a href="https://zenn.dev/umatoma/articles/e6c4051f4c882d#align-items"
+            >図で理解する Flexbox</a
+          >より引用
+        </figcaption>
+        <img
+          src="https://storage.googleapis.com/zenn-user-upload/1e88c9fff2e6752c4ce33581.png"
+          alt="図で理解するFlexboxから引用"
+        />
+      </figure>
+    </section>
+
+    <section id="section_6_4">
+      <h3>交差軸方向（単体）</h3>
+      <p>
+        <b>align-self</b>
+        プロパティで各フレックスアイテム単体の交差軸方向のレイアウトを指定できる。<br />
+        以下の値を指定できる。
+      </p>
+
+      <div>
+        <table>
+          <caption>
+            <a
+              href="https://zenn.dev/umatoma/articles/e6c4051f4c882d#align-self"
+              >図で理解する Flexbox</a
+            >より引用
+          </caption>
+
+          <thead>
+            <tr>
+              <th scope="rowgroup">プロパティ値</th>
+              <th>説明</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>flex-start</td>
+              <td>先頭寄せ</td>
+            </tr>
+            <tr>
+              <td>flex-end</td>
+              <td>末尾寄せ</td>
+            </tr>
+            <tr>
+              <td>center</td>
+              <td>中央寄せ</td>
+            </tr>
+            <tr>
+              <td>stretch</td>
+              <td>各アイテムのサイズが同じになるよう配置</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <figure>
+        <figcaption>
+          <a href="https://zenn.dev/umatoma/articles/e6c4051f4c882d#align-self"
+            >図で理解する Flexbox</a
+          >より引用
+        </figcaption>
+        <img
+          src="https://storage.googleapis.com/zenn-user-upload/626e006d9e375632ee91129c.png"
+          alt="図で理解するFlexboxから引用"
+        />
+      </figure>
+    </section>
+
+    <section id="section_6_5">
+      <h3>一括指定</h3>
+      <p>
+        <b>place-content</b
+        >プロパティでjustify-contentとalign-contentを一括指定できる。
+      </p>
+
+      <div>
+        <pre><code class="language-css">.container {
+  display: flex;
+
+  .item-1 {
+    align-content: space-evenly;
+    justify-content: space-between; 
+  }
+
+  /* .item-1と同等 */
+  .item-2 {
+    place-content: space-evenly space-between;
+  }
+}</code></pre>
+      </div>
+    </section>
+  </section>
+</div>

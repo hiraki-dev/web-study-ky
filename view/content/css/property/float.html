@@ -1,0 +1,388 @@
+<div>
+  <h1>フロート</h1>
+
+  <section id="content_link">
+    <h2>目次</h2>
+
+    <nav>
+      <ol>
+        <li><a href="#section_1">概要</a></li>
+        <li><a href="#section_2">フロートのクリア</a></li>
+        <li><a href="#section_3">フロートの回り込み改行をクリア</a></li>
+      </ol>
+    </nav>
+  </section>
+
+  <section id="section_1">
+    <h2>概要</h2>
+    <p>
+      <b>float</b>プロパティを指定した要素は<a
+        href="../property/position.html#section_1_2"
+        >包含ブロック</a
+      >の仕組みに応じて、現在位置を基準に浮動する。<br />
+      後続の要素は浮動要素の左右に回り込むように配置される。<br />
+    </p>
+
+    <ul>
+      <li>
+        フレックスボックスやグリッドレイアウトが実装される前はレスポンシブデザインを行うために利用された。
+      </li>
+      <li>
+        上記の手段がある今、フロートをレスポンシブデザインを目的として使うのは間違いである。
+      </li>
+      <li>
+        現在ではテキストを要素の左右に回り込ませる目的のために使用するプロパティである。
+      </li>
+    </ul>
+
+    <div>
+      <table>
+        <thead>
+          <tr>
+            <th scope="rowgroup">プロパティ値</th>
+            <th>説明</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>left</td>
+            <td>要素を左側に浮動させる。</td>
+          </tr>
+          <tr>
+            <td>right</td>
+            <td>要素を右側に浮動させる。</td>
+          </tr>
+          <tr>
+            <td>inline-start</td>
+            <td>包含ブロックの始点に浮動させる。</td>
+          </tr>
+          <tr>
+            <td>inline-end</td>
+            <td>包含ブロックの終点に浮動させる。</td>
+          </tr>
+          <tr>
+            <td>none</td>
+            <td>浮動を行わない。（初期値）</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>以下はfloatの例。</p>
+    <div>
+      <style>
+        .container-1 {
+          & .item {
+            box-sizing: border-box;
+            margin-bottom: 10px;
+            padding: 5px;
+            background-color: rgba(97, 176, 228, 0.233);
+            font-size: 16px;
+          }
+
+          & .image {
+            box-sizing: border-box;
+            border: 1px solid rgba(80, 68, 68, 0.171);
+          }
+
+          & .float-left {
+            float: left;
+            margin: 10px;
+          }
+
+          & .float-right {
+            float: right;
+          }
+        }
+      </style>
+
+      <div class="container-1">
+        <div class="item">
+          <img
+            class="image float-left"
+            src="../../../asset/images/sample.png"
+            alt=""
+            width="100px"
+          />
+          <p>
+            親譲りの無鉄砲で小供の時から損ばかりしている。<br />
+            小学校に居る時分学校の二階から飛び降りて一週間ほど腰を抜かした事がある。
+            なぜそんな無闇をしたと聞く人があるかも知れぬ。別段深い理由でもない。新築の二階から首を出していたら、同級生の一人が冗談に、いくら威張っても、そこから飛び降りる事は出来まい。弱虫やーい。と囃したからである。<br />
+            小使に負ぶさって帰って来た時、おやじが大きな眼をして二階ぐらいから飛び降りて腰を抜かす奴があるかと云ったから、この次は抜かさずに飛んで見せますと答えた。（青空文庫より）
+          </p>
+        </div>
+
+        <div class="item">
+          <img
+            class="image float-right"
+            src="../../../asset/images/sample.png"
+            alt=""
+            width="100px"
+          />
+          <p>
+            「ではみなさんは、そういうふうに川だと言われたり、乳の流れたあとだと言われたりしていた、このぼんやりと白いものがほんとうは何かご承知ですか」先生は、黒板につるした大きな黒い星座の図の、上から下へ白くけぶった銀河帯のようなところを指しながら、みんなに問いをかけました。<br />
+            カムパネルラが手をあげました。 それから四、五人手をあげました。<br />
+            ジョバンニも手をあげようとして、急いでそのままやめました。<br />
+            たしかにあれがみんな星だと、いつか雑誌で読んだのでしたが、このごろはジョバンニはまるで毎日教室でもねむく、本を読むひまも読む本もないので、なんだかどんなこともよくわからないという気持ちがするのでした。<br />
+            ところが先生は早くもそれを見つけたのでした。 「ジョバンニさん。<br />
+            あなたはわかっているのでしょう」ジョバンニは勢いよく立ちあがりましたが、立ってみるともうはっきりとそれを答えることができないのでした。<br />
+            ザネリが前の席からふりかえって、ジョバンニを見てくすっとわらいました。<br />
+            ジョバンニはもうどぎまぎしてまっ赤になってしまいました。
+            先生がまた言いました。
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <pre><code class="language-html">&lt;style&gt;
+  .container-1 {
+    &amp; .item {
+      box-sizing: border-box;
+      margin-bottom: 10px;
+      padding: 5px;
+      background-color: rgba(97, 176, 228, 0.233);
+      font-size: 16px;
+    }
+
+    &amp; .image {
+      box-sizing: border-box;
+      border: 1px solid rgba(80, 68, 68, 0.171);
+    }
+
+    &amp; .float-left {
+      float: left;
+      margin: 10px;
+    }
+
+    &amp; .float-right {
+      float: right;
+    }
+  }
+&lt;/style&gt;
+
+&lt;div class=&quot;container-1&quot;&gt;
+  &lt;div class=&quot;item&quot;&gt;
+    &lt;img
+      class=&quot;image float-left&quot;
+      src=&quot;./sample.png&quot;
+      alt=&quot;&quot;
+      width=&quot;100px&quot;
+    /&gt;
+    &lt;p&gt;
+      親譲りの無鉄砲で小供の時から損ばかりしている。&lt;br /&gt;
+      小学校に居る時分学校の二階から飛び降りて一週間ほど腰を抜かした事がある。
+      なぜそんな無闇をしたと聞く人があるかも知れぬ。別段深い理由でもない。新築の二階から首を出していたら、同級生の一人が冗談に、いくら威張っても、そこから飛び降りる事は出来まい。弱虫やーい。と囃したからである。&lt;br /&gt;
+      小使に負ぶさって帰って来た時、おやじが大きな眼をして二階ぐらいから飛び降りて腰を抜かす奴があるかと云ったから、この次は抜かさずに飛んで見せますと答えた。（青空文庫より）
+    &lt;/p&gt;
+  &lt;/div&gt;
+
+  &lt;div class=&quot;item&quot;&gt;
+    &lt;img
+      class=&quot;image float-right&quot;
+      src=&quot;./sample.png&quot;
+      alt=&quot;&quot;
+      width=&quot;100px&quot;
+    /&gt;
+    &lt;p&gt;
+      「ではみなさんは、そういうふうに川だと言われたり、乳の流れたあとだと言われたりしていた、このぼんやりと白いものがほんとうは何かご承知ですか」先生は、黒板につるした大きな黒い星座の図の、上から下へ白くけぶった銀河帯のようなところを指しながら、みんなに問いをかけました。&lt;br /&gt;
+      カムパネルラが手をあげました。
+      それから四、五人手をあげました。&lt;br /&gt;
+      ジョバンニも手をあげようとして、急いでそのままやめました。&lt;br /&gt;
+      たしかにあれがみんな星だと、いつか雑誌で読んだのでしたが、このごろはジョバンニはまるで毎日教室でもねむく、本を読むひまも読む本もないので、なんだかどんなこともよくわからないという気持ちがするのでした。&lt;br /&gt;
+      ところが先生は早くもそれを見つけたのでした。
+      「ジョバンニさん。&lt;br /&gt;
+      あなたはわかっているのでしょう」ジョバンニは勢いよく立ちあがりましたが、立ってみるともうはっきりとそれを答えることができないのでした。&lt;br /&gt;
+      ザネリが前の席からふりかえって、ジョバンニを見てくすっとわらいました。&lt;br /&gt;
+      ジョバンニはもうどぎまぎしてまっ赤になってしまいました。
+      先生がまた言いました。
+    &lt;/p&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+    </div>
+  </section>
+
+  <section id="section_2">
+    <h2>フロートのクリア</h2>
+    <p>
+      <b>clear</b
+      >プロパティを指定することで浮動させた要素に回り込みされている要素の回り込みを解除する。
+    </p>
+
+    <div>
+      <table>
+        <thead>
+          <tr>
+            <th scope="rowgroup">プロパティ値</th>
+            <th>説明</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>left</td>
+            <td>左側の回り込みを解除する。</td>
+          </tr>
+          <tr>
+            <td>right</td>
+            <td>右側の回り込みを解除する。</td>
+          </tr>
+          <tr>
+            <td>both</td>
+            <td>左右の回り込みを解除する。</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div>
+      <style>
+        .container-2 {
+          & .image {
+            box-sizing: border-box;
+          }
+
+          & .float-left {
+            float: left;
+          }
+
+          & .clear {
+            clear: left;
+          }
+        }
+      </style>
+
+      <div class="container-2">
+        <img
+          class="image float-left"
+          src="../../../asset/images/chikawa_1.png"
+          alt=""
+          width="100px"
+        />
+        <p>う... あぅ あっあ</p>
+        <p>う... うっ...</p>
+        <p class="clear">あっう（回り込み解除）</p>
+      </div>
+    </div>
+
+    <div>
+      <pre><code class="language-html">&lt;style&gt;
+  .container-2 {
+    &amp; .image {
+      box-sizing: border-box;
+    }
+  
+    &amp; .float-left {
+      float: left;
+    }
+  
+    &amp; .clear {
+      clear: left;
+    }
+  }
+&lt;/style&gt;
+  
+&lt;div class=&quot;container-2&quot;&gt;
+  &lt;img
+    class=&quot;image float-left&quot;
+    src=&quot;../../../asset/images/chikawa_1.png&quot;
+    alt=&quot;&quot;
+    width=&quot;100px&quot;
+  /&gt;
+  &lt;p&gt;う... あぅ あっあ&lt;/p&gt;
+  &lt;p&gt;う... うっ...&lt;/p&gt;
+  &lt;p class=&quot;clear&quot;&gt;あっう（回り込み解除）&lt;/p&gt;
+&lt;/div&gt;</code></pre>
+    </div>
+  </section>
+
+  <section id="section_3">
+    <h2>フロートの回り込み改行をクリア</h2>
+    <p>
+      浮動要素からはみ出て改行されて回り込みされている要素に<b
+        >display: flow-root</b
+      >を指定すると、floatの値に固定される形で要素が回り込みされる。
+    </p>
+
+    <div>
+      <style>
+        .container-3 {
+          box-sizing: border-box;
+          margin-bottom: 10px;
+          padding: 5px;
+          background-color: rgba(97, 176, 228, 0.233);
+          font-size: 16px;
+
+          & .image {
+            box-sizing: border-box;
+            border: 1px solid rgba(80, 68, 68, 0.171);
+          }
+
+          & .float-left {
+            float: left;
+            margin: 10px;
+          }
+
+          & p {
+            display: flow-root;
+          }
+        }
+      </style>
+
+      <div class="container-3">
+        <img
+          class="image float-left"
+          src="../../../asset/images/sample.png"
+          alt=""
+          width="100px"
+        />
+        <p>
+          親譲りの無鉄砲で小供の時から損ばかりしている。<br />
+          小学校に居る時分学校の二階から飛び降りて一週間ほど腰を抜かした事がある。
+          なぜそんな無闇をしたと聞く人があるかも知れぬ。別段深い理由でもない。新築の二階から首を出していたら、同級生の一人が冗談に、いくら威張っても、そこから飛び降りる事は出来まい。弱虫やーい。と囃したからである。<br />
+          小使に負ぶさって帰って来た時、おやじが大きな眼をして二階ぐらいから飛び降りて腰を抜かす奴があるかと云ったから、この次は抜かさずに飛んで見せますと答えた。（青空文庫より）
+        </p>
+      </div>
+    </div>
+
+    <div>
+      <pre><code class="language-html">&lt;style&gt;
+  .container-3 {
+    box-sizing: border-box;
+    margin-bottom: 10px;
+    padding: 5px;
+    background-color: rgba(97, 176, 228, 0.233);
+    font-size: 16px;
+
+    &amp; .image {
+      box-sizing: border-box;
+      border: 1px solid rgba(80, 68, 68, 0.171);
+    }
+
+    &amp; .float-left {
+      float: left;
+      margin: 10px;
+    }
+
+    &amp; p {
+      display: flow-root;
+    }
+  }
+&lt;/style&gt;
+
+&lt;div class=&quot;container-3&quot;&gt;
+  &lt;img
+    class=&quot;image float-left&quot;
+    src=&quot;../../../asset/images/sample.png&quot;
+    alt=&quot;&quot;
+    width=&quot;100px&quot;
+  /&gt;
+  &lt;p&gt;
+    親譲りの無鉄砲で小供の時から損ばかりしている。&lt;br /&gt;
+    小学校に居る時分学校の二階から飛び降りて一週間ほど腰を抜かした事がある。
+    なぜそんな無闇をしたと聞く人があるかも知れぬ。別段深い理由でもない。新築の二階から首を出していたら、同級生の一人が冗談に、いくら威張っても、そこから飛び降りる事は出来まい。弱虫やーい。と囃したからである。&lt;br /&gt;
+    小使に負ぶさって帰って来た時、おやじが大きな眼をして二階ぐらいから飛び降りて腰を抜かす奴があるかと云ったから、この次は抜かさずに飛んで見せますと答えた。（青空文庫より）
+  &lt;/p&gt;
+&lt;/div&gt;</code></pre>
+    </div>
+  </section>
+</div>

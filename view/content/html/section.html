@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+
+<html>
+  <!-- ヘッダー情報 -->
+  <head>
+    <!-- ページ内基底URL target属性でタブの表示方法を指定 -->
+    <base href="./section.html" target="_self" />
+    <!-- ページタイトル -->
+    <title>HTML セクションタグ</title>
+
+    <!-- メタデータ設定 -->
+    <!-- 文字コード -->
+    <meta charset="utf-8" />
+    <!-- 読み込み時のページサイズ -->
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <!-- Webページの概要と説明 -->
+    <meta
+      name="description"
+      content="HTMLのセクションタグに関してまとめたページ"
+    />
+    <!-- 電話番号の自動リンク機能オフ -->
+    <meta name="format-detection" content="telephone=no" />
+
+    <!-- 外部リソース読み込み -->
+    <!-- CSS -->
+    <link rel="stylesheet" href="../../asset/css/common.css" />
+    <!-- ファビコン -->
+    <!-- <link rel="icon" href="" /> -->
+
+    <!-- スクリプト読み込み -->
+    <script src="../../asset/js/main.js"></script>
+  </head>
+
+  <!-- メインコンテンツ -->
+  <body>
+    <main>
+      <h1>グルーピングタグ</h1>
+
+      <!-- header -->
+      <section>
+        <h2>headerタグ</h2>
+        <p>ページ内のヘッダー部分を定義する。</p>
+      </section>
+
+      <!-- footer -->
+      <section>
+        <h2>footerタグ</h2>
+        <p>ページ内のフッター部分を定義する。</p>
+      </section>
+
+      <!-- article -->
+      <section>
+        <h2>articleタグ</h2>
+        <p>
+          ブログのエントリー、ユーザーのコメント等、独立したコンテンツであることを明示する。
+        </p>
+
+        <aside>
+          <i>
+            articleタグを入れ子にする場合、親要素の内包コンテンツであることを示している。
+          </i>
+        </aside>
+      </section>
+
+      <!-- section -->
+      <section>
+        <h2>sectionタグ</h2>
+        <p>親要素の一部（章・節・項）を定義する。</p>
+      </section>
+
+      <!-- nav -->
+      <section>
+        <h2>navタグ</h2>
+        <p>
+          ナビゲーションリンクを定義する。<br />
+          sectionの中でも、サイトマップやコンテンツ集などのリンクを集めたものに使用する。
+        </p>
+
+        <nav>
+          <ul>
+            <li>
+              <a href="https://www.htmq.com/htmls/nav.shtml">navタグ解説1</a>
+            </li>
+            <li>
+              <a href="https://www.tohoho-web.com/html/nav.htm">navタグ解説2</a>
+              <a href="https://www.tohoho-web.com/html/nav.htm">navタグ解説2</a>
+            </li>
+          </ul>
+        </nav>
+      </section>
+
+      <!-- aside -->
+      <section>
+        <h2>asideタグ</h2>
+        <p>広告、外部リンク等の本筋以外のコンテンツであることを定義する。</p>
+      </section>
+
+      <!-- h -->
+      <section>
+        <h2>hタグ</h2>
+        <p>見出しを定義する。</p>
+
+        <blockquote>
+          <h1>第一章</h1>
+          <h2>第二章</h2>
+          <h3>第三章</h3>
+          <h4>第四章</h4>
+          <h5>第五章</h5>
+          <h6>第六章</h6>
+        </blockquote>
+
+        <!-- hgroup -->
+        <section>
+          <h3>hgroupタグ</h3>
+          <p>見出し要素をグループ化する。</p>
+
+          <blockquote>
+            <hgroup>
+              <h4>見出しグループ</h4>
+              <h5>サブタイトル</h5>
+              <p>hタグとpタグで見出し要素をグルーピング</p>
+            </hgroup>
+          </blockquote>
+        </section>
+      </section>
+
+      <!-- address -->
+      <section>
+        <h2>addressタグ</h2>
+        <p>連絡先情報を定義する。</p>
+
+        <blockquote>
+          <address>
+            <p><small>example@gmail.com</small></p>
+          </address>
+        </blockquote>
+      </section>
+    </main>
+
+    <footer></footer>
+  </body>
+</html>

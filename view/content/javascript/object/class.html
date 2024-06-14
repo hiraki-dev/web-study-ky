@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+
+<html>
+  <!-- ヘッダー情報 -->
+  <head>
+    <!-- ページ内基底URL target属性でタブの表示方法を指定 -->
+    <base href="./class.html" target="_self" />
+    <!-- ページタイトル -->
+    <title>JS クラス</title>
+
+    <!-- メタデータ設定 -->
+    <!-- 文字コード -->
+    <meta charset="utf-8" />
+    <!-- 読み込み時のページサイズ -->
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <!-- Webページの概要と説明 -->
+    <meta name="description" content="HTMLのフォームに関してまとめたページ" />
+    <!-- 電話番号の自動リンク機能オフ -->
+    <meta name="format-detection" content="telephone=no" />
+
+    <!-- リソース読み込み -->
+    <!-- CSS -->
+    <link rel="stylesheet" href="../../../asset/css/common.css" />
+    <!-- Script -->
+    <script src="../../../asset/js/lib/highlight.min.js"></script>
+    <script src="../../../asset/js/highlight.js"></script>
+    <script src="../../../asset/js/main.js"></script>
+  </head>
+
+  <body>
+    <main>
+      <h1>タイトル</h1>
+
+      <section id="content_link">
+        <h2>目次</h2>
+
+        <nav>
+          <ol>
+            <li><a href="#section_1">クラスの定義</a></li>
+            <li><a href="#section_2">prototype</a></li>
+            <li><a href="#section_3">extends</a></li>
+            <li><a href="#section_4">super</a></li>
+          </ol>
+        </nav>
+      </section>
+
+      <section id="section_1">
+        <h2>クラスの定義</h2>
+
+        <div>
+          <pre><code class="js language-js">// クラス
+class クラス名 {
+  // コンストラクタ
+  constructor( ) {
+    ...
+  }
+
+  // メソッド（functionは不要）
+  メソッド名( ) {
+    ...
+  }
+
+  // スタティックメソッド（インスタンスしなくても呼び出せる）
+  static メソッド名 {
+    ...
+  }
+
+  // ゲッターとセッター
+  get type( ) {
+    ...
+  }
+
+  set type( ) {
+    ...
+  }
+}
+
+// クラスのインスタンス
+let test = new クラス名();
+// メソッド呼び出し
+test.メソッド名;
+// setter
+test.type = 値;
+// getter
+console.log(test.type);</code></pre>
+        </div>
+      </section>
+
+      <section id="section_2">
+        <h2>prototype</h2>
+        <p>
+          プロトタイプ。<br />
+          定義したクラスに変数やメソッドを追加できる。
+        </p>
+
+        <div>
+          <pre><code class="js language-js">let test = new クラス名()
+// プロパティ（クラス変数）を追加
+test.prototype.変数名 = 値;
+// メソッドを追加
+test.prototype.メソッド名 = () => { ... };</code></pre>
+        </div>
+      </section>
+
+      <section id="section_3">
+        <h2>extends</h2>
+        <p>
+          継承。
+          継承元をスーパークラス（親クラス、または基底クラス）、継承先をサブクラス（子クラス、または派生クラス）と呼ぶ。
+        </p>
+
+        <div>
+          <pre><code class="js language-js">class 親クラス {
+  ...
+}
+
+// 継承はextendsを指定する
+class 子クラス extends 親クラス {
+  ...
+}</code></pre>
+        </div>
+      </section>
+
+      <section id="section_4">
+        <h2>super</h2>
+        <p>
+          クラスを継承したとき、子クラスからコンストラクタやメソッドを呼び出す際に利用する。<br />
+          変数にクラスを格納することで匿名クラスを定義出来る。
+        </p>
+
+        <div>
+          <pre><code class="js language-js">let test = class {
+  constructor () {
+    this.type = 1 ;
+  }
+};
+
+console.log(test.type);</code></pre>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

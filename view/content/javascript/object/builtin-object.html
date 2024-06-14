@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+
+<html>
+  <!-- ヘッダー情報 -->
+  <head>
+    <!-- ページ内基底URL target属性でタブの表示方法を指定 -->
+    <base href="./builtin-object.html" target="_self" />
+    <!-- ページタイトル -->
+    <title>JS ビルトインオブジェクト</title>
+
+    <!-- メタデータ設定 -->
+    <!-- 文字コード -->
+    <meta charset="utf-8" />
+    <!-- 読み込み時のページサイズ -->
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <!-- Webページの概要と説明 -->
+    <meta name="description" content="HTMLのフォームに関してまとめたページ" />
+    <!-- 電話番号の自動リンク機能オフ -->
+    <meta name="format-detection" content="telephone=no" />
+
+    <!-- リソース読み込み -->
+    <!-- CSS -->
+    <link rel="stylesheet" href="../../../asset/css/common.css" />
+    <!-- Script -->
+    <script src="../../../asset/js/lib/highlight.min.js"></script>
+    <script src="../../../asset/js/highlight.js"></script>
+    <script src="../../../asset/js/main.js"></script>
+  </head>
+
+  <body>
+    <main>
+      <h1>ビルトインオブジェクト</h1>
+
+      <section id="content_link">
+        <h2>目次</h2>
+
+        <nav>
+          <ol>
+            <li><a href="#section_1">概要</a></li>
+            <li><a href="#section_2">数値</a></li>
+            <li><a href="#section_3">文字列</a></li>
+            <li><a href="#section_4">配列</a></li>
+          </ol>
+        </nav>
+      </section>
+
+      <section id="section_1">
+        <h2>概要</h2>
+        <p>
+          JavaScriptでは全ての型をオブジェクトとして扱うため、それぞれの型には組み込みのメソッドがサポートされている。<br />
+          文字列や数値などの値を変数にセットした際、内部的にそれぞれに対応したオブジェクトのインスタンスが生成される。
+        </p>
+      </section>
+
+      <section id="section_2">
+        <h2>数値</h2>
+        <p>
+          数値は<b>Namber</b>オブジェクトとしてインスタンスされる。<br />
+          数値処理関連のメソッドを使用できる他、直接呼び出すことも可能。
+        </p>
+
+        <div>
+          <pre><code class="js language-js">// 指定された値が数値か判定
+Number.isNaN(100);</code></pre>
+        </div>
+      </section>
+
+      <section id="section_3">
+        <h2>文字列</h2>
+        <p>
+          文字列は<b>String</b>オブジェクトとしてインスタンスされる。<br />
+          文字列処理関連のメソッドを使用できる他、直接呼び出すことも可能。
+        </p>
+
+        <div>
+          <pre><code class="js language-js">// 文字列を引数に指定した文字列で区切り、リストとして返す
+String.split( 文字列 )
+
+// 文字列を引数に指定した文字列で検索し、hitした場合最初にhitした文字列の開始位置の値を返す
+String.indexOf( 文字列, 検索開始位置 );
+
+// 置換対象に指定した値を置換処理（コールバック関数指定可）に指定した文字列に置き換える
+String.replace( 置換対象, 置換後文字列 );
+
+// 文字列を変数にセットすると文字列型のオブジェクトが生成される
+let userId = "ｈｏｇｅ　ｈｕｇａ";
+
+// 空白削除
+userId = userId.Replace(/\s+/g, "");
+// 全角入力値を半角に変換
+userId = userId.Replace(/[0-9]|[,]/g,
+  function(str) {
+    return String.fromCharCode(str.charCodeAt(0) - 0xFEE0);
+  }
+);
+</code></pre>
+        </div>
+      </section>
+
+      <section id="section_4">
+        <h2>配列</h2>
+        <p>
+          数値は<b>Array</b>オブジェクトとしてインスタンスされる。<br />
+          配列処理関連のメソッドを使用できる他、直接呼び出すことも可能。
+        </p>
+
+        <div>
+          <pre><code class="js language-js">// 配列オブジェクトの作成
+let list = [1, 2, 3];
+
+// 配列のアイテム総数を取得
+list.length();    // 3 
+
+// リストを引数に指定した文字で結合し、文字列として返す
+list.join(”-”);   // "1-2-3"
+
+// リストの要素を引数に指定したコールバック関数で検査し、検査結果がtrueの値のみのリストを生成して返す
+list.filter((list) => {
+  for (let i of list) {
+    if (i % 2 === 0) {
+      return true;
+    }
+  };
+});</code></pre>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

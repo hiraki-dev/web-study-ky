@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+
+<html>
+  <!-- ヘッダー情報 -->
+  <head>
+    <!-- ページ内基底URL target属性でタブの表示方法を指定 -->
+    <base href="./operator.html" target="_self" />
+    <!-- ページタイトル -->
+    <title>JS 演算子</title>
+
+    <!-- メタデータ設定 -->
+    <!-- 文字コード -->
+    <meta charset="utf-8" />
+    <!-- 読み込み時のページサイズ -->
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <!-- Webページの概要と説明 -->
+    <meta name="description" content="HTMLのフォームに関してまとめたページ" />
+    <!-- 電話番号の自動リンク機能オフ -->
+    <meta name="format-detection" content="telephone=no" />
+
+    <!-- リソース読み込み -->
+    <!-- CSS -->
+    <link rel="stylesheet" href="../../../asset/css/common.css" />
+    <!-- Script -->
+    <script src="../../../asset/js/lib/highlight.min.js"></script>
+    <script src="../../../asset/js/highlight.js"></script>
+    <script src="../../../asset/js/main.js"></script>
+  </head>
+
+  <body>
+    <main>
+      <h1>演算子</h1>
+
+      <section id="content_link">
+        <h2>目次</h2>
+
+        <nav>
+          <ol>
+            <li><a href="#section_1">基本的な演算子</a></li>
+            <li><a href="#section_2">三項演算子</a></li>
+            <li><a href="#section_3">ヌル合体演算子</a></li>
+            <li><a href="#section_4">オプショナル連結</a></li>
+            <li><a href="#section_5">in演算子</a></li>
+            <li><a href="#section_6">delete演算子</a></li>
+            <li><a href="#section_7">typeof演算子</a></li>
+            <li><a href="#section_8">instanceof演算子</a></li>
+            <li><a href="#section_9">void</a></li>
+            <li><a href="#section_10">スプレッド構文/レスト構文</a></li>
+          </ol>
+        </nav>
+      </section>
+
+      <section id="section_1">
+        <h2>基本的な演算子</h2>
+
+        <div>
+          <pre><code class="language-js">// 算術演算子
+x = 3 + 2;        // 5
+x = 3 - 2;        // 1
+x = 3 * 2;        // 6
+x = 3 / 2;        // 1.5
+x = 3 % 2;        // 1 … 割った余り
+x = 3 ** 2;        // 6 … 3^2
+
+// 複合演算子
+x += 5;        // xx = xx + 5;
+x -= 5;        // xx = xx - 5;
+x *= 5;        // xx = xx * 5;
+x /= 5;        // xx = xx / 5;
+x %= 5;        // xx = xx % 5;
+x **= 5;       // xx = xx ** 5;
+x &= 0xff;     // xx = xx & 0xff;
+x |= 0xff;     // xx = xx | 0xff;
+x ^= 0xff;     // xx = xx ^ 0xff;
+x <<= 8;       // xx = xx << 8;
+x >>= 8;       // xx = xx >> 8;
+x >>>= 8;      // xx = xx >>> 8;
+
+/*
+ * 文字列と整数の連結
+ * 文字列と整数を+で計算すると文字列として返される
+ */
+x = "123" + 4;  // "1234"</code></pre>
+        </div>
+
+        <div>
+          <pre><code class="language-text">// インクリメント、デクリメント
+i++, ++i
+i--, --i
+
+// 比較演算子
+>, >=, <, <=    // 他の言語同様
+==              // 両辺が等しい場合Ture
+!=              // 両辺が等しくない場合Ture
+===             // 両辺が等しく、型も一致している場合Ture
+!==             // 両辺が等しくなく、型も不一致の場合Ture
+
+// 論理演算子
+&&              // AND
+||              // OR
+!               // NOT</code></pre>
+        </div>
+      </section>
+
+      <section id="section_2">
+        <h2>三項演算子</h2>
+        <p>条件式を評価し、trueなら式1、falseなら式2を返す。</p>
+
+        <div>
+          <pre><code class="language-js">// 三項演算子
+// 条件式? 真の場合の値 : 偽の場合の値
+条件式 ? 式1 : 式2
+
+x = (3 > 2) ? 3 : 2;  // 3
+x = (3 < 2) ? 3 : 2;  // 2</code></pre>
+        </div>
+      </section>
+
+      <section id="section_3">
+        <h2>ヌル合体演算子</h2>
+        <p>左辺がnullやundefinedの場合右辺を、null以外の場合左辺の値を返す。</p>
+
+        <div>
+          <pre><code class="language-js">tmp = null;
+
+// ヌル合体演算子の使用例
+let obj = tmp ?? {
+  name:"Yamada",
+  age:26
+};</code></pre>
+        </div>
+      </section>
+
+      <section id="section_4">
+        <h2>オプショナル連結</h2>
+        <p>左辺がnullやundefinedの場合でも例外を返さず、undefinedを返す。</p>
+
+        <div>
+          <pre><code class="language-js">obj = null;
+  
+// ?を末尾に指定するとオプショナル連結となる
+console.log(obj?.name)</code></pre>
+        </div>
+      </section>
+
+      <section id="section_5">
+        <h2>in演算子</h2>
+        <p>右辺のオブジェクトに左辺のプロパティが含まれる場合trueを返す。</p>
+        <div>
+          <pre><code class="language-js">obj = {
+  name:"Yamada",
+  age:26
+};
+  
+if ("name" in obj) {
+  // true
+}</code></pre>
+        </div>
+      </section>
+
+      <section id="section_6">
+        <h2>delete演算子</h2>
+        <p>指定したオブジェクトのプロパティを削除する。</p>
+
+        <div>
+          <pre><code class="language-js">const obj = {
+  name: "Yamada",
+  age: 24
+};
+
+// nameプロパティを削除
+delete obj.name;</code></pre>
+        </div>
+      </section>
+
+      <section id="section_7">
+        <h2>typeof演算子</h2>
+        <p>引数に指定した値の型を返す。</p>
+
+        <div>
+          <pre><code class="language-js">// boolean
+typeof(true)
+// string
+typeof("abc")
+// number
+typeof(123.45)</code></pre>
+        </div>
+      </section>
+
+      <section id="section_8">
+        <h2>instanceof演算子</h2>
+        <p>左辺と右辺のオブジェクトを比較し、一致する場合trueを返す。</p>
+      </section>
+
+      <section id="section_9">
+        <h2>void</h2>
+        <p>
+          常に<b>undefined（未定義）</b>を返す。<br />
+          関数の戻り値を常にundefinedにしたり、HTMLのaタグを無効にするときに用いる。
+        </p>
+
+        <div>
+          <pre><code class="language-html">&lt;script&gt;
+  void function func() {
+    //
+  }
+&lt;/script&gt;
+
+&lt;!-- voidの戻り値はundefinedだが、引数に指定した値は実行されるので慣習として引数には0が指定される --&gt;
+&lt;a src=“javascript=void(0)”&gt;&lt;/a&gt;
+&lt;a src=“javascript=void(func())”&gt;&lt;/a&gt;</code></pre>
+        </div>
+      </section>
+
+      <section id="section_10">
+        <h2>スプレッド構文/レスト構文</h2>
+        <p>
+          配列やオブジェクトなどのリストを使用する際、引数の前に<b>...</b>を付与することでオブジェクト同士を繋げたり、可変引数として値を受け取ることが出来る。
+        </p>
+
+        <ul>
+          <li>スプレッド構文は受け取った値を集約する。</li>
+          <li>レスト構文は受け取った値を展開する。（引数などに使用する）</li>
+        </ul>
+
+        <pre><code class="js language-js">// オブジェクトの作成
+let obj1 = {x: 200, y: 300};
+let obj2 = {w: 400, h: 500};
+
+// スプレッド構文
+let obj3 = {...obj1, ...obj2};
+// {x: 200, y: 300, w: 400, h: 500}
+console.log(obj3);
+
+// レスト構文
+let {obj4, ...obj5} = obj3;
+// {x: 200}
+console.log(obj4);
+// {y: 300, w: 400, h: 500}
+console.log(obj5);
+</code></pre>
+      </section>
+    </main>
+  </body>
+</html>

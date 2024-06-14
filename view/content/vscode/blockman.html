@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+
+<html>
+  <!-- ヘッダー情報 -->
+  <head>
+    <!-- ページ内基底URL target属性でタブの表示方法を指定 -->
+    <base href="./blockman.html" target="_self" />
+    <!-- ページタイトル -->
+    <title>VSCode コードブロックハイライトの導入</title>
+
+    <!-- メタデータ設定 -->
+    <!-- 文字コード -->
+    <meta charset="utf-8" />
+    <!-- 読み込み時のページサイズ -->
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <!-- Webページの概要と説明 -->
+    <meta name="description" content="HTMLのフォームに関してまとめたページ" />
+    <!-- 電話番号の自動リンク機能オフ -->
+    <meta name="format-detection" content="telephone=no" />
+
+    <!-- リソース読み込み -->
+    <link rel="stylesheet" href="../../asset/css/common.css" />
+    <script src="../../asset/js/main.js"></script>
+    <!-- highlight.js  -->
+    <link rel="stylesheet" href="../../asset/css/lib/highlight.css" />
+    <script src="../../asset/js/lib/highlight.min.js"></script>
+    <script src="../../asset/js/highlight.js"></script>
+  </head>
+
+  <body>
+    <main>
+      <h1>コードブロックハイライトの導入</h1>
+
+      <section id="content_link">
+        <h2>目次</h2>
+
+        <nav>
+          <ol>
+            <li><a href="#section_1">概要</a></li>
+            <li><a href="#section_2">導入方法</a></li>
+          </ol>
+        </nav>
+      </section>
+
+      <section id="section_1">
+        <h2>概要</h2>
+        <p>
+          タグの開始とタグの終了をハイライトで分かりやすく表示してくれる機能。<br />
+          <a
+            href="https://marketplace.visualstudio.com/items?itemName=leodevbro.blockman"
+            >Blockman - Highlight Nested Code Blocks</a
+          >を拡張機能として導入するとHTML、CSS、JavaScriptなどの言語をハイライトしてくれる。
+        </p>
+
+        <figure>
+          <figcaption>コードブロックハイライトのイメージ</figcaption>
+          <img
+            src="../../asset/images/blockman_2024-04-09-18-19-12.png"
+            alt="コードブロックハイライトのイメージ"
+          />
+        </figure>
+      </section>
+
+      <section id="section_2">
+        <h2>導入方法</h2>
+
+        <p>Blockmanの拡張機能をインストールする。</p>
+
+        <figure>
+          <img
+            src="../../asset/images/blockman_2024-04-09-18-27-24.png"
+            alt=""
+          />
+        </figure>
+
+        <p>
+          導入するとコードブロックハイライトが表示されるが、デフォルトだと表示に癖がある。
+        </p>
+
+        <figure>
+          <img
+            src="../../asset/images/blockman_2024-04-09-18-30-52.png"
+            alt=""
+          />
+        </figure>
+
+        <p>
+          以下は設定例である。<br />
+          <b>設定 -> 設定（JSON）を開く</b
+          >で<b>settings.json</b>を開き、以下の設定内容をペーストすると冒頭のハイライト表示になる。<br />
+          <small>※波括弧の中身をコピペすること</small>
+        </p>
+
+        <figure>
+          <img
+            src="../../asset/images/blockman_2024-04-09-18-33-32.png"
+            alt=""
+          />
+        </figure>
+
+        <div>
+          <pre><code class="language-json">{
+   /*
+    * blockmanの設定内容
+    */
+    // ブロックの表示幅を最大化
+    "blockman.n04Sub04RightSideBaseOfBlocks": "Rightmost Edge Of File Content",
+    // ブロックフォーカス時のカラー
+    "blockman.n17CustomColorOfFocusedBlock": "none",
+    // ブロックフォーカス時のボーダーカラー
+    "blockman.n18CustomColorOfFocusedBlockBorder": "cyan",
+    // 第二階層以降のブロックボーダーカラー
+    // "blockman.n19CustomColorOfBlockBorder": "blue",
+    // 第一階層のブロックボーダーカラー
+    // "blockman.n20CustomColorOfDepth0Border": "yellow",
+    // ブロックボーダーの角丸
+    "blockman.n21BorderRadius": 0,
+    // ブロックボーダーの太さ
+    "blockman.n34A02BorderThicknessOfFocusedBlock": 0.85,
+    // 非フォーカス時のボーダーの太さ
+    "blockman.n34A01BorderThicknessOfNonFocusedBlock": 0,
+    // コードブロックのレンダリングスピード
+    "blockman.n28TimeToWaitBeforeRerenderAfterLastChangeEvent": 0.5,
+    // ブロックカラー（階層順）
+    "blockman.n05CustomColorOfDepth0": "none",
+    "blockman.n06CustomColorOfDepth1": "none",
+    "blockman.n07CustomColorOfDepth2": "none",
+    "blockman.n08CustomColorOfDepth3": "none",
+    "blockman.n09CustomColorOfDepth4": "none",
+    "blockman.n10CustomColorOfDepth5": "none",
+    "blockman.n11CustomColorOfDepth6": "none",
+    "blockman.n12CustomColorOfDepth7": "none",
+    "blockman.n13CustomColorOfDepth8": "none",
+    "blockman.n14CustomColorOfDepth9": "none",
+    "blockman.n15CustomColorOfDepth10": "none",
+}</code></pre>
+        </div>
+
+        <p>
+          Blockman導入時に推奨構成のアナウンスが表示される。（2024/04/09時点）<br />
+          VSCode側の設定に慣れる意味も込めて、以下の内容もペーストして挙動を確かめておくと良い。
+        </p>
+
+        <div>
+          <pre><code class="language-json">// settings.json (User/Global config, not Workspace config)
+// To open this file in VS Code, press F1, type 'settings json' and choose 'Preferences: Open Settings (JSON)'
+{
+    // ...
+    "editor.inlayHints.enabled": "off",
+    "editor.guides.indentation": false, // new API for indent guides. The old one is: "editor.renderIndentGuides": false,
+    "editor.guides.bracketPairs": false, // advanced indent guides (But only for brackets) (This does not turn off editor.bracketPairColorization)
+    "editor.wordWrap": "off",
+    "diffEditor.wordWrap": "off",
+
+    "workbench.colorCustomizations": {
+        // ...
+        "editor.lineHighlightBorder": "#9fced11f",
+        "editor.lineHighlightBackground": "#1073cf2d"
+    }
+}</code></pre>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

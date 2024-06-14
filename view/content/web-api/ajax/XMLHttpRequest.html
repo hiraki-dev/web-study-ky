@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+
+<html>
+  <!-- ヘッダー情報 -->
+  <head>
+    <!-- ページ内基底URL target属性でタブの表示方法を指定 -->
+    <base href="./XMLHttpRequest.html" target="_self" />
+    <!-- ページタイトル -->
+    <title>JS XMLHttpRequest</title>
+
+    <!-- メタデータ設定 -->
+    <!-- 文字コード -->
+    <meta charset="utf-8" />
+    <!-- 読み込み時のページサイズ -->
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <!-- Webページの概要と説明 -->
+    <meta name="description" content="HTMLのフォームに関してまとめたページ" />
+    <!-- 電話番号の自動リンク機能オフ -->
+    <meta name="format-detection" content="telephone=no" />
+
+    <!-- リソース読み込み -->
+    <!-- CSS -->
+    <link rel="stylesheet" href="../../../asset/css/common.css" />
+    <!-- Script -->
+    <script src="../../../asset/js/lib/highlight.min.js"></script>
+    <script src="../../../asset/js/highlight.js"></script>
+    <script src="../../../asset/js/main.js"></script>
+  </head>
+
+  <body>
+    <main>
+      <h1>XMLHttpRequest（XHR）</h1>
+
+      <section id="content_link">
+        <h2>目次</h2>
+
+        <nav>
+          <ol>
+            <li><a href="#section_1">概要</a></li>
+            <li><a href="#section_2">XMLhttpRequestの使い方</a></li>
+            <ol type="I">
+              <li><a href="#section_2_1">open</a></li>
+              <li><a href="#section_2_2">send</a></li>
+              <li><a href="#section_2_2">FormData</a></li>
+              <li>
+                <a href="#section_2_4"
+                  >setRequestHeader/getResponseHeader/getAllResponseHeaders</a
+                >
+              </li>
+            </ol>
+            <li><a href="#section_3">XMLHttpRequestのイベントハンドラ</a></li>
+            <ol type="I">
+              <li><a href="#section_3_1">onload</a></li>
+              <li><a href="#section_3_2">onerror</a></li>
+              <li><a href="#section_3_3">onloadend</a></li>
+              <li><a href="#section_3_4">onprogress</a></li>
+              <li><a href="#section_3_5">onreadystatechange</a></li>
+              <li><a href="#section_3_6">abort</a></li>
+              <li><a href="#section_3_7">onabort</a></li>
+              <li><a href="#section_3_8">ontimeout</a></li>
+            </ol>
+            <li><a href="#section_4">XMLHttpRequestのレスポンス</a></li>
+            <ol type="I">
+              <li><a href="#section_4_1">response</a></li>
+              <li><a href="#section_4_2">responseType</a></li>
+            </ol>
+            <li><a href="#section_5">XMLHttpRequestのステータスコード</a></li>
+            <ol type="I">
+              <li><a href="#section_5_1">readyState</a></li>
+              <li><a href="#section_5_2">status</a></li>
+            </ol>
+          </ol>
+        </nav>
+      </section>
+
+      <section id="section_1">
+        <h2>概要</h2>
+        <p>
+          JavaScriptでは<code>XMLHttpRequest</code>オブジェクトを利用することで非同期処理（URLを変えずに表示内容を変更/更新）を行える。<br />
+        </p>
+
+        <div>
+          <pre><code class="js language-js">let XHR = new XMLHttpRequest(); //XMLHttpRequestをインスタンス
+XHR.open(`GET`, 'URL');           //リクエストパラメータの設定
+XHR.send();                       //リクエスト送信</code></pre>
+        </div>
+
+        <p>
+          ページを読み込んでページを表示する一連の処理を<b>同期通信</b>という。<br />
+          同期通信ではクライアント側が送信したデータをサーバー側で受信しデータを返す。<br />
+          そのため互いにオンライン状態でないと同期出来ない上にリクエストを送った際にサーバー側のレスポンスを待つ必要がある。
+        </p>
+
+        <p>
+          非同期通信ではリクエストを送った際にクライアントではなくJavaScriptとバックエンドアプリケーションが通信処理を行うため、クライアント側はブラウザを操作しながらレスポンスを待つことが出来る。
+        </p>
+      </section>
+
+      <section id="section_2">
+        <h2>XMLhttpRequestの使い方</h2>
+
+        <section id="section_2_1">
+          <h3>open</h3>
+          <p>
+            インスタンスしたXMLhttpRequestオブジェクトを初期化（リクエストの設定）する。
+          </p>
+
+          <div>
+            <pre><code class="js language-js">// method: HTTPメソッドを指定（GETかPOST）
+// URL: リクエストURL（通信対象サーバーURL）
+// async: true（規定値）だと非同期通信、falseだと同期通信
+// user: HTTP認証ユーザ
+// password: HTTP認証パスワード
+オブジェクト.open( method, URL, [ async, user, password ] );
+          </code></pre>
+          </div>
+        </section>
+
+        <section id="section_2_2">
+          <h3>send</h3>
+          <p>リクエストをサーバに送信する。</p>
+
+          <div>
+            <pre><code class="js language-js">// body: POST通信の際のリクエストボディを設定
+オブジェクト.send( [ body ] );
+    </code></pre>
+          </div>
+        </section>
+
+        <section id="section_2_3">
+          <h3>FormData</h3>
+          <p>
+            POST通信を行う際のリクエストボディにセットするデータを定義する。<br />
+            引数のformにはformタグをセット出来る。
+          </p>
+
+          <div>
+            <pre><code class="js language-js">//インスタンス
+let xhrPost = new FormData( [form] );
+
+xhrPost.append( name, value );          //フォームにデータをセット
+let XHR = new XMLHttpRequest();       //XMLHttpRequestをインスタンス
+XHR.open( `POST`, URL );                //リクエストパラメータの設定
+XHR.send( xhrPost );                    //リクエスト送信
+</code></pre>
+          </div>
+        </section>
+
+        <section id="section_2_4">
+          <h3>setRequestHeader/getResponseHeader/getAllResponseHeaders</h3>
+          <p>リクエストヘッダの値の定義、取得などで使用する。</p>
+        </section>
+      </section>
+
+      <section id="section_3">
+        <h2>XMLHttpRequestのイベントハンドラ</h2>
+
+        <section id="section_3_1">
+          <h3>onload</h3>
+          <p>リクエスト送信後、受信成功時に呼び出されるメソッド。</p>
+
+          <div>
+            <pre><code class="js language-js">オブジェクト.onload = () =&gt; {
+  ...
+}</code></pre>
+          </div>
+        </section>
+
+        <section id="section_3_2">
+          <h3>onerror</h3>
+          <p>リクエスト送信後、受信失敗時に呼び出されるメソッド。</p>
+
+          <div>
+            <pre><code class="js language-js">オブジェクト.onerror = () =&gt; {
+  ...
+}</code></pre>
+          </div>
+        </section>
+
+        <section id="section_3_3">
+          <h3>onloadend</h3>
+          <p>
+            リクエスト送信後、受信終了時に呼び出されるメソッド。<br />
+            受信の成否に関わらない。
+          </p>
+
+          <div>
+            <pre><code class="js language-js">オブジェクト.onloadend = () =&gt; {
+  ...
+}</code></pre>
+          </div>
+        </section>
+
+        <section id="section_3_4">
+          <h3>onprogress</h3>
+          <p>
+            リクエスト送信後、レスポンスボディを受信中に繰り返し呼び出されるメソッド。<br />
+            何かをダウンロード中に繰り返し呼び出され、ダウンロード量などを確認出来る。
+          </p>
+
+          <div>
+            <pre><code class="js language-js">オブジェクト.onprogress = () =&gt; {
+  ...
+}</code></pre>
+          </div>
+        </section>
+
+        <section id="section_3_5">
+          <h3>onreadystatechange</h3>
+          <p>readyStateの値が更新される度に呼び出されるメソッド。</p>
+
+          <div>
+            <pre><code class="js language-js">オブジェクト.onreadystatechange = () =&gt; {
+  ...
+}</code></pre>
+          </div>
+        </section>
+
+        <section id="section_3_6">
+          <h3>abort</h3>
+          <p>リクエストを終了する。</p>
+
+          <div>
+            <pre><code class="js language-js">オブジェクト.abort();</code></pre>
+          </div>
+        </section>
+
+        <section id="section_3_7">
+          <h3>onabort</h3>
+          <p>abortでリクエストを終了した際に呼び出されるメソッド。</p>
+        </section>
+
+        <section id="section_3_8">
+          <h3>ontimeout</h3>
+          <p>接続がタイムアウトしたときに呼び出されるメソッド。</p>
+        </section>
+      </section>
+
+      <section id="section_4">
+        <h2>XMLHttpRequestのレスポンス</h2>
+
+        <section id="section_4_1">
+          <h3>response</h3>
+          <p>サーバーからのレスポンスを取得する。</p>
+        </section>
+
+        <section id="section_4_2">
+          <h3>responseType</h3>
+          <p>
+            レスポンス取得時の形式を指定。<br />
+            デフォルトだと文字列で、<b>json</b>を指定するとJSON形式で取得出来る。
+          </p>
+        </section>
+      </section>
+
+      <section id="section_5">
+        <h2>XMLHttpRequestのステータスコード</h2>
+
+        <section id="section_5_1">
+          <h3>readyState</h3>
+
+          <p>通信の状態に応じて下記の値を格納する。</p>
+          <div>
+            <pre><code class="js language-js">オブジェクト.readyState</code></pre>
+          </div>
+
+          <div>
+            <table>
+              <thead>
+                <tr>
+                  <th scope="rowgroup">値</th>
+                  <th>説明</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>0（UNSENT）</td>
+                  <td>XMLHttpRequestオブジェクト作成直後</td>
+                </tr>
+                <tr>
+                  <td>1（OPENED）</td>
+                  <td>open()メソッド呼び出し直後</td>
+                </tr>
+                <tr>
+                  <td>2（HEADERS_RECEIVED）</td>
+                  <td>レスポンスヘッダの受信後</td>
+                </tr>
+                <tr>
+                  <td>3（LOADING）</td>
+                  <td>レスポンスボディ受信中</td>
+                </tr>
+                <tr>
+                  <td>4（DONE）</td>
+                  <td>XHR通信の完了後（通信終了時）</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section id="section_5_2">
+          <h3>status</h3>
+          <ul>
+            <li>ステータスラインの値を取得する。</li>
+            <li>
+              ステータスメッセージを取得する際は<code>statusText</code>を指定する。
+            </li>
+            <li>
+              <b>readyState</b
+              >の値が2以降でアクセス可能で、4になったときに最終的な値が確定する。
+            </li>
+          </ul>
+
+          <div>
+            <pre><code class="js language-js">オブジェクト.status</code></pre>
+          </div>
+
+          <div>
+            <table>
+              <thead>
+                <tr>
+                  <th scope="rowgroup">値</th>
+                  <th>説明</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>200</td>
+                  <td>通信成功</td>
+                </tr>
+                <tr>
+                  <td>401</td>
+                  <td>エラー（認証が必要）</td>
+                </tr>
+                <tr>
+                  <td>403</td>
+                  <td>エラー（アクセス禁止）</td>
+                </tr>
+                <tr>
+                  <td>404</td>
+                  <td>エラー（データなし）</td>
+                </tr>
+                <tr>
+                  <td>500</td>
+                  <td>エラー（サーバーエラー）</td>
+                </tr>
+                <tr>
+                  <td>503</td>
+                  <td>エラー（サーバー負荷）</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+      </section>
+    </main>
+  </body>
+</html>

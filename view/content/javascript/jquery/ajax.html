@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+
+<html>
+  <!-- ヘッダー情報 -->
+  <head>
+    <!-- ページ内基底URL target属性でタブの表示方法を指定 -->
+    <base href="./ajax.html" target="_self" />
+    <!-- ページタイトル -->
+    <title>jQuery Ajax</title>
+
+    <!-- メタデータ設定 -->
+    <!-- 文字コード -->
+    <meta charset="utf-8" />
+    <!-- 読み込み時のページサイズ -->
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <!-- Webページの概要と説明 -->
+    <meta name="description" content="HTMLのフォームに関してまとめたページ" />
+    <!-- 電話番号の自動リンク機能オフ -->
+    <meta name="format-detection" content="telephone=no" />
+
+    <!-- リソース読み込み -->
+    <!-- CSS -->
+    <link rel="stylesheet" href="../../../asset/css/common.css" />
+    <!-- Script -->
+    <script src="../../../asset/js/lib/highlight.min.js"></script>
+    <script src="../../../asset/js/highlight.js"></script>
+    <script src="../../../asset/js/main.js"></script>
+  </head>
+
+  <body>
+    <main>
+      <h1>Ajax</h1>
+
+      <section id="content_link">
+        <h2>目次</h2>
+
+        <nav>
+          <ol>
+            <li><a href="#section_1">概要</a></li>
+            <li><a href="#section_2">ajax関数パラメータ</a></li>
+            <li><a href="#section_3">イベント処理</a></li>
+            <li><a href="#section_4">GET</a></li>
+            <li><a href="#section_5">POST</a></li>
+          </ol>
+        </nav>
+      </section>
+
+      <section id="section_1">
+        <h2>概要</h2>
+        <p>
+          <u>Asynchronous + JavaScript + XML</u
+          >の略称で、JavaScriptからリクエストを送信しクライアントにレスポンスを反映させることで非同期処理を実装する手法。<br />
+          これにより同じWebページを表示したまま何度もHTTP通信が可能になる。
+        </p>
+
+        <p>jQueryでは<b> $.ajax</b>関数を用いて実装する。</p>
+
+        <div>
+          <pre><code class="js language-js">/*
+ * jqueryによるajax実装例
+ * successとerrorによるリクエスト結果の取得は非推奨（後述）
+ */
+
+$.ajax({
+  url: ...
+  type: GET or POST
+  success: (data) =&gt; {
+    //データ取得処理
+  }
+  error: (error) =&gt; {
+    //エラー処理
+  }
+});</code></pre>
+        </div>
+      </section>
+
+      <section id="section_2">
+        <h2>ajax関数パラメータ</h2>
+        <p>
+          ajax関数のパラメータはオブジェクト型で、
+          <b>パラメータ名:値</b>で定義する。
+        </p>
+
+        <div>
+          <table>
+            <thead>
+              <tr>
+                <th scope="rowgroup">パラメータ</th>
+                <th>説明</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>url</td>
+                <td>URLを指定</td>
+              </tr>
+              <tr>
+                <td>type</td>
+                <td>Httpリクエストメソッド（GET/POST）の指定</td>
+              </tr>
+              <tr>
+                <td>async</td>
+                <td>通信方法を真偽値で定義<br />規定値はTrueで非同期通信</td>
+              </tr>
+              <tr>
+                <td>data</td>
+                <td>
+                  サーバに送信する値<br />単一値は文字列<br />複数値はオブジェクトで指定
+                </td>
+              </tr>
+              <tr>
+                <td>dateType</td>
+                <td>レスポンスデータの形式</td>
+              </tr>
+              <tr>
+                <td>cache</td>
+                <td>
+                  レスポンスデータ受信時のキャッシュ取得有無<br />規定値はTrue
+                </td>
+              </tr>
+              <tr>
+                <td>timeout</td>
+                <td>タイムアウトの時間を指定</td>
+              </tr>
+              <tr>
+                <td>username/password</td>
+                <td>Http通信時に認証が必要な場合のユーザ名/パスワードを指定</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="section_3">
+        <h2>イベント処理</h2>
+
+        <div>
+          <pre><code class="js language-js">$.ajax({
+  url: ...
+  type: “GET” or “POST”
+});
+
+.done((data) =&gt; {
+  //通信成功時
+})
+.fail((data) =&gt; {
+  //通信エラー
+})
+.always((data) =&gt; {
+  //通信完了時
+});</code></pre>
+        </div>
+
+        <section id="section_3_1">
+          <h3>done</h3>
+          <p>通信成功時に呼び出されるメソッド。</p>
+
+          <div>
+            <pre><code class="js language-js">.done((data, textStatus, jqXHR) =&gt; {
+  ...
+});</code></pre>
+          </div>
+
+          <div>
+            <table>
+              <thead>
+                <tr>
+                  <th scope="rowgroup">引数</th>
+                  <th>説明</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>data</td>
+                  <td>レスポンスデータ</td>
+                </tr>
+                <tr>
+                  <td>textStatu</td>
+                  <td>ステータスコード</td>
+                </tr>
+                <tr>
+                  <td>jqXHR</td>
+                  <td>エラー内容、補足的な例外オブジェクト</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section id="section_3_2">
+          <h3>fail</h3>
+          <p>通信エラー時に呼び出されるメソッド。</p>
+
+          <div>
+            <pre><code class="js language-js">.fail((jqXHR, textStatus, errorThrown) =&gt; {
+  ...
+});</code></pre>
+          </div>
+        </section>
+
+        <section id="section_3_3">
+          <h3>always</h3>
+          <p>通信完了時、通信状態に左右されずメソッドを呼び出す。</p>
+
+          <div>
+            <pre><code class="js language-js">.always( ( jqXHR, textStatus ) =&gt; {
+  ...
+});</code></pre>
+          </div>
+        </section>
+      </section>
+
+      <section id="section_4">
+        <h2>get</h2>
+        <p>後に追記。</p>
+      </section>
+
+      <section id="section_5">
+        <h2>post</h2>
+        <p>
+          以下のように記述するとPOST通信を簡略的に実装出来る。 <br />
+          エラーハンドリング不要な簡易的な実装をするときに使用する。
+        </p>
+
+        <div>
+          <pre><code class="js language-js">$.post(
+  パス,
+  {送信データ},
+  (引数) =&gt; {
+    受信処理
+  }
+);
+
+/* 例 */
+// 指定したパスやURLにリクエストを送信し、戻り値を取得しない
+$.post(path);
+// done、fall、alwaysで処理を実装出来る
+$.post(
+  path,
+  {id: "データ"},
+);
+.done((data) =&gt; {
+  //通信成功時
+});
+.fail((data) =&gt; {
+  //通信エラー
+});</code></pre>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

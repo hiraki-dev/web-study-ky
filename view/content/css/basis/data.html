@@ -1,0 +1,471 @@
+<div>
+  <h1>CSSのデータ型/単位</h1>
+
+  <section id="content_link">
+    <h2>目次</h2>
+
+    <nav>
+      <ol>
+        <li><a href="#section_1">データ型について</a></li>
+        <li><a href="#section_2">データ型ごとの単位</a></li>
+        <ol type="I">
+          <li><a href="#section_2_1">color型</a></li>
+          <li><a href="#section_2_2">text型</a></li>
+          <li><a href="#section_2_3">length型</a></li>
+          <li><a href="#section_2_4">angle型（角度）</a></li>
+          <li><a href="#section_2_5">resolution型（解像度）</a></li>
+          <li><a href="#section_2_6">time型</a></li>
+        </ol>
+      </ol>
+    </nav>
+  </section>
+
+  <section id="section_1">
+    <h2>データ型について</h2>
+    <p>
+      CSSではプロパティに指定された値を適切に解釈するため、<b
+        >値を判別するためのフォーマット（データ型）</b
+      >
+      が組み込まれている。<br />
+      プロパティごとに指定可能なデータ型が指定されており、適切な値を指定しないとレイアウトを適用できない。
+    </p>
+
+    <ul>
+      <li>
+        プロパティに必要な値がテキストの場合は文字情報の羅列、url関数を用いたURL値など
+      </li>
+      <li>
+        プロパティに必要な値が色の場合はカラーコード(#FFFFFFなど)やrgb関数を用いたRGB値など
+      </li>
+      <li>
+        プロパティに必要な値が大きさや位置の場合はピクセルなどの単位表記付きの整数、負数など
+      </li>
+      <li>
+        <b
+          >全てのプロパティに指定できる値はユニバーサルプロパティ値と呼ばれる。（unset等）</b
+        >
+      </li>
+    </ul>
+
+    <p>詳細は以下のリンクを参照すること。</p>
+    <ul>
+      <li>
+        <a
+          href="https://developer.mozilla.org/ja/docs/Learn/CSS/Building_blocks/Values_and_units"
+          >MDN Web Docs - CSSの値と単位</a
+        >
+      </li>
+      <li>
+        <a
+          href="https://developer.mozilla.org/ja/docs/Web/CSS/CSS_Values_and_Units"
+          >MDN Web Docs - CSSのデータ型</a
+        >
+      </li>
+      <li>
+        <a
+          href="https://zenn.dev/ojk/books/intro-to-html-css/viewer/css-expression"
+          >文系大学生のためのHTML/CSS入門 - CSSの値と単位</a
+        >
+      </li>
+    </ul>
+  </section>
+
+  <section id="section_2">
+    <h2>データ型ごとの単位</h2>
+    <p>
+      ここではデータ型ごとに、よく使われる単位を纏めておく。<br />
+      <a href="https://www.tohoho-web.com/css/index2.htm"
+        >とほほのCSS入門より引用</a
+      >
+    </p>
+
+    <section id="section_2_1">
+      <h3>color型</h3>
+      <p><b>色名</b>、<b>カラーコード値</b>、<b>rgb関数</b>などで指定する。</p>
+
+      <div>
+        <pre><code class="language-css">/* 色名 */
+p {
+  color: red;
+}
+
+/* カラーコード */
+p {
+  color: #FFFFFF;
+}
+
+/* rgb関数 */
+p {
+  color: rgb(255, 255, 255);
+}</code></pre>
+      </div>
+    </section>
+
+    <section id="section_2_2">
+      <h3>text型</h3>
+      <p><b>文字列</b>、<b>url関数</b>などで指定する。<br /></p>
+
+      <div>
+        <pre><code class="language-css">/* 例 */
+body {
+  background-image: url(...);
+}</code></pre>
+      </div>
+    </section>
+  </section>
+
+  <section id="section_2_3">
+    <h3>length型</h3>
+    <p>
+      length型の単位には<b>相対長（相対的な長さ）</b>と<b>絶対長（絶対的な長さ）</b>がある。
+    </p>
+
+    <ul>
+      <li>
+        相対長はフォントサイズやビューポートなどの長さと相対した長さで、他の要素のサイズによって変動する。
+      </li>
+      <li>絶対長は固定の長さで、他の要素のサイズに左右されない。</li>
+    </ul>
+
+    <section id="section_2_3_1">
+      <h4>文字</h4>
+      <div>
+        <table>
+          <thead>
+            <tr>
+              <th scope="rowgroup">単位</th>
+              <th>種別</th>
+              <th>説明</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>em</td>
+              <td>相対</td>
+              <td>
+                親要素にのフォントサイズが指定されている場合、その値を基に割合を算出する。<br />
+                例として、親要素が12pxであれば1emは12px、3emは36px。<br />
+                親要素に値が指定されていない場合は16pxとなる。
+              </td>
+            </tr>
+            <tr>
+              <td>rem</td>
+              <td>相対</td>
+              <td>
+                ルート要素（htmlタグ）に指定されたフォントサイズを基に割合を算出する。<br />
+                デフォルトは16px。
+              </td>
+            </tr>
+            <tr>
+              <td>ex</td>
+              <td>相対</td>
+              <td>
+                半角文字「x」の高さ(x-height)を基に割合を算出する。<br />
+                多くのブラウザでは0.5emとして扱われる。
+              </td>
+            </tr>
+            <tr>
+              <td>rex</td>
+              <td>相対</td>
+              <td>
+                ルート要素（htmlタグ）に指定された半角文字「x」の高さ(x-height)を基に割合を算出する。<br />
+              </td>
+            </tr>
+            <tr>
+              <td>ch</td>
+              <td>相対</td>
+              <td>半角文字「0」の横幅を基に割合を算出する。</td>
+            </tr>
+            <tr>
+              <td>rch</td>
+              <td>相対</td>
+              <td>
+                ルート要素（htmlタグ）に指定された半角文字「0」の横幅を基に割合を算出する。
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="section_2_3_2">
+      <h4>大きさ/長さ</h4>
+
+      <div>
+        <table>
+          <thead>
+            <tr>
+              <th scope="rowgroup">単位</th>
+              <th>種別</th>
+              <th>説明</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>%</td>
+              <td>相対</td>
+              <td>
+                パーセント。<br />
+                親要素のサイズを基に割合を算出する。
+              </td>
+            </tr>
+            <tr>
+              <td>cm</td>
+              <td>絶対</td>
+              <td>センチメートル（1cm=10mm）。</td>
+            </tr>
+            <tr>
+              <td>mm</td>
+              <td>絶対</td>
+              <td>ミリメートル（10mm=1cm）</td>
+            </tr>
+            <tr>
+              <td>Q</td>
+              <td>絶対</td>
+              <td>1/4ミリメートル（1/4mm）。</td>
+            </tr>
+            <tr>
+              <td>in</td>
+              <td>絶対</td>
+              <td>インチ（1in=2.54cm）</td>
+            </tr>
+            <tr>
+              <td>pt</td>
+              <td>絶対</td>
+              <td>ポイント（1pt=1/72in）</td>
+            </tr>
+            <tr>
+              <td>pc</td>
+              <td>絶対</td>
+              <td>パイカ（1pc=12pt）</td>
+            </tr>
+            <tr>
+              <td>px</td>
+              <td>絶対</td>
+              <td>ピクセル（1px=1/96in）</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="section_2_3_3">
+      <h4>ビューポート</h4>
+
+      <div>
+        <table>
+          <thead>
+            <tr>
+              <th scope="rowgroup">単位</th>
+              <th>種別</th>
+              <th>説明</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>vw</td>
+              <td>相対</td>
+              <td>
+                ビューポートの横幅（viewport's width）。<br />
+                横1920pxの画面の場合、100vw = 1920px。
+              </td>
+            </tr>
+            <tr>
+              <td>vh</td>
+              <td>相対</td>
+              <td>
+                ビューポートの高さ（viewport's height）。<br />
+                縦1000pxの画面の場合、100vh = 1000px。
+              </td>
+            </tr>
+            <tr>
+              <td>vmin</td>
+              <td>相対</td>
+              <td>
+                ビューポートの横幅と高さの小さな方の値を参照する。<br />
+                （viewport's mininum length）
+              </td>
+            </tr>
+            <tr>
+              <td>vmax</td>
+              <td>相対</td>
+              <td>
+                ビューポートの横幅と高さを比較して大きな方の値を参照する。<br />
+                （viewport's maxinum length）
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>CSS4以降、より詳細なビューポート単位として以下が追加されている。</p>
+      <div>
+        <div>
+          <table>
+            <thead>
+              <tr>
+                <th scope="rowgroup">単位</th>
+                <th>種別</th>
+                <th>説明</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>svw</td>
+                <td>相対的</td>
+                <td>表示領域の横幅（最小ビューポート基準）。</td>
+              </tr>
+              <tr>
+                <td>svh</td>
+                <td>相対的</td>
+                <td>表示領域の高さ（最小ビューポート基準）。</td>
+              </tr>
+              <tr>
+                <td>svmin</td>
+                <td>相対的</td>
+                <td>表示領域の横幅と高さの小さな方（最小ビューポート基準）</td>
+              </tr>
+              <tr>
+                <td>svmax</td>
+                <td>相対的</td>
+                <td>表示領域の横幅と高さの大きな方（最小ビューポート基準）</td>
+              </tr>
+              <tr>
+                <td>lvw</td>
+                <td>相対的</td>
+                <td>表示領域の横幅（最大ビューポート基準）。</td>
+              </tr>
+              <tr>
+                <td>lvh</td>
+                <td>相対的</td>
+                <td>表示領域の高さ（最大ビューポート基準）。</td>
+              </tr>
+              <tr>
+                <td>lvmin</td>
+                <td>相対的</td>
+                <td>表示領域の横幅と高さの小さな方（最大ビューポート基準）</td>
+              </tr>
+              <tr>
+                <td>lvmax</td>
+                <td>相対的</td>
+                <td>表示領域の横幅と高さの大きな方（最大ビューポート基準）</td>
+              </tr>
+              <tr>
+                <td>dvw</td>
+                <td>相対的</td>
+                <td>表示領域の横幅（ダイナミックビューポート基準）。</td>
+              </tr>
+              <tr>
+                <td>dvh</td>
+                <td>相対的</td>
+                <td>表示領域の高さ（ダイナミックビューポート基準）。</td>
+              </tr>
+              <tr>
+                <td>dvmin</td>
+                <td>相対的</td>
+                <td>
+                  表示領域の横幅と高さの小さな方（ダイナミックビューポート基準）
+                </td>
+              </tr>
+              <tr>
+                <td>dvmax</td>
+                <td>相対的</td>
+                <td>
+                  表示領域の横幅と高さの大きな方（ダイナミックビューポート基準）
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section id="section_2_4">
+      <h3>angle型（角度）</h3>
+      <div>
+        <table>
+          <thead>
+            <tr>
+              <th scope="rowgroup">単位</th>
+              <th>説明</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>deg</td>
+              <td>角度を度数で表す。（全円は360deg）</td>
+            </tr>
+            <tr>
+              <td>grad</td>
+              <td>角度をグラジアンで表す。（全円は400grad）</td>
+            </tr>
+            <tr>
+              <td>rad</td>
+              <td>角度をラジアンで表す（全円は 2πラジアン（約6.2832rad））</td>
+            </tr>
+            <tr>
+              <td>turn</td>
+              <td>角度を回転数で表す。（全円は1turn）</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="section_2_5">
+      <h3>resolution型（解像度）</h3>
+      <div>
+        <table>
+          <thead>
+            <tr>
+              <th scope="rowgroup">単位</th>
+              <th>説明</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>dpi</td>
+              <td>1インチあたりのドット数。</td>
+            </tr>
+            <tr>
+              <td>dpcm</td>
+              <td>1cmあたりのドット数。</td>
+            </tr>
+            <tr>
+              <td>dppx</td>
+              <td>1pxあたりのドット数。</td>
+            </tr>
+            <tr>
+              <td>x</td>
+              <td>ddpxのエイリアス。</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="section_2_6">
+      <h3>time型</h3>
+      <div>
+        <table>
+          <thead>
+            <tr>
+              <th scope="rowgroup">単位</th>
+              <th>説明</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>s</td>
+              <td>秒。</td>
+            </tr>
+            <tr>
+              <td>ms</td>
+              <td>ミリ秒。（1/1000秒）。</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </section>
+</div>

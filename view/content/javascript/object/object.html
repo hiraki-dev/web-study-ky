@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+
+<html>
+  <!-- ヘッダー情報 -->
+  <head>
+    <!-- ページ内基底URL target属性でタブの表示方法を指定 -->
+    <base href="./object.html" target="_self" />
+    <!-- ページタイトル -->
+    <title>JS オブジェクト</title>
+
+    <!-- メタデータ設定 -->
+    <!-- 文字コード -->
+    <meta charset="utf-8" />
+    <!-- 読み込み時のページサイズ -->
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <!-- Webページの概要と説明 -->
+    <meta name="description" content="HTMLのフォームに関してまとめたページ" />
+    <!-- 電話番号の自動リンク機能オフ -->
+    <meta name="format-detection" content="telephone=no" />
+
+    <!-- リソース読み込み -->
+    <!-- CSS -->
+    <link rel="stylesheet" href="../../../asset/css/common.css" />
+    <!-- Script -->
+    <script src="../../../asset/js/lib/highlight.min.js"></script>
+    <script src="../../../asset/js/highlight.js"></script>
+    <script src="../../../asset/js/main.js"></script>
+  </head>
+
+  <body>
+    <main>
+      <h1>オブジェクト</h1>
+
+      <section id="content_link">
+        <h2>目次</h2>
+
+        <nav>
+          <ol>
+            <li><a href="#section_1">概要</a></li>
+            <li><a href="#section_2">オブジェクトの宣言と参照</a></li>
+            <li><a href="#section_3">オブジェクトメンバーの追加</a></li>
+          </ol>
+        </nav>
+      </section>
+
+      <section id="section_1">
+        <h2>概要</h2>
+        <p>
+          JavaScriptでは、数値、文字列、配列、真偽値などの型が内部的には<b>オブジェクト</b>として扱われ、様々なメソッドやプロパティがサポートされている。<br />
+        </p>
+      </section>
+
+      <section id="section_2">
+        <h2>オブジェクトの宣言と参照</h2>
+        <p>オブジェクトは以下のように宣言する。</p>
+
+        <div>
+          <pre><code class="js language-js">// 通常の定義方法で、{ }で囲んだ範囲がオブジェクトとなる
+let obj = {
+  key : value
+};</code></pre>
+        </div>
+
+        <ul>
+          <li>
+            オブジェクトは<b>key</b>と<b>value</b>をセットに持つ値の集合体であり、<b
+              >{ }</b
+            >で宣言する。
+          </li>
+          <li>オブジェクトに定義された値は<b>メンバー</b>という。</li>
+          <li>
+            メンバーは<b>.（ドット）</b>または<b>[ ]</b>で指定して参照する。
+          </li>
+          <ul>
+            <li>基本的に簡易的なドット記法（.）が好まれる</li>
+            <li>
+              メンバー名の指定に変数を用いる場合、ブラケット記法（[
+              ]）を使用する
+            </li>
+          </ul>
+        </ul>
+
+        <p>以下はオブジェクトの定義と参照の例である。</p>
+
+        <div>
+          <pre><code class="js language-js">// オブジェクトの宣言
+let user = {
+  name : "山田",
+  age : 30
+};
+
+// オブジェクトの参照
+console.log(user.name);       // 山田
+
+let userName = "山田";
+console.log(user[usernName]); // 山田</code></pre>
+        </div>
+
+        <p>
+          他の言語でいう連想配列（ディクショナリ）に似た形でjavaScriptではオブジェクトを実装できる。<br />
+          ディクショナリとの違いは以下である。
+        </p>
+
+        <ul>
+          <li>キーをプロパティとして扱う。</li>
+          <li>値に関数を定義出来る。</li>
+          <li>プロパティに定義出来るのは文字列とシンボルのみ。</li>
+        </ul>
+
+        <p>
+          通常のディクショナリは
+          <b>Map</b>オブジェクトとしてサポートされている。
+        </p>
+      </section>
+
+      <section id="section_3">
+        <h2>オブジェクトメンバーの追加</h2>
+        <p>
+          オブジェクトに新たにメンバーを追加する場合、ドットまたはブラケットで追加したいメンバーのkeyを指定し、任意の値を代入する。
+        </p>
+
+        <div>
+          <pre><code class="language-js">let obj = {
+  name: tanaka,
+  age; 30
+};
+
+obj.profile = "プロフィールを追加";
+// { name : tanaka, age : 30, profile: "プロフィールを追加" }
+console.log(obj);
+</code></pre>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

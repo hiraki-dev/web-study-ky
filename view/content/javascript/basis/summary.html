@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+
+<html>
+  <!-- ヘッダー情報 -->
+  <head>
+    <!-- ページ内基底URL target属性でタブの表示方法を指定 -->
+    <base href="./summary.html" target="_self" />
+    <!-- ページタイトル -->
+    <title>JS JavaScriptの概要</title>
+
+    <!-- メタデータ設定 -->
+    <!-- 文字コード -->
+    <meta charset="utf-8" />
+    <!-- 読み込み時のページサイズ -->
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <!-- Webページの概要と説明 -->
+    <meta name="description" content="HTMLのフォームに関してまとめたページ" />
+    <!-- 電話番号の自動リンク機能オフ -->
+    <meta name="format-detection" content="telephone=no" />
+
+    <!-- リソース読み込み -->
+    <!-- CSS -->
+    <link rel="stylesheet" href="../../../asset/css/common.css" />
+    <!-- Script -->
+    <script src="../../../asset/js/lib/highlight.min.js"></script>
+    <script src="../../../asset/js/highlight.js"></script>
+    <script src="../../../asset/js/main.js"></script>
+  </head>
+
+  <body>
+    <main>
+      <h1>JavaScriptの概要</h1>
+
+      <section id="content_link">
+        <h2>目次</h2>
+
+        <nav>
+          <ol>
+            <li><a href="#section_1">概要</a></li>
+            <li><a href="#section_2">JavaScriptの実行方法</a></li>
+            <li><a href="#section_3">文字列について</a></li>
+            <ol type="I">
+              <li><a href="#section_3_1">文字列の連結</a></li>
+              <li><a href="#section_3_2">テンプレート文字列</a></li>
+              <li><a href="#section_3_3">タグ付きテンプレート</a></li>
+            </ol>
+            <li><a href="#section_4">ストリクトモード</a></li>
+            <li><a href="#section_5">デバッグ</a></li>
+          </ol>
+        </nav>
+      </section>
+
+      <section id="section_1">
+        <h2>概要</h2>
+        <p>
+          JavaScriptとはWebページ上で動作するプログラミング言語（スクリプト言語）である。<br />
+          主に以下の役割がある。
+        </p>
+
+        <ul>
+          <li>Webページ上の各種要素に動きを付ける。</li>
+          <li>ユーザーが特定の操作を行ったときの動作を制御する。</li>
+          <li>ユーザーの操作情報をサーバーに送信する。</li>
+        </ul>
+      </section>
+
+      <section id="section_2">
+        <h2>JavaScriptの実行方法</h2>
+
+        <p>JavaScriptの実行方法は主に以下の方法がある。</p>
+
+        <ol>
+          <li>HTMLの<b>script</b>タグにスクリプトを埋め込む。</li>
+          <li>HTMLタグに直接埋め込む。</li>
+          <li>
+            JavaScriptファイル（拡張子が<b>.js</b>）をHTMLから読み込んで実行する。
+          </li>
+        </ol>
+
+        <p>以下はscriptタグにスクリプトを埋め込む方法である。</p>
+        <div>
+          <pre><code class="language-html">&lt;!-- scriptタグへの埋め込み --&gt;
+&lt;body&gt;
+  &lt;script&gt;
+    document.write(“Hello world”);
+    time = new Data();
+
+    // 現在時刻を表示
+    document.write(time.toLocaleString());    
+  &lt;/script&gt;
+&lt;/body&gt;</code></pre>
+        </div>
+
+        <p>HTMLタグ属性に直接埋め込むこともできる。</p>
+        <div>
+          <pre><code class="language-html">&lt;a href=“javascript:...”&gt;&lt;/a&gt;</code></pre>
+        </div>
+
+        <p>
+          上記はファイルが肥大化し、管理性が下がるので以下のようにJavaScriptファイルをHTMLファイルに読み込ませる方法が望ましい。
+        </p>
+        <div>
+          <pre><code class="language-js">// main.js
+function func(arg_text) {
+  document.write(arg_text);
+}</code></pre>
+        </div>
+
+        <div>
+          <pre><code class="language-html">&lt;head&gt;
+  &lt;!-- JavaScriptファイル読み込み --&gt;
+  &lt;script src=“main.js”&gt;&lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;input type=“button” value=“ok” onclick=“funk(“関数を実行”)”&gt;
+&lt;/body&gt;</code></pre>
+        </div>
+      </section>
+
+      <section id="section_3">
+        <h2>文字列について</h2>
+        <p>JavaScriptにおける文字列は以下の記述方法がある。</p>
+
+        <section id="section_3_1">
+          <h3>文字列の連結</h3>
+          <p>
+            <b>+</b>演算子で文字列を連結できる。<br />
+            数値型と文字列を<b>+</b>で連結した場合、数値型は文字列にキャストされる。
+          </p>
+        </section>
+
+        <section id="section_3_2">
+          <h3>テンプレート文字列</h3>
+          <p>
+            バッククオート<b>\</b>で文字列を囲むことで、エスケープシーケンスを使わなくても改行を直接反映出来たり、<b>$(...)</b>と記述することで文字列の中で変数や計算式を展開出来る。<br />
+            <b>String.raw</b
+            >メソッドでエスケープシーケンスを文字列としてそのまま反映可能。
+          </p>
+          <p></p>
+        </section>
+
+        <section id="section_3_3">
+          <h3>タグ付きテンプレート</h3>
+          <p>
+            <b>\</b>による関数呼び出しも可能。<br />
+            その際、第一引数には文字列の配列、第二引数以降には<b>$(...)</b>に定義された式の結果が格納される。<br />
+            第一引数の文字列は<b>$(...)</b>で区切られ、
+            <b>raw</b
+            >プロパティにはエスケープされていない文字列が格納されている。
+          </p>
+
+          <div>
+            <pre><code class="language-js">function tag(arguments) {
+  console.log(arguments);
+}
+
+/*
+ 0: ["\ジャバ", "スク", "リプト", raw: ["\\ジャバ", "スク", "リプト"]]
+ 1: true (Boolean型)
+ 2: 3 (Number型)
+*/
+tag`\\ジャバ${true}スク${1+2}リプト`;</code></pre>
+          </div>
+        </section>
+      </section>
+
+      <section id="section_4">
+        <h2>ストリクトモード</h2>
+        <p>
+          スクリプトファイルの先頭に指定することで、コーディング制約をサポートする。
+        </p>
+
+        <div>
+          <pre><code class="language-js">// ストリプトモードの指定
+"use strict";
+
+// 特定のスコープのみにストリクトモードを適用できる
+function func() {
+  "use strict";
+
+  ...
+}</code></pre>
+        </div>
+      </section>
+
+      <section id="section_5">
+        <h2>デバッグ</h2>
+        <p>
+          <b>console.log</b
+          >メソッドを用いることで関数に指定した変数やオブジェクトの値をコンソール上で確認できる。<br />
+          デバッグはブラウザの開発ツールで行える。
+        </p>
+
+        <div>
+          <pre><code class="language-js">console.log(...);</code></pre>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

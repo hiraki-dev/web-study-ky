@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+
+<html>
+  <!-- ヘッダー情報 -->
+  <head>
+    <!-- ページ内基底URL target属性でタブの表示方法を指定 -->
+    <base href="./json-debugger.html" target="_self" />
+    <!-- ページタイトル -->
+    <title>VSCode JavaScriptのデバッグ環境</title>
+
+    <!-- メタデータ設定 -->
+    <!-- 文字コード -->
+    <meta charset="utf-8" />
+    <!-- 読み込み時のページサイズ -->
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <!-- Webページの概要と説明 -->
+    <meta name="description" content="HTMLのフォームに関してまとめたページ" />
+    <!-- 電話番号の自動リンク機能オフ -->
+    <meta name="format-detection" content="telephone=no" />
+
+    <!-- リソース読み込み -->
+    <link rel="stylesheet" href="../../asset/css/common.css" />
+    <script src="../../asset/js/main.js"></script>
+    <!-- highlight.js  -->
+    <link rel="stylesheet" href="../../asset/css/lib/highlight.css" />
+    <script src="../../asset/js/lib/highlight.min.js"></script>
+    <script src="../../asset/js/highlight.js"></script>
+  </head>
+
+  <body>
+    <main>
+      <h1>JavaScriptのデバッグ環境</h1>
+
+      <section id="content_link">
+        <h2>目次</h2>
+        <p><small>※やや上級者向け</small></p>
+
+        <nav>
+          <ol>
+            <li><a href="#section_1">導入手順</a></li>
+            <ol type="I">
+              <li><a href="section_1_1">settings.json構成例</a></li>
+              <li><a href="section_1_2">lunch.json構成例</a></li>
+            </ol>
+            <li><a href="#section_2">デバッグ実行例</a></li>
+          </ol>
+        </nav>
+      </section>
+
+      <section id="section_1">
+        <h2>導入手順</h2>
+        <ol>
+          <li>VSCodeに以下の拡張機能をインストール</li>
+          <ul>
+            <li><b>Live Preview</b></li>
+            <li><b>JavaScript Debugger</b></li>
+          </ul>
+
+          <li><b>settings.json</b>にローカルサーバーのポートを指定</li>
+          <li><b>launch.json</b>を構成</li>
+          <li><b>実行とデバッグ</b>からデバッグを実行</li>
+        </ol>
+
+        <section id="section_1_1">
+          <h3>settings.json構成例</h3>
+          <p>
+            ルートディレクトリ（最も上のディレクトリ）に<b>.vscode</b>ディレクトリを作成し、<b>settings.json</b>を配置する。<br />
+            以下、設定内容の例。
+          </p>
+
+          <div>
+            <pre><code class="language-json">{
+    // サーバープレビュー時のデフォルトリダイレクト先
+    "livePreview.defaultPreviewPath": "/index.html",
+    // ブラウザ（デフォルトはchrome）
+    "livePreview.customExternalBrowser": "Default",
+    // ポート（他と重複しない値を指定すること）
+    "livePreview.portNumber": 3300,
+}</code></pre>
+          </div>
+        </section>
+
+        <section id="section_1_2">
+          <h3>lunch.json構成例</h3>
+          <p>
+            settings.json同様、<b>.vscode</b>に<b>launch.json</b>を配置する。<br />
+            以下、設定内容の例。
+          </p>
+
+          <div>
+            <pre><code class="language-json">{
+    "version": "0.2.0",
+    "configurations": [
+        {
+             // 実行ブラウザを選択
+             "type": "chrome",
+             // 実行時のランチャー指定
+             "request": "launch",
+             // デバッグ実行名
+             "name": "Test Js Debug",
+             // 実行サーバー
+             "url": "http://127.0.0.1:3300/index.html",
+             // デバッグ実行時のローカル環境基底パス
+             "webRoot": "${workspaceFolder}",
+        }
+    ]
+}</code></pre>
+          </div>
+        </section>
+      </section>
+
+      <section id="section_2">
+        <h2>デバッグ実行例</h2>
+
+        <p>
+          <b>デバッグと実行</b
+          >から作成したデバッグ設定を選択することでブラウザが立ち上がる。
+        </p>
+
+        <figure>
+          <img
+            src="../../asset/images/json-debugger_2024-03-13-20-08-49.png"
+            alt=""
+          />
+        </figure>
+
+        <figure>
+          <img
+            src="../../asset/images/json-debugger_2024-03-13-20-09-26.png"
+            alt=""
+          />
+        </figure>
+
+        <p>
+          ブラウザリロード時に読み込んだJavaScriptファイルにブレークポイントを置くことで指定位置で処理が止まる。<br />
+          リクエスト情報やブレークポイントで処理を止めた段階での変数の値などをチェックできる。
+        </p>
+
+        <figure>
+          <img
+            src="../../asset/images/json-debugger_2024-03-13-20-10-58.png"
+            alt=""
+          />
+        </figure>
+      </section>
+    </main>
+  </body>
+</html>

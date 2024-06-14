@@ -1,0 +1,409 @@
+<div>
+  <h1>ポジション（位置指定）</h1>
+
+  <!-- positionのサンプルとしてちいかわを配置 -->
+  <div class="css_position_chikawa">
+    <img
+      usemap="#map_css_position_chikawa"
+      src="../../../asset/images/chikawa_1.png"
+      alt="ちいかわ（公式サイトから拝借）※非商用"
+    />
+    <map name="map_css_position_chikawa">
+      <area
+        shape="default"
+        href="https://www.anime-chiikawa.jp/"
+        alt="公式リンク"
+      />
+    </map>
+  </div>
+
+  <section id="content_link">
+    <h2>目次</h2>
+
+    <nav>
+      <ol>
+        <li><a href="#section_1">概要</a></li>
+        <ol type="I">
+          <li><a href="#section_1_1">要素の重なり順</a></li>
+          <li><a href="#section_1_2">包含ブロック</a></li>
+        </ol>
+        <li><a href="#section_2">relative（相対的な位置指定）</a></li>
+        <li><a href="#section_3">absolute（絶対的な位置指定）</a></li>
+        <ol type="I">
+          <li><a href="#section_3_1">absolute単体の挙動</a></li>
+          <li>
+            <a href="#section_3_2">親positionを基準位置としたabsolute指定</a>
+          </li>
+        </ol>
+        <li><a href="#section_4">fixed（固定する位置指定）</a></li>
+        <li><a href="#section_5">sticky（相対的に固定する位置指定）</a></li>
+        <li><a href="#section_6">static（静的な位置指定）</a></li>
+      </ol>
+    </nav>
+  </section>
+
+  <section id="section_1">
+    <h2>概要</h2>
+    <p>
+      <b>position</b>プロパティを用いて要素の位置を柔軟に指定できる。<br />
+      要素同士を重ねたり、位置を固定する際に使用する。
+    </p>
+
+    <ul>
+      <li>positionプロパティは用途に応じて以下の値を指定出来る。</li>
+      <ul>
+        <li>relative</li>
+        <li>absolute</li>
+        <li>fixed</li>
+        <li>sticky</li>
+        <li>static</li>
+      </ul>
+      <li>位置の調整は以下のプロパティで行う。</li>
+      <ul>
+        <li>top</li>
+        <li>bottom</li>
+        <li>left</li>
+        <li>right</li>
+      </ul>
+    </ul>
+
+    <section id="section_1_1">
+      <h3>要素の重なり順</h3>
+      <p>
+        ポジションを利用した場合の要素の重なり順は<b>z-index</b>プロパティで重なり順を明示できる。<br />
+        値が小さいほど優先順位が高くなる。
+      </p>
+
+      <div>
+        <style>
+          .relative {
+            position: relative;
+          }
+
+          .item {
+            position: absolute;
+            top: 120px;
+            left: 120px;
+            /* 最優先配置 */
+            z-index: 1;
+
+            width: 100px;
+            height: 100px;
+
+            display: grid;
+            place-items: center;
+            background-color: white;
+          }
+
+          .image {
+            /* 要素の後ろに配置 */
+            z-index: 2;
+          }
+        </style>
+
+        <div class="relative">
+          <div class="item">要素</div>
+          <img class="image" src="../../../asset/images/sample.png" alt="" />
+        </div>
+      </div>
+
+      <div>
+        <pre><code class="language-html">&lt;style&gt;
+  .relative {
+    position: relative;
+  }
+
+  .item {
+    position: absolute;
+    top: 120px;
+    left: 120px;
+    /* 最優先配置 */
+    z-index: 1;
+
+    width: 100px;
+    height: 100px;
+
+    display: grid;
+    place-items: center;
+    background-color: white;
+  }
+
+  .image {
+    /* 要素の後ろに配置 */
+    z-index: 2;
+  }
+&lt;/style&gt;
+
+&lt;div class=&quot;relative&quot;&gt;
+  &lt;div class=&quot;item&quot;&gt;要素&lt;/div&gt;
+  &lt;img
+    class=&quot;image&quot;
+    src=&quot;/sample.png&quot;
+    alt=&quot;&quot;
+  /&gt;
+&lt;/div&gt;</code></pre>
+      </div>
+    </section>
+
+    <section id="section_1_2">
+      <h3>包含ブロック</h3>
+      <p>
+        Webページに配置される要素はブロックモデルに基づいて配置されるが、各要素の内部では<b>包含ブロック</b>と呼ばれる短形の領域が作成されている。<br />
+        marginやpaddingなどのプロパティは内部的には包含ブロックの値を操作しており、最終的に決定された包含ブロックの値が要素の表示サイズとして反映される。
+      </p>
+
+      <p>
+        <b
+          >positionプロパティはこの包含ブロックの位置を決めるプロパティである。</b
+        ><br />
+        プロパティに指定する値に応じて以下の挙動となる。
+      </p>
+
+      <div>
+        <table>
+          <caption>
+            <a
+              href="https://developer.mozilla.org/ja/docs/Web/CSS/Containing_block#%E5%8C%85%E5%90%AB%E3%83%96%E3%83%AD%E3%83%83%E3%82%AF%E3%81%AE%E8%AD%98%E5%88%A5"
+              >包含ブロックとpositionの関係性</a
+            >
+          </caption>
+          <thead>
+            <tr>
+              <th scope="rowgroup">プロパティ値</th>
+              <th>説明</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>static/relative/sticky</td>
+              <td>現在の要素位置を包含ブロックの位置とする</td>
+            </tr>
+            <tr>
+              <td>absolute</td>
+              <td>
+                最も近いabsolute/relative/fixed/stickyが指定された親要素を包含ブロックの位置とする<br />
+                上記が存在しない場合、ページ全体を包含ブロックの位置とする
+              </td>
+            </tr>
+            <tr>
+              <td>fixed</td>
+              <td>
+                ページ全体を包含ブロックの位置とし、指定位置に要素を固定する。
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </section>
+
+  <section id="section_2">
+    <h2>relative（相対的な位置指定）</h2>
+    <p>
+      <b>position: relative</b
+      >を指定すると、現在の要素の位置を基準位置として要素を配置する。
+    </p>
+
+    <div>
+      <style>
+        .container-2 {
+          & .static {
+            width: 100px;
+            height: 100px;
+            position: static;
+            background-color: cyan;
+          }
+
+          & .relative {
+            box-sizing: border-box;
+            padding: 5px;
+            width: 100px;
+            height: 100px;
+
+            position: relative;
+            top: -50px;
+            left: 50px;
+
+            background-color: magenta;
+            color: white;
+            font-size: small;
+          }
+        }
+      </style>
+
+      <div class="container-2">
+        <div class="static"></div>
+        <div class="relative">上から-50px、左から50px</div>
+      </div>
+    </div>
+
+    <div>
+      <pre><code class="language-html">&lt;style&gt;
+  .container-2 {
+    &amp; .static {
+      width: 100px;
+      height: 100px;
+      position: static;
+      background-color: cyan;
+    }
+
+    &amp; .relative {
+      box-sizing: border-box;
+      padding: 5px;
+      width: 100px;
+      height: 100px;
+
+      position: relative;
+      top: -50px;
+      left: 50px;
+
+      background-color: magenta;
+      color: white;
+      font-size: small;
+    }
+  }
+&lt;/style&gt;
+
+&lt;div class=&quot;container-2&quot;&gt;
+  &lt;div class=&quot;static&quot;&gt;&lt;/div&gt;
+  &lt;div class=&quot;relative&quot;&gt;上から-50px、左から50px&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+    </div>
+  </section>
+
+  <section id="section_3">
+    <h2>absolute（絶対的な位置指定）</h2>
+    <p>
+      <b>position: absolute</b>を指定した場合、親要素に<b>position: static</b
+      >以外のposition要素がある場合はその要素を基準に要素を配置する。<br />
+      該当position要素がない場合、ページ左上を基準に要素を配置する。
+    </p>
+
+    <section id="section_3_1">
+      <h3>absolute単体の挙動</h3>
+      <p>
+        <b>position: absolute</b>が参照する親要素に<b>osition: static</b
+        >以外のpositionが指定された親要素がない場合、画面左上を基準位置として要素を配置する。（包含ブロックが画面全体となるため）<br />
+        本ページ上部にいる彼はabsolute単体を指定して位置を固定している。
+      </p>
+
+      <div>
+        <pre><code class="language-css">img.chikawa {
+  width: 180px;
+  position: absolute;
+  top: 16svh;
+  left: 65svw;
+}</code></pre>
+      </div>
+    </section>
+
+    <section id="section_3_2">
+      <h3>親positionを基準位置としたabsolute指定</h3>
+      <p>
+        <b>potition: relative/absolute/fixed/sticky</b
+        >いずれかが親要素に存在する場合、その要素を基準位置として要素を配置する。
+      </p>
+
+      <div>
+        <style>
+          .relative-2 {
+            /* 基準位置要素 */
+            position: relative;
+            z-index: 1;
+          }
+
+          .item-2 {
+            /* 基準位置要素を基に要素をズラしている */
+            position: absolute;
+            top: 0px;
+            left: 251px;
+            z-index: 2;
+
+            width: 100px;
+            height: 100px;
+
+            display: grid;
+            place-items: center;
+            background-color: white;
+          }
+
+          .image-2 {
+            z-index: 3;
+          }
+        </style>
+
+        <div class="relative-2">
+          <div class="item-2">要素</div>
+          <img class="image-2" src="../../../asset/images/sample.png" alt="" />
+        </div>
+      </div>
+
+      <div>
+        <pre><code class="language-html">&lt;style&gt;
+  .relative {
+    /* 基準位置要素 */
+    position: relative;
+    z-index: 1;
+  }
+
+  .item {
+    /* 基準位置要素を基に要素をズラしている */
+    position: absolute;
+    top: 0px;
+    left: 251px;
+    z-index: 2;
+
+    width: 100px;
+    height: 100px;
+
+    display: grid;
+    place-items: center;
+    background-color: white;
+  }
+
+  .image {
+    z-index: 3;
+  }
+&lt;/style&gt;
+
+&lt;div class=&quot;relative&quot;&gt;
+  &lt;div class=&quot;item&quot;&gt;要素&lt;/div&gt;
+  &lt;img
+    class=&quot;image&quot;
+    src=&quot;/sample.png&quot;
+    alt=&quot;&quot;
+  /&gt;
+&lt;/div&gt;</code></pre>
+      </div>
+    </section>
+  </section>
+
+  <section id="section_4">
+    <h2>fixed（固定する位置指定）</h2>
+    <p>
+      <b>position: fixed</b>を指定するとぺージ左上を基準に要素を配置する。<br />
+      親要素がない<b>position: absolute</b
+      >との違いはスクロールしても要素が指定位置に配置され続けることで、ナビゲーションやヘッダー/フッターなどを固定表示させたい場合に有効である。
+    </p>
+  </section>
+
+  <section id="section_5">
+    <h2>sticky（相対的に固定する位置指定）</h2>
+    <p>
+      <b>position: sticky</b
+      >はrelativeとstickyの複合であり、現在要素の位置を基準位置として要素を配置しつつ要素を固定する。<br />
+      動作の例は<a
+        href="https://developer.mozilla.org/ja/docs/Learn/CSS/CSS_layout/Positioning#%E3%82%B9%E3%82%AF%E3%83%AD%E3%83%BC%E3%83%AB%E3%81%99%E3%82%8B%E7%B4%A2%E5%BC%95"
+        >MDN Web Docs - スクロールする索引</a
+      >などを参照すること。
+    </p>
+  </section>
+
+  <section id="section_6">
+    <h2>static（静的な位置指定）</h2>
+    <p>
+      <b>position: static</b>はpositionプロパティの初期値である。<br />
+      positionの値を初期化したい場合などに使用する。
+    </p>
+  </section>
+</div>

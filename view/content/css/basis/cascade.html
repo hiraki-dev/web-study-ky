@@ -1,0 +1,340 @@
+<div>
+  <h1>カスケード/継承</h1>
+
+  <section id="content_link">
+    <h2>目次</h2>
+
+    <nav>
+      <ol>
+        <li><a href="#section_1">カスケード</a></li>
+        <li><a href="#section_2">継承</a></li>
+        <li><a href="#section_3">詳細度</a></li>
+      </ol>
+    </nav>
+  </section>
+
+  <section id="section_1">
+    <h2>カスケード</h2>
+    <p>
+      <b>CSSの適用優先順位のこと。</b><br />
+      HTMLファイルに複数のCSSを読み込んだとき、1つのセレクタに複数のスタイルが適用されることがある。<br />
+      その際、複数のスタイルからどのスタイルを適用するかを決める際のプロセスをカスケーティングという。<br />
+      通常、適用したスタイルが競合した場合はタグに近い位置に指定されたスタイルや後から読み込まれたスタイルが優先して適用される。
+    </p>
+
+    <ul>
+      <li>
+        親要素に適用したスタイルは子要素にも適用される。これを
+        <b>継承</b> という。
+      </li>
+      <li>
+        子要素に適用されたスタイルはカスケーディングのルールに従い親要素のスタイルを上書きする。
+      </li>
+      <li>
+        ただし、例外もある。CSSでは
+        <b>詳細度</b> という適用ルールに従いスタイルの適用優先度を計算する。
+      </li>
+    </ul>
+
+    <p>以下は簡単なカスケードの例。</p>
+    <div>
+      <pre><code class="language-html">&lt;style&gt;
+  div {
+    background-color: black;
+  }
+
+  p {
+    color: aqua;
+  }
+
+  /* セレクタが重複する場合、直前の宣言よりも後の宣言が優先される */
+  p {
+    color: blue;
+  }
+&lt;/style&gt;
+
+&lt;!-- 親要素の背景をblackを適用 --&gt;
+&lt;div&gt;
+  &lt;!-- 子要素にも親要素の背景色が適用される。これが継承。  --&gt;
+  &lt;p&gt;文字カラーが &lt;i&gt;aqua&lt;/i&gt; から &lt;i&gt;blue&lt;/i&gt; に上書きされている。&lt;br&gt;
+  （プログラミング用語で、オーバーライドとも。）&lt;/p&gt;
+&lt;/div&gt;</code></pre>
+    </div>
+  </section>
+
+  <section id="section_2">
+    <h2>継承</h2>
+    <p>
+      上述の通り、親要素に適用されたスタイルは子要素に継承される。<br />
+      以下は簡単な例である。
+    </p>
+
+    <div>
+      <style>
+        span ul.example {
+          color: red;
+          font-weight: bold;
+        }
+      </style>
+
+      <span>
+        <ul>
+          <li>aaa</li>
+          <li>bbb</li>
+          <ul class="example">
+            <li>ccc</li>
+            <li>ddd</li>
+            <ul>
+              <li>eee（継承されている）</li>
+            </ul>
+          </ul>
+        </ul>
+      </span>
+    </div>
+
+    <div>
+      <pre><code>&lt;style&gt;
+  span ul.example {
+    color: red;
+    font-weight: bold;
+  }
+&lt;/style&gt;
+
+&lt;span&gt;
+  &lt;ul&gt;
+    &lt;li&gt;aaa&lt;/li&gt;
+    &lt;li&gt;bbb&lt;/li&gt;
+    &lt;ul class=&quot;example&quot;&gt;
+      &lt;li&gt;ccc&lt;/li&gt;
+      &lt;li&gt;ddd&lt;/li&gt;
+      &lt;ul&gt;
+        &lt;li&gt;eee（継承されている）&lt;/li&gt;
+      &lt;/ul&gt;
+    &lt;/ul&gt;
+  &lt;/ul&gt;
+&lt;/span&gt;</code></pre>
+    </div>
+
+    <p>
+      <b>ユニバーサルプロパティ値</b>
+      を指定することで継承の挙動を制御できる。
+    </p>
+    <div>
+      <table>
+        <caption>
+          ユニバーサルプロパティ値と挙動
+        </caption>
+        <thead>
+          <tr scope="row">
+            <th>プロパティ値</th>
+            <th>制御</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr scope="rowgroup">
+            <td>inherit</td>
+            <td>親要素の値と同じ値を設定。</td>
+          </tr>
+          <tr>
+            <td>initial</td>
+            <td>プロパティの初期値を設定。</td>
+          </tr>
+          <tr>
+            <td>revert</td>
+            <td>ブラウザの規定値を設定。</td>
+          </tr>
+          <tr>
+            <td>revert-layer</td>
+            <td>前回のカスケードレイヤーで指定された値を設定。</td>
+          </tr>
+          <tr>
+            <td>unset</td>
+            <td>
+              値をリセット。<br />
+              （問題なく継承が行われている場合inherit、それ以外はinitial）
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>以下はユニバーサルプロパティ値を指定した例。</p>
+    <div>
+      <style>
+        span ul.example_1 {
+          color: red;
+          font-weight: bold;
+        }
+
+        span ul.example_2 {
+          color: initial;
+          font-weight: initial;
+        }
+      </style>
+
+      <span>
+        <ul>
+          <li>aaa</li>
+          <li>bbb</li>
+          <ul class="example_1">
+            <li>ccc</li>
+            <li>ddd</li>
+            <ul class="example_2">
+              <li>eee（initialでリセットされている）</li>
+            </ul>
+          </ul>
+        </ul>
+      </span>
+    </div>
+
+    <div>
+      <pre><code>&lt;style&gt;
+  span ul.example_1 {
+    color: red;
+    font-weight: bold;
+  }
+
+  span ul.example_2 {
+    color: initial;
+    font-weight: initial;
+  }
+&lt;/style&gt;
+
+&lt;span&gt;
+  &lt;ul&gt;
+    &lt;li&gt;aaa&lt;/li&gt;
+    &lt;li&gt;bbb&lt;/li&gt;
+    &lt;ul class=&quot;example_1&quot;&gt;
+      &lt;li&gt;ccc&lt;/li&gt;
+      &lt;li&gt;ddd&lt;/li&gt;
+      &lt;ul class=&quot;example_2&quot;&gt;
+        &lt;li&gt;eee（initialでリセットされている）&lt;/li&gt;
+      &lt;/ul&gt;
+    &lt;/ul&gt;
+  &lt;/ul&gt;
+&lt;/span&gt;;</code></pre>
+    </div>
+  </section>
+
+  <section id="section_3">
+    <h2>詳細度</h2>
+    <p>
+      CSSでは、スタイルの適用優先度を詳細度という指標で決定する。<br />
+      以下は詳細度についてまとめた表である。
+    </p>
+
+    <div>
+      <table>
+        <caption>
+          詳細度の優先順位について
+        </caption>
+        <thead>
+          <tr scope="row">
+            <th>セレクタ/要素</th>
+            <th>例</th>
+            <th>優先順位</th>
+            <th>ポイント</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr scope="rowgroup">
+            <td>!important</td>
+            <td>同左</td>
+            <td>1位</td>
+            <td>1/0/0/0/0</td>
+          </tr>
+          <tr>
+            <td>style属性</td>
+            <td>p style="..."</td>
+            <td>2位</td>
+            <td>0/1/0/0/0</td>
+          </tr>
+          <tr>
+            <td>IDセレクタ</td>
+            <td>#id {...}</td>
+            <td>3位</td>
+            <td>0/0/1/0/0</td>
+          </tr>
+          <tr>
+            <td>クラスセレクタ</td>
+            <td>.class {...}</td>
+            <td>4位</td>
+            <td>0/0/0/1/0</td>
+          </tr>
+          <tr>
+            <td>属性セレクタ</td>
+            <td>div[name] {...}</td>
+            <td>4位</td>
+            <td>0/0/0/1/0</td>
+          </tr>
+          <tr>
+            <td>疑似クラス</td>
+            <td>p:... {...}</td>
+            <td>4位</td>
+            <td>0/0/0/1/0</td>
+          </tr>
+          <tr>
+            <td>タグセレクタ</td>
+            <td>h, div {...}</td>
+            <td>5位</td>
+            <td>0/0/0/0/1</td>
+          </tr>
+          <tr>
+            <td>疑似要素</td>
+            <td>p::... {...}</td>
+            <td>5位</td>
+            <td>0/0/0/0/1</td>
+          </tr>
+          <tr>
+            <td>ユニバーサルセレクタ</td>
+            <td>* {...}</td>
+            <td>5位</td>
+            <td>0/0/0/0/1</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <ul>
+      <li>
+        詳細度は各セレクタ/要素ごとに付与されたポイントの総数で計算される。
+      </li>
+      <li>ポイントは優先順位別に集計される。</li>
+    </ul>
+
+    <p>以下は詳細度の計算例。</p>
+    <div>
+      <pre><code class="language-html">&lt;style&gt;
+  /* 適用優先度が上（0/0/0/1/2） */
+  span p.example {
+    font-size: 50px;
+    color: blueviolet;
+  }
+
+  /* 適用優先度が下 (0/0/0/0/1) */
+  p {
+    font-size: 100px;
+    color: aliceblue;
+  }
+&lt;/style&gt;
+
+&lt;span&gt;
+  &lt;p class=&quot;example&quot;&gt;aaa&lt;/p&gt;
+&lt;/span&gt;</code></pre>
+    </div>
+
+    <p>
+      <b>!important</b>
+      キーワードを宣言に指定することで詳細度が最大値になる。<br />
+      最優先に適用するCSSセレクタであることを明示する際に使用する。
+    </p>
+
+    <div>
+      <pre><code class="language-css">div {
+    background:red;
+    /* 最優先に適用される */
+    color:blue !important;
+}</code></pre>
+    </div>
+  </section>
+</div>

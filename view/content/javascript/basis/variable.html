@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+
+<html>
+  <!-- ヘッダー情報 -->
+  <head>
+    <!-- ページ内基底URL target属性でタブの表示方法を指定 -->
+    <base href="./variable.html" target="_self" />
+    <!-- ページタイトル -->
+    <title>JS 型と変数</title>
+
+    <!-- メタデータ設定 -->
+    <!-- 文字コード -->
+    <meta charset="utf-8" />
+    <!-- 読み込み時のページサイズ -->
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <!-- Webページの概要と説明 -->
+    <meta name="description" content="HTMLのフォームに関してまとめたページ" />
+    <!-- 電話番号の自動リンク機能オフ -->
+    <meta name="format-detection" content="telephone=no" />
+
+    <!-- リソース読み込み -->
+    <!-- CSS -->
+    <link rel="stylesheet" href="../../../asset/css/common.css" />
+    <!-- Script -->
+    <script src="../../../asset/js/lib/highlight.min.js"></script>
+    <script src="../../../asset/js/highlight.js"></script>
+    <script src="../../../asset/js/main.js"></script>
+  </head>
+
+  <body>
+    <main>
+      <h1>型と変数</h1>
+
+      <section id="content_link">
+        <h2>目次</h2>
+
+        <nav>
+          <ol>
+            <li><a href="#section_1">型の種類</a></li>
+            <li><a href="#section_2">変数の宣言</a></li>
+            <li><a href="#section_3">シンボル型について</a></li>
+          </ol>
+        </nav>
+      </section>
+
+      <section id="section_1">
+        <h2>型の種類</h2>
+        <p>
+          JavaScriptの型はメソッド、プロパティを持つ<b>オブジェクト型</b>
+          、メソッド、プロパティを持たない<b>プリミティブ型</b>に分けられる。
+        </p>
+
+        <ul>
+          <li>下記の表はプリミティブ型を記載。</li>
+          <li>
+            オブジェクト型は<a href="https://www.tohoho-web.com/js/basic.htm"
+              >リンク</a
+            >を参照。
+          </li>
+        </ul>
+
+        <div>
+          <table>
+            <thead>
+              <tr>
+                <th scope="rowgroup">型</th>
+                <th>説明</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>number</td>
+                <td>整数、不動小数点数、10進数、16進数等の数値型</td>
+              </tr>
+              <tr>
+                <td>string</td>
+                <td>文字列型</td>
+              </tr>
+              <tr>
+                <td>boolean</td>
+                <td>真偽値</td>
+              </tr>
+              <tr>
+                <td>function</td>
+                <td>関数型</td>
+              </tr>
+              <tr>
+                <td>object</td>
+                <td>オブジェクト型</td>
+              </tr>
+              <tr>
+                <td>Symbol</td>
+                <td>シンボル型</td>
+              </tr>
+              <tr>
+                <td>true, false</td>
+                <td>真偽値</td>
+              </tr>
+              <tr>
+                <td>null</td>
+                <td>ヌル値</td>
+              </tr>
+              <tr>
+                <td>undefind</td>
+                <td>未定義</td>
+              </tr>
+              <tr>
+                <td>NaN</td>
+                <td>数値ではない（Not a Namber）</td>
+              </tr>
+              <tr>
+                <td>Infinity</td>
+                <td>無限値</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="section_2">
+        <h2>変数の宣言</h2>
+        <pre><code class="javascript language-javascript">// 変数の初期化
+let val = "";
+// 同名変数の宣言、スコープ外の参照を制限する（基本的にこちらを使用）
+let val = "";
+// 定数の初期化
+const val = "";  </code></pre>
+      </section>
+
+      <section id="section_3">
+        <h2>シンボル型について</h2>
+        <p>
+          インスタンス出来ず、複製した値との比較も不可能な完全ユニークな値を定義する。<br />
+          主にプロトタイプを拡張する際にプロトタイプメソッドやプロパティの名前空間の衝の防止に使用する。
+        </p>
+      </section>
+    </main>
+  </body>
+</html>

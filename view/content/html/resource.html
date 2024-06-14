@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+
+<html>
+  <!-- ヘッダー情報 -->
+  <head>
+    <!-- ページ内基底URL target属性でタブの表示方法を指定 -->
+    <base href="./resource.html" target="_self" />
+    <!-- ページタイトル -->
+    <title>HTML リソースタグ</title>
+
+    <!-- メタデータ設定 -->
+    <!-- 文字コード -->
+    <meta charset="utf-8" />
+    <!-- 読み込み時のページサイズ -->
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <!-- Webページの概要と説明 -->
+    <meta
+      name="description"
+      content="HTMLのリソースタグに関してまとめたページ"
+    />
+    <!-- 電話番号の自動リンク機能オフ -->
+    <meta name="format-detection" content="telephone=no" />
+
+    <!-- 外部リソース読み込み -->
+    <!-- CSS -->
+    <link rel="stylesheet" href="../../asset/css/common.css" />
+    <!-- ファビコン -->
+    <!-- <link rel="icon" href="" /> -->
+
+    <!-- スクリプト読み込み -->
+    <script src="../../asset/js/main.js"></script>
+
+    <!-- CSSの直接適用 -->
+    <style></style>
+  </head>
+
+  <body>
+    <main>
+      <h1>リソースタグ</h1>
+
+      <!-- source -->
+      <section>
+        <h2>sourceタグ</h2>
+        <p>
+          親要素がpictureタグ、audioタグ、videoタグの場合にメディアリソースを指定する際に使用する。<br />
+          親要素によって指定できる属性が変わる。<br />
+          <a href="htmq.com/htmls/source.shtml">参考</a>
+        </p>
+
+        <ul>
+          <li>
+            親要素がpictureタグの場合、srcset属性でリソースパスを指定する。
+          </li>
+          <li>
+            親要素がaudioタグ、videoタグの場合、srcタグでリソースパスを指定する。
+          </li>
+          <li>共通属性として、type属性でリソースの種類を指定する。</li>
+          <li>親要素がpictureタグの場合、以下の属性を指定できる。</li>
+          <ul>
+            <li>sizes属性で画像サイズを指定</li>
+            <li>
+              media属性で<a
+                href="https://developer.mozilla.org/ja/docs/Web/CSS/CSS_media_queries"
+                >メディアクエリ（レスポンシブ幅等）</a
+              >を指定
+            </li>
+            <li>width属性、height属性で縦幅、横幅を指定</li>
+          </ul>
+        </ul>
+      </section>
+
+      <!-- picture -->
+      <section>
+        <h2>pictureタグ</h2>
+        <p>
+          ページ内に表示する画像の選択肢をグルーピングする。<br />
+          要素として、ひとつ以上のimgタグ、resourceタグで構成する。<br />
+          <a href="https://catnose.me/learning/html/picture">参考</a>
+        </p>
+
+        <!-- 以下は画像をレスポンシブに切り替える例-->
+        <picture>
+          <!-- 幅1000px以上なら表示 -->
+          <source
+            srcset="../../asset/images/sample.png"
+            media="(min-width: 1000px)"
+          />
+          <!-- 幅700px以上なら表示 -->
+          <source
+            srcset="../../asset/images/sample.png"
+            media="(min-width: 700px)"
+          />
+          <!-- 幅500px以上なら表示 -->
+          <source
+            srcset="../../asset/images/sample.png"
+            media="(min-width: 500px)"
+          />
+          <!-- それ以外で表示 -->
+          <img src="../../asset/images/sample.png" />
+        </picture>
+      </section>
+
+      <!-- img -->
+      <section>
+        <h2>imgタグ</h2>
+        <p>ページ内に画像リソースを表示する。</p>
+
+        <ul>
+          <li>src属性でリソースパスを指定する。</li>
+          <li>alt属性で画像読み込み失敗時の代替テキストを指定する。</li>
+          <li>
+            その他の<a href="https://www.htmq.com/htmls/img.shtml"
+              >属性はリンク先を参照すること。</a
+            >
+          </li>
+        </ul>
+
+        <img
+          src="../../asset/images/sample.png"
+          alt="サンプル画像"
+          width="200"
+          height="150"
+        />
+      </section>
+
+      <!-- iframe -->
+      <section>
+        <h2>iframeタグ</h2>
+        <p>
+          ページ内にインラインフレームを作成する。<br />
+          指定したURLのリソースを読み込み、ページ内に表示する。<br />
+          リンク先のHTMLソースやメディアなどの表示に利用する。
+        </p>
+
+        <ul>
+          <li>src属性でリソースパスを指定する。</li>
+          <li>
+            srcdoc属性でフレーム内のドキュメントを指定する。（srcより優先される）
+          </li>
+          <li>
+            sandbox属性でインラインフレームのセキュリティ（DL許可設定等）を指定する。
+          </li>
+          <li>allow属性で権限を指定する。</li>
+          <li>
+            その他、属性の詳細は<a
+              href="https://developer.mozilla.org/ja/docs/Web/HTML/Element/iframe"
+              >リンク先を参照すること。</a
+            >
+          </li>
+        </ul>
+
+        <!-- 以下はyoutubeリソース埋め込み例 -->
+        <iframe
+          width="300"
+          height="168"
+          src="https://www.youtube.com/embed/exgw_C7iRaI?si=BN1BXuJontcpvkCH"
+          title="YouTube video player"
+          frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allowfullscreen
+        ></iframe>
+      </section>
+
+      <!-- object -->
+      <section>
+        <h2>objectタグ</h2>
+        <p>外部リソースを表示する。</p>
+
+        <ul>
+          <li>data属性でリソースパスを指定する。</li>
+          <li>type属性でリソースの種類を指定する。</li>
+          <li>form属性でformタグと関連付けを行う。</li>
+          <li>
+            その他、属性の詳細は<a
+              href="https://www.htmq.com/htmls/object.shtml"
+              >リンク先を参照すること。</a
+            >
+          </li>
+        </ul>
+
+        <figure>
+          <figcaption>objectタグの例</figcaption>
+          <object
+            data="https://www.htmq.com/htmls/sample/clock.html"
+            width="150"
+            height="60"
+          ></object>
+        </figure>
+      </section>
+
+      <!-- video/audio -->
+      <section>
+        <h2>video/audioタグ</h2>
+        <p>
+          メディアリソースを表示する。<br />
+          各属性を用いて、表示幅、自動再生の有無などをコントロールする。<br />
+          videoタグは動画メディアを、audioタグは音声メディアを表示する。（属性は共通）<br />
+        </p>
+
+        <ul>
+          <li>リソースはsrc属性かsourceタグを用いて指定する。</li>
+          <li>
+            autoplay属性を指定するとページ読み込み完了時にメディアを再生する。（非指定時は再生しない）
+          </li>
+          <li>preload属性でメディア表示の最適化を行う。</li>
+          <li>controls属性を指定するとユーザコントロールタブを提供する。</li>
+          <li>poster属性でメディア再生前のポスターフレームを表示する。</li>
+          <li>
+            <a href="https://www.tagindex.com/html/embed/track.html"
+              >trackタグでvideoタグの埋め込みメディアに字幕を指定できる。</a
+            >
+          </li>
+          <li>
+            crossorigin属性で<a
+              href="https://qiita.com/att55/items/2154a8aad8bf1409db2b"
+              >CORS</a
+            >を制御する。
+          </li>
+          <li>その他、詳細は以下のリンクを参考にすること。</li>
+          <ul>
+            <li>
+              <a href="https://www.htmq.com/htmls/video.shtml"
+                >video - HTML Living Standard リファレンス</a
+              >
+            </li>
+            <li>
+              <a
+                href="https://developer.mozilla.org/ja/docs/Web/HTML/Element/video"
+              >
+                video - 動画埋め込み要素 - mdn web docs
+              </a>
+            </li>
+            <li>
+              <a href="https://zero-plus.io/media/html-video/"
+                >HTML5でvideoタグを使って動画を埋め込む方法を簡単解説！</a
+              >
+            </li>
+          </ul>
+        </ul>
+
+        <div>
+          <video
+            src="../../asset/videos/sample.mp4"
+            width="300"
+            height="168"
+            controls
+            poster
+          ></video>
+        </div>
+        <aside>
+          <audio
+            src="https://www.htmq.com/htmls/sample/sample.mp4"
+            controls
+            poster
+          ></audio>
+        </aside>
+      </section>
+
+      <!-- map/area -->
+      <section>
+        <h2>map/areaタグ</h2>
+        <p>
+          イメージマップを作成する。<br />
+          指定したイメージ画像にクリック可能領域とクリック時のアクションの指定を行う。<br />
+          mapタグでイメージマップのフレームを作成し、area属性で動作設定を行う。
+        </p>
+
+        <ul>
+          <li>mapタグ</li>
+          <ul>
+            <li>
+              name属性は必須で、マッピング対象のimgタグに指定したusemap属性の値を指定する。
+            </li>
+            <li>idを指定する場合、nameと同じ値を指定する。</li>
+          </ul>
+          <li>areaタグ</li>
+          <ul>
+            <li>href属性で領域クリック時のリンク先を指定する。</li>
+            <li>shape属性で領域の座標指定方法を指定する。</li>
+            <ul>
+              <li>
+                shape="rect"（長方形）の場合、「x1, y1, x2, y2」で値を指定
+              </li>
+              <li>shape="circle"（円形）の場合、「x, y, radius」で値を指定</li>
+              <li>
+                shape="poly"（多角形）の場合、「x1, y1, x2, y2, .., xn,
+                yn」で値の指定
+              </li>
+              <li>上記値のcoords属性に付与</li>
+              <li>
+                sharp="default"の場合、画像全体を座標として指定（coords属性は指定不可）
+              </li>
+            </ul>
+            <li>alt属性で画像読み込み失敗時の代替テキストを指定する。</li>
+            <li>
+              その他、属性の詳細は<a
+                href="https://www.htmq.com/htmls/area.shtml"
+                >リンク先を参照すること。</a
+              >
+            </li>
+          </ul>
+        </ul>
+
+        <!-- 例 -->
+        <div>
+          <p>画像をクリックすると解説ページへ移動。</p>
+          <img
+            src="../../asset/images/sample.png"
+            alt=""
+            usemap="#test_mapping"
+            width="150"
+            height="150"
+          />
+          <map name="test_mapping">
+            <area
+              shape="default"
+              href="https://www.htmq.com/htmls/area.shtml"
+              alt=""
+            />
+          </map>
+        </div>
+      </section>
+
+      <!-- 説明を省略するタグ -->
+      <section>
+        <h2>説明を省略するタグ</h2>
+        <ul>
+          <li>
+            <a href="https://www.htmq.com/htmls/embed.shtml"
+              >embedタグ（objectタグで代替可能）</a
+            >
+          </li>
+          <li>
+            <a href="https://www.htmq.com/htmls/MathML.shtml"
+              >MathML（数式を表示するマークアップ言語）</a
+            >
+          </li>
+        </ul>
+      </section>
+
+      <section></section>
+    </main>
+  </body>
+</html>

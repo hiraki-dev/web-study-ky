@@ -1,0 +1,154 @@
+/* 
+  モバイル端末用のCSSルールを定義
+*/
+
+/* 端末の最大サイズが幅450px以下の場合、モバイル端末と判定 */
+@media screen and (width <= 450px) {
+  /* モバイル共通変数 */
+  :root {
+    /* ウィンドウ */
+    --window-width: 375px;
+
+    /* ページ内テキスト */
+    --font-size-default: 14px;
+    --font-size-highlight: 12px;
+    --font-size-link: 14px;
+    --font-size-list: 14px;
+    --font-size-code-prewiew: 14px;
+
+    /* ヘッダー */
+    --font-size-title: 18px;
+    --font-size-sub-title: 8px;
+
+    /* フッター */
+    --font-size-footer: 10px;
+
+    /* 見出し */
+    --font-size-head-1: 24px;
+    --font-size-head-2: 18px;
+    --font-size-head-3: 16px;
+    --font-size-head-4: 14px;
+
+    /* テーブル */
+    --font-size-table-caption: 10px;
+    --font-size-table-header: 12px;
+    --font-size-table-cell: 12px;
+  }
+
+  html {
+    font-size: var(--font-size-default);
+  }
+
+  header {
+    width: var(--window-width);
+    height: auto;
+    margin: 8px auto 8px auto;
+    padding: 12px;
+    border-radius: 18px;
+
+    & .top_title {
+      font-size: var(--font-size-title);
+    }
+
+    & .sub_title {
+      padding: 0 2px;
+      vertical-align: 1em;
+      font-size: var(--font-size-sub-title);
+    }
+  }
+
+  main {
+    width: var(--window-width);
+    height: auto;
+    margin: 8px auto 8px auto;
+    padding: 12px;
+    border-radius: 18px;
+  }
+
+  footer {
+    width: var(--window-width);
+    margin: 0 auto;
+    padding: 2px 4px;
+    font-size: var(--font-size-footer);
+  }
+
+  /* headline */
+
+  h1 {
+    font-size: var(--font-size-head-1);
+  }
+
+  h2 {
+    margin-top: 18px;
+    font-size: var(--font-size-head-2);
+    text-indent: 0.4em;
+  }
+
+  h3 {
+    margin-top: 18px;
+    font-size: var(--font-size-head-3);
+    text-indent: 0.7em;
+  }
+
+  h4 {
+    margin-top: 18px;
+    font-size: var(--font-size-head-4);
+    text-indent: 0.85em;
+  }
+
+  /* text */
+
+  b {
+    border-radius: 4px;
+    padding: 1.6px;
+    font-size: var(--font-size-highlight);
+  }
+
+  a {
+    margin-bottom: 0.25px;
+    padding: 0;
+    font-size: var(--font-size-link);
+  }
+
+  pre {
+    font-size: var(--font-size-code-prewiew);
+  }
+
+  /* list */
+  ul,
+  ol {
+    & li {
+      font-size: var(--font-size-list);
+    }
+  }
+
+  /* table */
+
+  table {
+    & caption {
+      margin: 6px;
+      font-size: var(--font-size-table-caption);
+    }
+
+    & caption a {
+      font-size: var(--font-size-table-caption);
+    }
+
+    & th {
+      min-width: 4em;
+      font-size: var(--font-size-table-header);
+    }
+
+    & td {
+      font-size: var(--font-size-table-cell);
+    }
+  }
+
+  /* image */
+  figure {
+    & img {
+      max-width: 100%;
+      height: auto;
+    }
+  }
+}

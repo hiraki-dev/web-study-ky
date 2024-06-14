@@ -1,0 +1,357 @@
+<div>
+  <h1>ブロックモデル</h1>
+
+  <section id="content_link">
+    <h2>目次</h2>
+
+    <nav>
+      <ol>
+        <li>
+          <a href="#section_1">ブロックボックス/インラインボックス</a>
+        </li>
+        <ol type="I">
+          <li><a href="#section_1_1">HTMLタグのボックスについて</a></li>
+          <li>
+            <a href="#section_1_2">displayプロパティによるボックスの明示</a>
+          </li>
+        </ol>
+        <li><a href="#section_2">ボックスモデル</a></li>
+        <ol type="I">
+          <li>
+            <a href="#section_2_1">デフォルトのボックス設定（通常フロー）</a>
+          </li>
+          <li><a href="#section_2_2">ブラウザの開発者ツール</a></li>
+        </ol>
+        <li>
+          <a href="#section_3">標準ボックスモデル/代替ボックスモデル</a>
+        </li>
+        <li><a href="#section_4">各ボックス毎のプロパティ</a></li>
+        <ol type="I">
+          <li><a href="#section_4_1">マージンボックス</a></li>
+          <li><a href="#section_4_2">ボーダーボックス</a></li>
+          <li><a href="#section_4_3">パティングボックス</a></li>
+        </ol>
+        <li><a href="#section_5">マージンの相殺</a></li>
+      </ol>
+    </nav>
+  </section>
+
+  <section id="section_1">
+    <h2>ブロックボックス/インラインボックス</h2>
+    <p>
+      CSSは<b>ブロックボックス</b>と<b>インラインボックス</b>
+      の二つのブロックで構成されている。<br />
+      主に以下の違いがある。
+    </p>
+
+    <ul>
+      <li>ブロックボックス</li>
+      <ul>
+        <li>改行が挿入される。</li>
+        <li><b>widthプロパティ</b>、<b>heightプロパティ</b>が適用される。</li>
+        <li>
+          <b>paddingプロパティ</b>、<b>marginプロパティ</b>
+          、<b>borderプロパティ</b>が適用される。
+        </li>
+        <li>
+          要素が追加された場合、要素を囲うようにインライン（内側方向）にサイズが大きくなる。
+        </li>
+        <ul>
+          <li>
+            <b>widthプロパティ</b>が指定されている場合はインラインが固定となる。
+          </li>
+        </ul>
+      </ul>
+      <li>インラインボックス</li>
+      <ul>
+        <li>改行が挿入されない。</li>
+        <li><b>widthプロパティ</b>、<b>heightプロパティ</b>が適用されない。</li>
+        <li>
+          <b>paddingプロパティ</b>、<b>marginプロパティ</b>
+          、<b>borderプロパティ</b>は以下のように適用される。
+        </li>
+        <ul>
+          <li>
+            上下方向には適用されるが、他のインラインボックスには影響しない。
+          </li>
+          <li>左右方向にはブロックボックスと同様に適用される。</li>
+        </ul>
+      </ul>
+    </ul>
+
+    <section id="section_1_1">
+      <h3>HTMLタグのボックスについて</h3>
+      <p>
+        <b>divタグ</b
+        >と<b>spanタグ</b>の明確な違いがどちらのボックスに属しているかである。<br />
+        デフォルトではdivタグはブロックボックスに属し、spanタグはインラインボックスに属している。
+      </p>
+
+      <ul>
+        <li>ブロックボックス</li>
+        <ul>
+          <li>
+            セクションタグやグルーピングタグなどの構造を定義するタグが属する。
+          </li>
+          <li>divタグ、pタグ、ulタグなど</li>
+        </ul>
+        <li>インラインボックス</li>
+        <ul>
+          <li>テキストタグなどの装飾を行うタグが属する。</li>
+          <li>aタグ、bタグなど</li>
+        </ul>
+      </ul>
+    </section>
+
+    <section id="section_1_2">
+      <h3>displayプロパティによるボックスの明示</h3>
+      <p><b>displayプロパティ</b>を用いることでタグのボックスを変更できる。</p>
+
+      <div>
+        <pre><code class="language-css">/* divタグをインラインボックスに変更 */
+div {
+  display: inline;
+}
+
+/* spanタグをブロックボックスに変更 */
+span {
+  display: block;
+}
+
+/* inline-blockを指定すると、margin、border、pattingの値が有効なインラインボックスとなる */
+b {
+  display: inline-block;
+}</code></pre>
+      </div>
+    </section>
+  </section>
+
+  <section id="section_2">
+    <h2>ボックスモデル</h2>
+    <p>CSSのボックスは以下の要素で構成されている。</p>
+
+    <figure>
+      <figcaption>MDN Web Docsから引用</figcaption>
+      <img
+        src="https://res.cloudinary.com/zenn/image/fetch/s--oZD9iOUM--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_1200/https://storage.googleapis.com/zenn-user-upload/deployed-images/17d1c54479d15e43b5c0ca1c.png%3Fsha%3Db97b30d513ee28acb0b64d55fb09727660c06a67"
+        width="500px"
+        height="280px"
+        alt="MDN Web Docsから引用"
+      />
+    </figure>
+
+    <div>
+      <table>
+        <caption>
+          ブロックボックスの構成要素
+        </caption>
+        <thead>
+          <tr>
+            <th scope="rowgroup">ボックス名</th>
+            <th>説明</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>コンテンツボックス（Content）</td>
+            <td>
+              コンテンツの表示領域。<br />
+              inline-size、block-size、width、heightなどのプロパティでサイズを変更する。
+            </td>
+          </tr>
+          <tr>
+            <td>パティングボックス（Padding）</td>
+            <td>
+              コンテンツの周囲の領域。<br />
+              padding関連プロパティでサイズを変更する。
+            </td>
+          </tr>
+          <tr>
+            <td>ボーダーボックス（Border）</td>
+            <td>
+              コンテンツとパティングを囲う枠線。<br />
+              border関連プロパティでサイズを指定する。
+            </td>
+          </tr>
+          <tr>
+            <td>マージンボックス（Margin）</td>
+            <td>
+              ボーダーの外側の余白領域。<br />
+              marginプロパティでサイズを決定する。
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>詳細は以下のリンクを参考にすること。</p>
+    <ul>
+      <li>
+        <a
+          href="https://developer.mozilla.org/ja/docs/Learn/CSS/Building_blocks/The_box_model"
+          >MDN Web Docs - ボックスモデル</a
+        >
+      </li>
+      <li>
+        <a
+          href="https://zenn.dev/ojk/books/intro-to-html-css/viewer/css-boxmodel"
+          >文系大学生のためのHTML/CSS入門 - ボックスモデル</a
+        >
+      </li>
+      <li>
+        <a href="https://weblan3.com/css/reference-css-boxmodel"
+          >CSSのボックス・モデルを理解する</a
+        >
+      </li>
+    </ul>
+
+    <section id="section_2_1">
+      <h3>デフォルトのボックス設定（通常フロー）</h3>
+      <p>
+        HTMLタグがどのボックスに属するか、マージン、ボーダー、パティングの値などのデフォルト値はブラウザ毎に規定されている。<br />
+        CSSプロパティに値を指定することで通常フローから値が変更される。
+      </p>
+    </section>
+
+    <section id="section_2_2">
+      <h3>ブラウザの開発者ツール</h3>
+      <p>
+        各種ブラウザの開発者ツールを用いることで要素ごとに割り当てられたスタイル宣言、ボックスモデル領域などを確認できる。
+      </p>
+
+      <figure>
+        <figcaption>Chromeの開発者ツールの例</figcaption>
+        <img
+          src="../../../asset/images/block-model_2024-03-22-16-29-43.png"
+          width="800px"
+          height="350px"
+          alt="Chromeの検証機能"
+        />
+      </figure>
+    </section>
+  </section>
+
+  <section id="section_3">
+    <h2>標準ボックスモデル/代替ボックスモデル</h2>
+    <p>
+      CSSのボックスモデルには<b>標準ボックス</b>と<b>代替ボックス</b>が用意されている。
+    </p>
+
+    <ul>
+      <li><b>box-sizingプロパティ</b>で指定可能。</li>
+      <li>値を<b>content-box</b>に指定した場合、標準ボックスとなる。</li>
+      <ul>
+        <li>width、heightはコンテンツボックスのサイズとして計算される</li>
+        <li>border、pattingはコンテンツの外側に加算される</li>
+      </ul>
+      <li>値を<b>border-box</b>に指定した場合、代替ボックスとなる。</li>
+      <ul>
+        <li>
+          width、heightはマージンを除いたボックス全体のサイズとして計算される
+        </li>
+        <li>border、pattingはコンテンツの内側に加算される</li>
+      </ul>
+    </ul>
+  </section>
+
+  <section id="section_4">
+    <h2>各ボックス毎のプロパティ</h2>
+
+    <section id="section_4_1">
+      <h3>マージンボックス</h3>
+      <p>
+        マージン領域は以下のプロパティで上下左右の幅を指定できる。<br />
+        <a
+          href="https://developer.mozilla.org/ja/docs/Learn/CSS/Building_blocks/The_box_model#%E3%83%9E%E3%83%BC%E3%82%B8%E3%83%B3"
+          >リンク先</a
+        >で動作検証可能。
+      </p>
+
+      <ul>
+        <li>margin-top</li>
+        <li>margin-right</li>
+        <li>margin-bottom</li>
+        <li>margin-left</li>
+      </ul>
+    </section>
+
+    <section id="section_4_2">
+      <h3>ボーダーボックス</h3>
+      <ul>
+        <li>上下左右の幅は以下のプロパティで指定する。</li>
+        <ul>
+          <li>border-top</li>
+          <li>border-right</li>
+          <li>border-bottom</li>
+          <li>border-left</li>
+        </ul>
+        <li>幅、スタイル、色などは以下のプロパティで指定する。</li>
+        <ul>
+          <li>border-width</li>
+          <li>border-style</li>
+          <li>border-color</li>
+        </ul>
+      </ul>
+
+      <p>
+        より詳細なプロパティ、動作などは<a
+          href="https://developer.mozilla.org/ja/docs/Learn/CSS/Building_blocks/The_box_model#%E5%A2%83%E7%95%8C
+            "
+          >リンク先</a
+        >を参照すること。
+      </p>
+    </section>
+
+    <section id="section_4_3">
+      <h3>パティングボックス</h3>
+      <p>
+        パティング領域は以下のプロパティで上下左右の幅を指定できる。<br />
+        <a
+          href="https://developer.mozilla.org/ja/docs/Learn/CSS/Building_blocks/The_box_model#%E3%83%91%E3%83%87%E3%82%A3%E3%83%B3%E3%82%B0"
+          >リンク先</a
+        >で動作検証可能。
+      </p>
+
+      <ul>
+        <li>patting-top</li>
+        <li>patting-right</li>
+        <li>patting-bottom</li>
+        <li>patting-left</li>
+        <li>指定できる値は整数のみ</li>
+      </ul>
+    </section>
+  </section>
+
+  <section id="section_5">
+    <h2>マージンの相殺</h2>
+    <p>
+      要素が隣接したとき、各要素ごとのマージンに指定された値により以下の挙動となる。
+    </p>
+
+    <ul>
+      <li>整数同士の場合は加算した合計値となる。</li>
+      <li>一方に負数が指定されている場合、一方の整数値から差し引かれる。</li>
+      <li>負数同士の場合は負数の合計値となる。</li>
+      <li>上下の要素が隣接したときは以下の挙動となる。</li>
+      <ul>
+        <li>上側の要素のmargin-bottomの値が優先される</li>
+        <li>
+          下側の要素のmargin-topの値が上側のmargin-bottomを超過した場合、超過分加算される
+        </li>
+        <li>
+          margin-bottomに負数を指定した場合、下側のmargin-topから差し引かれる
+        </li>
+        <li>
+          margin-topに負数を指定した場合、上側のmargin-bottomから差し引かれる
+        </li>
+      </ul>
+    </ul>
+
+    <p>
+      詳細は<a
+        href="https://developer.mozilla.org/ja/docs/Learn/CSS/Building_blocks/The_box_model#%E3%83%9E%E3%83%BC%E3%82%B8%E3%83%B3%E3%81%AE%E7%9B%B8%E6%AE%BA"
+        >リンク先</a
+      >を参照すること。
+    </p>
+  </section>
+</div>

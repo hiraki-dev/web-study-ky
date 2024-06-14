@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+
+<html>
+  <!-- ヘッダー情報 -->
+  <head>
+    <!-- ページ内基底URL target属性でタブの表示方法を指定 -->
+    <base href="./event-handler.html" target="_self" />
+    <!-- ページタイトル -->
+    <title>JS イベントハンドラー</title>
+
+    <!-- メタデータ設定 -->
+    <!-- 文字コード -->
+    <meta charset="utf-8" />
+    <!-- 読み込み時のページサイズ -->
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <!-- Webページの概要と説明 -->
+    <meta name="description" content="HTMLのフォームに関してまとめたページ" />
+    <!-- 電話番号の自動リンク機能オフ -->
+    <meta name="format-detection" content="telephone=no" />
+
+    <!-- リソース読み込み -->
+    <!-- CSS -->
+    <link rel="stylesheet" href="../../../asset/css/common.css" />
+    <!-- Script -->
+    <script src="../../../asset/js/lib/highlight.min.js"></script>
+    <script src="../../../asset/js/highlight.js"></script>
+    <script src="../../../asset/js/main.js"></script>
+  </head>
+
+  <body>
+    <main>
+      <h1>イベントハンドラー</h1>
+
+      <section id="content_link">
+        <h2>目次</h2>
+
+        <nav>
+          <ol>
+            <li><a href="#section_1">概要</a></li>
+            <li><a href="#section_2">イベントハンドラーの登録</a></li>
+            <li><a href="#section_3">イベントハンドラーの複数登録</a></li>
+            <li><a href="#section_4">イベントハンドラーの解除</a></li>
+            <ol type="I">
+              <li>
+                <a href="#section_4_1"
+                  >removeEventListenerメソッドによるイベント解除</a
+                >
+              </li>
+              <li><a href="#section_4_2">AbortSignalによるイベント解除</a></li>
+            </ol>
+            <li><a href="#section_5">イベントハンドラープロパティ</a></li>
+            <li><a href="#section_6">イベントフェーズ</a></li>
+            <ol type="I">
+              <li><a href="#section_6_1">バブリングモード</a></li>
+              <li><a href="#section_6_2">キャプチャモード</a></li>
+              <li><a href="#section_6_3">イベントフェーズの停止</a></li>
+            </ol>
+            <li><a href="#section_7">イベントオブジェクト</a></li>
+            <!-- <li><a href="#section_8">イベント索引</a></li> -->
+          </ol>
+        </nav>
+      </section>
+
+      <section id="section_1">
+        <h2>概要</h2>
+        <p>
+          ユーザーが特定の操作を行うことで起きる処理を<b>イベント</b>という。<br />
+          イベントは主に以下の種類がある。
+        </p>
+
+        <ul>
+          <li>特定の要素のホバー、クリック</li>
+          <li>キーボードのキーを押下</li>
+          <li>ブラウザのウィンドウサイズの変更、タブの操作</li>
+          <li>フォームの入力、送信</li>
+        </ul>
+
+        <p>
+          上記のようなイベントを待ち受けするプログラムを<b>イベントリスナー</b>、イベントに紐付いて動作するプログラムを<b>イベントハンドラー</b>という。<br />
+          また、イベントを検知してプログラムを実行する際の挙動は<b>発火</b>と呼ばれる。
+        </p>
+
+        <p>以下は簡単なイベントリスナーの例である。</p>
+        <div class="container-1">
+          <style>
+            .container-1 {
+              & .test-button {
+                box-sizing: border-box;
+                padding: 4px 8px;
+                border: 1px solid rgba(145, 141, 141, 0.514);
+                border-radius: 6px;
+
+                background-color: rgb(232, 243, 252);
+                color: rgba(58, 53, 53, 0.767);
+                font-weight: bold;
+              }
+            }
+          </style>
+
+          <button class="test-button">
+            クリックするとランダムに文字色が変わる
+          </button>
+
+          <script>
+            // ボタン要素のノードを取得
+            const button = document.querySelector(".test-button");
+
+            // ボタンクリック時のイベントリスナー作成
+            button.addEventListener("click", () => {
+              // ランダムなRGB値を生成してCSSスタイルとして割り当て
+              random = (number) => Math.floor(Math.random() * (number + 1));
+              const buttonColor = `rgb(
+                ${random(255)} ${random(255)} ${random(255)}
+              )`;
+
+              button.style.color = buttonColor;
+            });
+          </script>
+        </div>
+
+        <div>
+          <pre><code class="language-html">&lt;button =&quot;test-button&quot;&gt;
+  クリックするとランダムに文字色が変わる
+&lt;/button&gt;
+
+&lt;script&gt;
+  // ボタン要素のノードを取得
+  const button = document.querySelector(&quot;.test-button&quot;);
+
+  // ボタンクリック時のイベントリスナー作成
+  button.addEventListener(&quot;click&quot;, () =&gt; {
+    // ランダムなRGB値を生成してCSSスタイルとして割り当て
+    random = (number) =&gt; Math.floor(Math.random() * (number + 1));
+    const buttonColor = `rgb(
+      ${random(255)} ${random(255)} ${random(255)}
+    )`;
+
+    button.style.color = buttonColor;
+  });
+&lt;/script&gt;</code></pre>
+        </div>
+      </section>
+
+      <section id="section_2">
+        <h2>イベントハンドラーの登録</h2>
+        <p>
+          イベントハンドラーは<b>EventTarget.addEventListener()</b>メソッドを用いて実装する。<br />
+          EventTargetインターフェースはElement、Window、Documentなどのインターフェースが継承しており、これらのオブジェクトからいつでも呼び出せる。
+        </p>
+
+        <p>以下は構文である。</p>
+        <div>
+          <pre><code class="language-js">// イベントハンドラーの作成
+object.addEventListener(
+  'イベント名',
+  (Eventオブジェクト) => {
+    // イベント処理
+  },
+  // オプション
+  true|false | {
+    once: true|false,
+    passive: true|false,
+    capture: true|false,
+    signal: true|false
+  }
+);</code></pre>
+        </div>
+
+        <ul>
+          <li>
+            第一引数はイベント名を指定する。<br />
+            指定されたイベント名を検知して登録されたプログラムを発火する。<br />
+            例として、<b>click</b>は対象ノードがクリックされたとき、<b>hover</b>は対象ノードがホバリングされたときに発火する。
+          </li>
+          <li>
+            第二引数はイベント検知時に実行するプログラムをコールバック関数として登録する。<br />
+            指定されたコールバック関数に引数を指定することで<b>Event</b>オブジェクトがセットされる。
+          </li>
+          <li>
+            第三引数はオプションであり、bool値、もしくは<b>once</b>、<b>passive</b>、<b>capture</b>をキー値としたオブジェクトを指定する。
+          </li>
+          <ul>
+            <li>
+              bool値を指定した場合はキャプチャモードの有無の指定となり、tureを指定することでイベントリスナーがキャプチャモードで実行される。（デフォルトはfalse）
+            </li>
+            <li>
+              オブジェクトを指定することでより詳細なオプションを指定できる。<br />
+              指定できるkey:value値は以下の種類がある。
+            </li>
+          </ul>
+        </ul>
+
+        <div>
+          <table>
+            <thead>
+              <tr>
+                <th>キー</th>
+                <th>値</th>
+                <th>デフォルト値</th>
+                <th>説明</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>once</td>
+                <td>bool</td>
+                <td>false</td>
+                <td>
+                  trueを指定するとイベントハンドラは一度だけ実行される。<br />
+                  通常、イベントハンドラは常に参照を保持するが、onceオプションを有効にすると実行後に参照を解放する。<br />
+                  そのため<b>EventTarget.removeEventListener</b>メソッドで手動解放する必要がなくメモリの節約になる。
+                </td>
+              </tr>
+              <tr>
+                <td>passive</td>
+                <td>bool</td>
+                <td>※</td>
+                <td>
+                  trueにすると<b>event.preventDefault()</b>メソッドによるデフォルト処理のキャンセルをブロックする。<br />
+                  event.preventDefault()メソッドはタッチスクロール処理やマウスホイール処理をブロックするのでこれらの処理のパフォーマンスを下げる原因となる。<br />
+                  そのため、trueにすることでスクロール処理のパフォーマンス改善策となる。<br />
+                  <a
+                    href="https://developer.mozilla.org/ja/docs/Web/API/EventTarget/addEventListener#%E3%83%91%E3%83%83%E3%82%B7%E3%83%96%E3%83%AA%E3%82%B9%E3%83%8A%E3%83%BC%E3%81%AB%E3%82%88%E3%82%8B%E3%82%B9%E3%82%AF%E3%83%AD%E3%83%BC%E3%83%AB%E3%81%AE%E6%80%A7%E8%83%BD%E6%94%B9%E5%96%84"
+                    >safari以外の主要ブラウザでは一部インターフェースがこの値のデフォルトをtrueに設定している。</a
+                  >
+                </td>
+              </tr>
+              <tr>
+                <td>capture</td>
+                <td>bool</td>
+                <td>false</td>
+                <td>
+                  キャプチャモードの有無を指定する。<br />
+                  trueを指定するとイベントリスナーがキャプチャモードとなる。
+                </td>
+              </tr>
+              <tr>
+                <td>signal</td>
+                <td>bool</td>
+                <td>null</td>
+                <td>
+                  <b>AbortSignal</b
+                  >オブジェクトを指定することで、指定したオブジェクトの<b>AbortSignal.abort()</b>メソッドを呼び出すとイベントリスナーが削除される。
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="section_3">
+        <h2>イベントハンドラーの複数登録</h2>
+        <p>
+          <b>addEventListener()</b
+          >メソッドを複数指定することで、同一のノードに対してイベントリスナーを複数登録できる。
+        </p>
+
+        <div>
+          <pre><code class="language-js">const button = document.querySelector(".button");
+
+const clickEvent = () => ...;
+const hoverAction = () => ...;
+
+// buttonオブジェクトに対し異なるイベント毎に発火するイベントリスナーを登録
+button.addEventListener('click', clickEvent);
+button.addEventListener('mouseover', hoverAction);</code></pre>
+        </div>
+      </section>
+
+      <section id="section_4">
+        <h2>イベントハンドラーの解除</h2>
+        <p>イベントハンドラーの解除は以下の二種類の方法がある。</p>
+
+        <ul>
+          <li>
+            <b>EventTarget.removeEventListener()</b
+            >メソッドを用いたイベントの解除
+          </li>
+          <li><b>AbortSignal</b>オブジェクトを用いたイベントの解除</li>
+        </ul>
+
+        <section id="section_4_1">
+          <h3>removeEventListenerメソッドによるイベント解除</h3>
+          <p>
+            以下はremoveEventListenerメソッドによるイベントハンドラーの解除例である。
+          </p>
+
+          <div>
+            <pre><code class="language-js">// イベントハンドラーの登録
+const node = document.querySelector('.node');
+const focusAction = () => { ... };
+node.addEventListener('focus', focusAction);
+
+// イベントハンドラーの解除
+node.removeEventListener('focus', focusAction);</code></pre>
+          </div>
+
+          <ul>
+            <li>第一引数に解除を行いたいイベントの種類を指定する。</li>
+            <li>
+              第二引数に解除を行いたいイベントハンドラーの処理（コールバック関数）を指定する。
+            </li>
+            <li>
+              第三引数はイベントのバブリングモード/キャプチャモードをbool値で指定する。
+              <ul>
+                <li>trueを指定するとキャプチャモードとなる</li>
+                <li>デフォルトはfalse</li>
+              </ul>
+            </li>
+          </ul>
+
+          <blockquote>
+            <u
+              >無名関数を指定したイベントハンドラーはremoveEventListenerメソッドによる削除ができない。 </u
+            ><br />
+            そのため、後述のAbortSignalを用いたイベントの解除を行う必要がある。
+          </blockquote>
+        </section>
+
+        <section id="section_4_2">
+          <h3>AbortSignalによるイベント削除</h3>
+          <p>
+            <b>AbortSignal</b
+            >インターフェースにイベントハンドラーを結びつけることでイベントの解除をコントロール出来る。<br />
+            AbortSignalでは以下の手順で解除を行う。
+          </p>
+
+          <ol>
+            <li>
+              <b>AbortController</b
+              >インターフェースからAbortSignalインスタンスを生成する
+            </li>
+            <li>
+              addEventListenerの第三引数オブジェクトに<b>signal</b>キーを指定し、AbortSignalインスタンスを値として指定する
+            </li>
+            <li>
+              <b>AbortSignal.abort()</b
+              >メソッドを呼び出すことでイベントを解除する
+            </li>
+          </ol>
+
+          <p>以下はAbortSignalによるイベント解除の例である。</p>
+          <div>
+            <pre><code class="language-js">// AbortControllerインスタンスを生成
+const signalCtl = new AbortController();
+
+// イベントハンドラーの登録
+const node = document.querySelector('.node');
+const focusAction = () => { ... };
+node.addEventListener(
+  'focus',
+  focusAction,
+  {
+    // AbortController.signalメソッドにAbortSignalインスタンスを生成し、signalオプションに渡す
+    signal: signalCtl.signal;
+  }
+);
+
+// AbortSignalの連携後、AbortController.abort()メソッドでイベントハンドラーを解除出来る
+signalCtl.abort();</code></pre>
+          </div>
+        </section>
+      </section>
+
+      <section id="section_5">
+        <h2>イベントハンドラープロパティ</h2>
+        <p>
+          <b>on{イベント名}</b
+          >プロパティを指定することで、イベント名に応じたイベントハンドラーを登録できる。
+        </p>
+
+        <p>
+          以下は<b>onclick</b>プロパティを用いたイベントハンドラーの例である。
+        </p>
+        <div>
+          <pre><code class="language-js">const node = document.querySelector('.node');
+const focusAction = () => { ... };
+
+// 該当要素のクリック時に指定したコールバック関数の処理を発火
+node.onclick = focusAction;</code></pre>
+        </div>
+
+        <p>
+          <u
+            >注意点として、addEventListenerによるイベントハンドラー登録と違い、on～プロパティの場合は最後に指定したイベントに上書きされる。</u
+          >
+        </p>
+
+        <div>
+          <pre><code class="language-js">// ...
+node.onclick = () => {
+  ...
+};
+
+// 既にonclickに登録済のノードに新たに値をセットする場合は上書きされる
+node.onclick = () => {
+  ...
+};</code></pre>
+        </div>
+
+        <p>
+          <b>インラインイベントハンドラー</b
+          >と呼ばれる、イベントハンドラープロパティを直接HTMLタグに埋め込む以下の手法は現在では非推奨である。
+        </p>
+        <div>
+          <pre><code class="html language-html">&lt;input type="button" value="" onclick="alert('hello world')"&gt;
+
+&lt;script&gt;
+  const myAlert = () => {
+    ...
+  }
+&lt;/script&gt;
+&lt;input type="button" value="" onclick="myAlert()"&gt;</code></pre>
+        </div>
+      </section>
+
+      <section id="section_6">
+        <h2>イベントフェーズ</h2>
+        <p>イベントが発生した場合、以下の流れでイベントが伝播されていく。</p>
+
+        <ol>
+          <li>
+            イベント発生時、DOMツリーのルートからターゲット要素まで辿っていく。（<b
+              >キャプチャフェーズ</b
+            >
+            ）
+          </li>
+          <li>
+            イベントがターゲット要素に到達する。（<b>ターゲットフェーズ</b>）
+          </li>
+          <li>イベントがルートまで遡る。（<b>バブリングフェーズ</b>）</li>
+        </ol>
+
+        <figure>
+          <figcaption>
+            <a href="https://www.w3.org/TR/uievents/#event-flow">W3C</a>から引用
+          </figcaption>
+          <img
+            src="https://www.w3.org/TR/uievents/images/eventflow.svg"
+            alt="イベントフェーズ"
+          />
+        </figure>
+
+        <section id="section_6_1">
+          <h2>バブリングモード</h2>
+          <p>
+            イベント発生時、イベントがターゲットとなるノードに到達した後、ルートに向かって伝播していく。<br />
+            この挙動を<b>バブリング</b>という。<br />
+            イベントリスナーがバブリングモードの場合、バブリングフェーズのイベントを検知する。
+          </p>
+
+          <blockquote>
+            泡のように上に登っていく挙動をとるためバブリングと命名されたらしい。
+          </blockquote>
+
+          <p>以下は簡単なバブリングの例である。</p>
+          <div class="container-2_1 test-event-phase">
+            <style>
+              .test-event-phase {
+                & .output {
+                  border-style: none;
+
+                  font-size: 13.5px;
+                  font-weight: bold;
+                  line-height: 1.2em;
+                }
+
+                & button {
+                  width: 80px;
+                  height: 30px;
+
+                  border-radius: 6px;
+                  border: 1px solid rgba(138, 127, 127, 0.4);
+                  background-color: rgba(241, 245, 245, 0.75);
+
+                  color: rgba(63, 57, 57, 0.8);
+                  font-weight: bold;
+                }
+
+                & button:hover {
+                  background-color: rgba(167, 167, 196, 0.6);
+                }
+              }
+            </style>
+
+            <!-- バブリングチェック -->
+            <span class="bubble_outer">
+              <button>outer</button>
+              <span class="bubble_inner">
+                <button>inner</button>
+              </span>
+            </span>
+            <!-- クリア -->
+            <button class="bubble_clear">clear</button>
+
+            <!-- 出力 -->
+            <pre class="bubble_output output"></pre>
+
+            <script>
+              // バブリングチェック
+              const bubble_outer = document.querySelector(".bubble_outer");
+              const bubble_inner = document.querySelector(".bubble_inner");
+              const bubble_output = document.querySelector(".bubble_output");
+
+              addTargetEventText = (event) => {
+                bubble_output.textContent += `クラス名 ${event.currentTarget.className} を検知\n`;
+              };
+              bubble_outer.addEventListener("click", addTargetEventText);
+              bubble_inner.addEventListener("click", addTargetEventText);
+
+              // クリアボタン
+              const bubble_clear = document.querySelector(".bubble_clear");
+              clearOutput = (event) => {
+                bubble_output.textContent = "";
+              };
+              bubble_clear.addEventListener("click", clearOutput);
+            </script>
+          </div>
+
+          <div>
+            <pre><code class="language-html">&lt;!-- バブリングチェック --&gt;
+&lt;span class=&quot;bubble_outer&quot;&gt;
+  &lt;button&gt;outer&lt;/button&gt;
+  &lt;span class=&quot;bubble_inner&quot;&gt;
+    &lt;button&gt;inner&lt;/button&gt;
+  &lt;/span&gt;
+&lt;/span&gt;
+&lt;!-- クリア --&gt;
+&lt;button class=&quot;bubble_clear&quot;&gt;clear&lt;/button&gt;
+
+&lt;!-- 出力 --&gt;
+&lt;pre class=&quot;bubble_output output&quot;&gt;&lt;/pre&gt;
+
+&lt;script&gt;
+  // バブリングチェック
+  const bubble_outer = document.querySelector(&quot;.bubble_outer&quot;);
+  const bubble_inner = document.querySelector(&quot;.bubble_inner&quot;);
+  const bubble_output = document.querySelector(&quot;.bubble_output&quot;);
+
+  addTargetEventText = (event) =&gt; {
+    bubble_output.textContent += `クラス名 ${event.currentTarget.className} を検知\n`;
+  };
+  bubble_outer.addEventListener(&quot;click&quot;, addTargetEventText);
+  bubble_inner.addEventListener(&quot;click&quot;, addTargetEventText);
+
+  // クリアボタン
+  const bubble_clear = document.querySelector(&quot;.bubble_clear&quot;);
+  clearOutput = (event) =&gt; {
+    bubble_output.textContent = &quot;&quot;;
+  };
+  bubble_clear.addEventListener(&quot;click&quot;, clearOutput);
+&lt;/script&gt;</code></pre>
+          </div>
+
+          <ul>
+            <li>
+              outerボタンを押下した場合、イベントがbubble_outerクラスの該当ボタンまで到達した後、rootに向かってバブリングする。
+            </li>
+            <li>
+              innerボタンを押下した場合、イベントがbubble_innerクラスまで到達した後、rootに向かってバブリングする。<br />
+              <u
+                >その際、イベントがbubble_outerクラスを経由するため「bubble_inner」「bubble_outer」の順にイベントリスナーがイベントを検知して出力を行っている。</u
+              >
+            </li>
+          </ul>
+        </section>
+
+        <section id="section_6_2">
+          <h3>キャプチャモード</h3>
+          <p>
+            イベントリスナーがキャプチャモードの場合、キャプチャフェーズでイベントの検知を辿り、イベントが検知されたら順次イベントハンドラーを発火する。
+          </p>
+
+          <p>以下はキャプチャモード時の挙動である。</p>
+          <div class="container-2_2 test-event-phase">
+            <!-- バブリングチェック -->
+            <span class="capture_outer">
+              <button>outer</button>
+              <span class="capture_inner">
+                <button>inner</button>
+              </span>
+            </span>
+            <!-- クリア -->
+            <button class="capture_clear">clear</button>
+
+            <!-- 出力 -->
+            <pre class="capture_output output"></pre>
+
+            <script>
+              // キャプチャチェック
+              const capture_outer = document.querySelector(".capture_outer");
+              const capture_inner = document.querySelector(".capture_inner");
+              const capture_output = document.querySelector(".capture_output");
+
+              addTargetEventText = (event) => {
+                capture_output.textContent += `クラス名 ${event.currentTarget.className} を検知\n`;
+              };
+              capture_outer.addEventListener("click", addTargetEventText, true);
+              capture_inner.addEventListener("click", addTargetEventText, true);
+
+              // クリアボタン
+              const capture_clear = document.querySelector(".capture_clear");
+              clearOutput = (event) => {
+                capture_output.textContent = "";
+              };
+              capture_clear.addEventListener("click", clearOutput);
+            </script>
+          </div>
+
+          <div>
+            <pre><code class="language-js">// バブリングと同じコードのため省略
+
+// キャプチャモードはaddEventListener()メソッドの第三引数にtrueまたは { capture: true } を指定する
+capture_outer.addEventListener("click", addTargetEventText, true);
+capture_inner.addEventListener("click", addTargetEventText,
+  {
+    capture: true
+  }
+);
+
+// ...</code></pre>
+          </div>
+
+          <p>
+            innerボタンを押下したとき、上からcapture_otherクラス、capture_innerクラスの順にイベントリスナーがイベントを検知する。<br />
+            そのため、「capture_outer」「capture_inner」の順に出力される。
+          </p>
+
+          <blockquote>
+            ブラウザ間の共通仕様の取り決めがない時代、イベントの検知処理がバブリングモードかキャプチャモードかで各ブラウザ毎でバラバラだった。<br />
+            現在はバブリングモードが共通の仕様となっている。
+          </blockquote>
+        </section>
+
+        <section id="section_6_3">
+          <h3>イベントフェーズの停止</h3>
+          <p>
+            イベントハンドラー内で<b>Event</b>インターフェースを受け取り、<b>Event.stopPropagation()</b>メソッドを指定することでバブリングを防止できる。
+          </p>
+
+          <div class="container-2_3 test-event-phase">
+            <!-- バブリングチェック -->
+            <span class="stop_outer">
+              <button>outer</button>
+              <span class="stop_inner">
+                <button>inner</button>
+              </span>
+            </span>
+            <!-- クリア -->
+            <button class="stop_clear">clear</button>
+
+            <!-- 出力 -->
+            <pre class="stop_output output"></pre>
+
+            <script>
+              // キャプチャチェック
+              const stop_outer = document.querySelector(".stop_outer");
+              const stop_inner = document.querySelector(".stop_inner");
+              const stop_output = document.querySelector(".stop_output");
+
+              addTargetEventText = (event) => {
+                event.stopPropagation();
+                stop_output.textContent += `クラス名 ${event.currentTarget.className} を検知\n`;
+              };
+              stop_outer.addEventListener("click", addTargetEventText);
+              stop_inner.addEventListener("click", addTargetEventText);
+
+              // クリアボタン
+              const stop_clear = document.querySelector(".stop_clear");
+              clearOutput = (event) => {
+                stop_output.textContent = "";
+              };
+              stop_clear.addEventListener("click", clearOutput);
+            </script>
+          </div>
+
+          <div>
+            <pre><code class="language-js">// 省略
+
+addTargetEventText = (event) => {
+  // バブリングを行わない
+  event.stopPropagation();
+  stop_output.textContent += `クラス名 ${event.currentTarget.className} を検知\n`;
+};
+
+// ...</code></pre>
+          </div>
+
+          <p>
+            innerボタンを押下したとき、<b>event.stopPropagation()</b>メソッドによってバブリングを防止するためイベントリスナーがstop_outerクラスを検知しない。
+          </p>
+        </section>
+      </section>
+
+      <section id="section_7">
+        <h2>イベントオブジェクト</h2>
+        <p>
+          イベント発生時、イベントハンドラー関数に引数を指定することで<b>Event</b>オブジェクトが渡される。<br />
+        </p>
+
+        <p>
+          例として、<b>Event.target</b>プロパティを指定するとイベントの発火対象ノードを取得できる。<br />
+          以下は記述例である。
+        </p>
+        <div>
+          <pre><code class="language-js">const node = document.querySelector(".node");
+
+node.addEventListener("click", (event) => {
+  // イベントが発火された対象ノードをEvent.targetプロパティで指定し、テキストを挿入
+  event.target.textContent = "hoge huga";
+});</code></pre>
+        </div>
+
+        <p>
+          Eventオブジェクトはイベントの種類に応じたインターフェースを継承しており、様々なプロパティやメソッドをサポートしている。<br />
+          以下はEventインターフェースの一部である。
+        </p>
+
+        <div>
+          <table>
+            <caption>
+              <a
+                href="https://developer.mozilla.org/ja/docs/Web/API/Event#event_%E3%82%92%E5%9F%BA%E3%81%AB%E3%81%97%E3%81%9F%E3%82%A4%E3%83%B3%E3%82%BF%E3%83%BC%E3%83%95%E3%82%A7%E3%82%A4%E3%82%B9"
+              >
+                MDNより一部を抜粋
+              </a>
+            </caption>
+            <thead>
+              <tr>
+                <th>インターフェース</th>
+                <th>概要</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>KeyboardEvent</td>
+                <td>キーボード操作によって発火されたイベントを管理</td>
+              </tr>
+              <tr>
+                <td>MouseEvent</td>
+                <td>
+                  マウスやタッチパッドなどのポインティングデバイス操作によって発火されたイベントを管理
+                </td>
+              </tr>
+              <tr>
+                <td>WheelEvent</td>
+                <td>
+                  マウスホイールなどのホイール操作によって発火されたイベントを管理<br />
+                  <b>Event</b>に加え、<b>MouseEvent</b>を継承
+                </td>
+              </tr>
+              <tr>
+                <td>DragEvent</td>
+                <td>
+                  ドラッグ&ドロップ操作によって発火されたイベントを管理<br />
+                  <b>Event</b>に加え、<b>MouseEvent</b>を継承
+                </td>
+              </tr>
+              <tr>
+                <td>InputEvent</td>
+                <td>
+                  コンテンツが編集されることによって発火されたイベントを管理
+                </td>
+              </tr>
+              <tr>
+                <td>StorageEvent</td>
+                <td>
+                  cookieなどのWebストレージへのアクセスや変更によって発火されたイベントを管理
+                </td>
+              </tr>
+              <tr>
+                <td>ErrorEvent</td>
+                <td>ファイルやスクリプトによって出力されたエラー情報を管理</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- <section id="section_8">
+        <h2>イベント索引</h2>
+      </section> -->
+    </main>
+  </body>
+</html>

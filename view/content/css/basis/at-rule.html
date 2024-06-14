@@ -1,0 +1,126 @@
+<div>
+  <h1>@ルール</h1>
+
+  <section id="content_link">
+    <h2>目次</h2>
+
+    <nav>
+      <ol>
+        <li><a href="#section_1">@ルール（アットルール）</a></li>
+        <li><a href="#section_2">@ルールのネスト</a></li>
+      </ol>
+    </nav>
+  </section>
+
+  <section id="section_1">
+    <h2>@ルール（アットルール）</h2>
+    <p>
+      CSSでは
+      <b>@アットルール名 値;</b>
+      という書式で定義された@ルールを使用してCSSの動作を定義する。<br />
+      以下は@ルールの使用例である。
+    </p>
+
+    <div>
+      <pre><code class="language-css">/*  
+  外部CSSファイルをインポートする
+  @importは最上部に定義する必要がある
+*/
+@import url('./asset/example.css');
+
+/* 文字コードを定義 */
+@charset "utf-8";</code></pre>
+    </div>
+
+    <p>
+      以下に主な@ルールの種類を記載する。<br />
+      詳細は<a href="https://developer.mozilla.org/ja/docs/Web/CSS/At-rule"
+        >リンク先</a
+      >を参照すること。
+    </p>
+    <div>
+      <table>
+        <caption></caption>
+        <thead>
+          <tr>
+            <th scope="rowgroup">@ルール名</th>
+            <th>動作</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>@import</td>
+            <td>外部CSSファイルを読み込む。</td>
+          </tr>
+          <tr>
+            <td>@charset</td>
+            <td>文字コードを指定する。</td>
+          </tr>
+          <tr>
+            <td>@media</td>
+            <td>
+              指定した<a
+                href="https://developer.mozilla.org/ja/docs/Web/CSS/CSS_media_queries/Using_media_queries"
+                >メディアクエリ</a
+              >の条件を満たした場合、設定を適用する。
+            </td>
+          </tr>
+          <tr>
+            <td>@page</td>
+            <td>ページ印刷時の設定を適用する。</td>
+          </tr>
+          <tr>
+            <td>@color-profile</td>
+            <td>CSSのカラープロファイルを定義する。</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="section_2">
+    <h2>@ルールのネスト</h2>
+    <p>
+      以下の@ルールはネストして定義出来る。 <br />
+      @ルールのネストはスタイル適用時に
+      <b>&セレクタ</b> 指定時と同等のルールが適用される。<br />
+    </p>
+
+    <ul>
+      <li>@media</li>
+      <li>@supports</li>
+      <li>@layer</li>
+      <li>@scope</li>
+      <li>@container</li>
+    </ul>
+
+    <p>
+      以下は@ルールのネスト例である。<br />
+      詳細は<a
+        href="https://developer.mozilla.org/ja/docs/Web/CSS/CSS_nesting/Nesting_at-rules"
+        >リンク先</a
+      >を参照すること。
+    </p>
+
+    <div>
+      <pre><code class="language-css">/* 例 */
+.example {
+  ...
+  @media (orientation: landscape) {
+    ...
+  }
+}
+
+/* 上記と以下は同じ挙動である */
+.example {
+  ...
+}
+
+@media (orientation: landscape) {
+  .example {
+    ...
+  }
+}</code></pre>
+    </div>
+  </section>
+</div>

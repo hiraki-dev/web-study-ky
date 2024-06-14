@@ -1,0 +1,237 @@
+<div>
+  <h1>トランジション</h1>
+
+  <section id="content_link">
+    <h2>目次</h2>
+
+    <nav>
+      <ol>
+        <li><a href="#section_1">概要</a></li>
+        <li><a href="#section_2">transition-property</a></li>
+        <li><a href="#section_3">tansition-timing-function</a></li>
+      </ol>
+    </nav>
+  </section>
+
+  <section id="section_1">
+    <h2>概要</h2>
+    <p>
+      <b>transition</b
+      >プロパティを用いることで、CSSスタイルが適用されるまでの時間を指定できる。<br />
+      transitionプロパティは以下の種類がある。
+    </p>
+
+    <div>
+      <table>
+        <thead>
+          <tr>
+            <th>プロパティ</th>
+            <th>説明</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>transition-property</td>
+            <td>トランジションを適用するプロパティを指定する。</td>
+          </tr>
+          <tr>
+            <td>tansition-duration</td>
+            <td>トランジションの完了時間を指定する。</td>
+          </tr>
+          <tr>
+            <td>tansition-delay</td>
+            <td>トランジション開始までの遅延時間を指定する。</td>
+          </tr>
+          <tr>
+            <td>tansition-timing-function</td>
+            <td>
+              トランジションの進行がどのように行われるかを指定する。<br />
+              プロパティ値は<a href="./animation.html#section_2_1"
+                >animation-timing-function</a
+              >と同様である。
+            </td>
+          </tr>
+          <tr>
+            <td>transition</td>
+            <td>上記のanimationプロパティを一括定義する。</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>以下はtransitionの例である。</p>
+    <div>
+      <style>
+        .transition_sample {
+          overflow: hidden;
+
+          & img {
+            width: 200px;
+
+            transition-property: all;
+            transition-duration: 0.5s;
+            transition-delay: 0.2s;
+            transition-timing-function: ease-in-out;
+          }
+
+          & img:hover {
+            border-radius: 50%;
+            rotate: 360deg;
+            background-color: rgba(255, 255, 1, 0.5);
+          }
+        }
+      </style>
+
+      <div class="transition_sample">
+        <img
+          src="../../../asset/images/chikawa_1.png"
+          alt="トランジションの例"
+        />
+      </div>
+    </div>
+
+    <div>
+      <pre><code class="language-html">&lt;style&gt;
+  .transition_sample {
+    overflow: hidden;
+
+    &amp; img {
+      width: 200px;
+
+      transition-property: all;
+      transition-duration: 0.5s;
+      transition-delay: 0.2s;
+      transition-timing-function: ease-in-out;
+    }
+
+    &amp; img:hover {
+      border-radius: 50%;
+      rotate: 360deg;
+      background-color: rgba(255, 255, 1, 0.5);
+    }
+  }
+&lt;/style&gt;
+
+&lt;div class=&quot;transition_sample&quot;&gt;
+  &lt;img
+    src=&quot;../../../asset/images/chikawa_1.png&quot;
+    alt=&quot;トランジションの例&quot;
+  /&gt;
+&lt;/div&gt;</code></pre>
+    </div>
+
+    <p>また、以下の点を留意して使用すること。</p>
+    <ul>
+      <li>
+        トランジションはCSS内部で自動計算する都合上、<b>auto</b>プロパティを使用すると内部計算が非常に複雑になりバグの原因になる。<br />
+        そのためトランジションと<b>auto</b>プロパティの併用は避ける。
+      </li>
+      <li>
+        類似するanimationプロパティとは適用タイミングが異なる。<br />
+        animationプロパティはページがビューポートに読み込まれたタイミングで適用されるが、transitionプロパティは疑似クラスやJavaScriptのイベントなどが発火されたタイミングで適用される。
+      </li>
+    </ul>
+  </section>
+
+  <section id="section_2">
+    <h2>transition-property</h2>
+    <p>トランジションを適用するプロパティを指定する。</p>
+
+    <div>
+      <table>
+        <thead>
+          <tr>
+            <th>プロパティ値</th>
+            <th>説明</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>all</td>
+            <td>全プロパティに適用する。（規定値）</td>
+          </tr>
+          <tr>
+            <td>none</td>
+            <td>全プロパティに適用しない。</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>プロパティを複数選択する場合、以下のようにカンマ区切りで指定する。</p>
+    <div>
+      <pre><code class="language-css">.selector {
+  transition-property: width, height;
+}</code></pre>
+    </div>
+  </section>
+
+  <section id="section_3">
+    <h2>tansition-timing-function</h2>
+    <p>トランジションがどのように進行されるかを指定する。</p>
+
+    <div>
+      <table>
+        <thead>
+          <tr>
+            <th>プロパティ値</th>
+            <th>説明</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>linear</td>
+            <td>均等に変化する。</td>
+          </tr>
+          <tr>
+            <td>ease</td>
+            <td>
+              中央に向けて素早く変化した後、ゆっくり終了していく。（規定値）
+            </td>
+          </tr>
+          <tr>
+            <td>ease-in</td>
+            <td>中央に向けてゆっくり変化した後、素早く終了していく。</td>
+          </tr>
+          <tr>
+            <td>ease-out</td>
+            <td><b>ease</b>と同様だが、開始スピードがより早い。</td>
+          </tr>
+          <tr>
+            <td>ease-in-out</td>
+            <td>最初と最後がゆっくりで、中央に近づくほど速くなる。</td>
+          </tr>
+          <tr>
+            <td>step-start</td>
+            <td>トランジション開始時の状態で固定する。</td>
+          </tr>
+          <tr>
+            <td>step-end</td>
+            <td>トランジション終了時の状態で固定する。</td>
+          </tr>
+          <tr>
+            <td>steps(ステップ数, start|end)</td>
+            <td>
+              ステップ数に指定した値分コマ送りする。<br />
+              第二引数にstartを指定するとすぐにトランジションが開始され、endを指定するとインターバルを置いてから実行する。
+            </td>
+          </tr>
+          <tr>
+            <td>cubic-bezier(x1, y1, x2, y2)</td>
+            <td>
+              トランジション進行を任意にカスタムする。<br />
+              x軸は時間経過率で<b>0.0 ~ 1.0</b
+              >の値、y軸は変化率を任意に指定する。
+              <br />
+              以下は参考値である。<br />
+              <ul>
+                <li>innear: cubic-bezier(0.0, 0.0, 1.0, 1.0)</li>
+                <li>ease: cubic-bezier(0.25, 0.1, 0.25, 1.0)</li>
+              </ul>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+</div>

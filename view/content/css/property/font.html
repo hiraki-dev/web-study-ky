@@ -1,0 +1,156 @@
+<div>
+  <h1>フォント</h1>
+
+  <section id="content_link">
+    <h2>目次</h2>
+
+    <nav>
+      <ol>
+        <li>
+          <a href="#section_1">フォントファミリーの指定（font-family）</a>
+        </li>
+        <ol type="I">
+          <li><a href="#section_1_1">総称フォントファミリー</a></li>
+          <li>
+            <a href="#section_1_2">フォントファイルの指定（@font-face）</a>
+          </li>
+        </ol>
+      </ol>
+    </nav>
+  </section>
+
+  <section id="section_1">
+    <h2>フォントファミリーの指定（font-family）</h2>
+    <p>
+      Webページのフォントファミリーを指定する。<br />
+      以下はフォントファミリーの指定例である。
+    </p>
+
+    <ul></ul>
+
+    <div>
+      <pre><code class="language-css">* {
+  font-family: "ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic Pro", "メイリオ", "Meiryo", "ＭＳ Pゴシック", "MS PGothic", sans-serif;
+}</code></pre>
+    </div>
+
+    <ul>
+      <li>
+        プロパティ値に指定するフォント名称を<b>フォントファミリー名</b>といい、フォントファミリー名を指定することでWebページのテキストが指定フォントで反映される。
+      </li>
+      <li>
+        複数指定する場合はカンマ区切りで指定を行い、指定順（右から左）に優先度が適用される。
+      </li>
+      <li>
+        フォントは1文字ずつに適用される、指定フォントが適用できない場合は優先度順に指定したフォントが反映される。
+      </li>
+    </ul>
+
+    <section id="section_1_1">
+      <h3>総称フォントファミリー</h3>
+      <p>
+        <b>総称フォントファミリー</b
+        >を指定することで、指定フォントが全て適用できない場合に適用するシステムフォントを選択出来る。<br />
+        主に以下のプロパティ値がサポートされており、指定した値に応じたシステムフォントが適用される。
+      </p>
+
+      <ul>
+        <li>
+          総称フォントファミリーを指定する場合、フォントリストの最後である必要がある。
+        </li>
+        <li>総称フォントファミリーは引用符で囲わずに指定する。</li>
+      </ul>
+
+      <div>
+        <table>
+          <thead>
+            <tr>
+              <th scope="rowgroup">プロパティ値</th>
+              <th>字体</th>
+              <th>適用フォントファミリー名</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>serif</td>
+              <td>明朝体</td>
+              <td>MS P明朝, ヒラギノ明朝 等</td>
+            </tr>
+            <tr>
+              <td>sans-serif</td>
+              <td>ゴシック体</td>
+              <td>メイリオ, ヒラギノ角ゴシック, Arial 等</td>
+            </tr>
+            <tr>
+              <td>monospace</td>
+              <td>等幅フォント</td>
+              <td>Sans Mono, Menlo 等</td>
+            </tr>
+            <tr>
+              <td>cursive</td>
+              <td>筆記体</td>
+              <td>
+                <a
+                  href="https://developer.mozilla.org/ja/docs/Web/CSS/font-family#generic-name"
+                  >参考</a
+                >
+              </td>
+            </tr>
+            <tr>
+              <td>fantasy</td>
+              <td>装飾フォント</td>
+              <td>
+                <a
+                  href="https://developer.mozilla.org/ja/docs/Web/CSS/font-family#generic-name"
+                  >参考</a
+                >
+              </td>
+            </tr>
+            <tr>
+              <td>system-ui</td>
+              <td>OS規定のフォント</td>
+              <td>OSに依存</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="section_1_2">
+      <h3>フォントファイルの指定（@font-face）</h3>
+      <p>
+        <b>@font-face</b
+        >ルールを用いることでフォントファイルを指定できる。<br />
+        以下は指定例である。
+      </p>
+
+      <div>
+        <pre><code class="language-css">/* フォントファイルの定義 */
+@font-face {
+  /* フォントファミリー名を定義 */
+  font-family: "custum font",
+  /*
+    フォントパスとフォント形式を指定
+    指定可能なフォント形式は以下
+    "woff",
+    "woff2",
+    "truetype",
+    "opentype",
+    "embedded-opentype",
+    "svg"
+  */
+  src: url(../fonts/xxx.otf) format("opentype");
+
+  /* デフォルト値の指定も可能 */
+  font-size: 24px;
+  font-weight: bold;
+}
+
+a {
+  /* フォントファイルの反映 */
+  font-family: "custum font";
+}</code></pre>
+      </div>
+    </section>
+  </section>
+</div>

@@ -1,0 +1,127 @@
+<div>
+  <h1>CSSの概要</h1>
+
+  <section id="content_link">
+    <h2>目次</h2>
+
+    <nav>
+      <ol>
+        <li><a href="#section_1">CSS（Cascading Style Sheets）とは</a></li>
+        <li><a href="#section_2">CSSの書き方</a></li>
+        <li><a href="#section_3">CSSの適用方式</a></li>
+        <ol type="I">
+          <li><a href="#section_3_1">HTMLタグ埋め込み</a></li>
+          <li><a href="#section_3_2">HTMLページ内埋め込み</a></li>
+          <li><a href="#section_3_3">CSSファイル読み込み</a></li>
+        </ol>
+      </ol>
+    </nav>
+  </section>
+
+  <section id="section_1">
+    <h2>CSS（Cascading Style Sheets）とは</h2>
+    <p>
+      HTMLで記述した要素の装飾スタイルを指定する言語のことで、WebページのデザインはCSSで記述を行う。<br />
+      CSSではデザインを指定したいHTMLの要素（セレクタ）を指定し、どのような装飾（スタイリング）を行うかを記述する。
+    </p>
+
+    <div>
+      <pre><code class="language-css">/* 以下はCSSの記述例 */
+@charset "utf-8";
+
+body {
+  background-color: rgb(222, 233, 244);
+}</code></pre>
+    </div>
+  </section>
+
+  <section id="section_2">
+    <h2>CSSの書き方</h2>
+
+    <div>
+      <pre><code class="language-text">セレクタ {
+  プロパティ:プロパティ値;
+}</code></pre>
+    </div>
+
+    <ul>
+      <li>セレクタでHTMLのタグや属性を指定する。</li>
+      <li>
+        セレクタを指定後、<b>{ }</b>
+        でスタイルルールを適用するための入れ子（ネスト）を作成する。
+      </li>
+      <li>プロパティで要素の装飾スタイルとその値を指定する。</li>
+      <li>プロパティと値のセットを宣言という。</li>
+    </ul>
+
+    <p>宣言を適用するセレクタは以下のように複数指定可能。</p>
+
+    <div>
+      <pre><code class="language-css">p,
+li,
+h1 {
+  color: red;
+}</code></pre>
+    </div>
+  </section>
+
+  <section id="section_3">
+    <h2>CSSの適用方式</h2>
+
+    <p>
+      CSSには
+      <b>HTMLタグ埋め込み</b>、<b>HTMLページ内埋め込み</b>、
+      <b>CSSファイル読み込み</b>の三種類の適用方式があり、
+      これらの方式によってデザイン適用の優先順位が変わる。 <br />
+    </p>
+
+    <p>適用優先順位は以下の通りである。</p>
+
+    <ol>
+      <li>HTMLタグ埋め込み</li>
+      <li>HTMLページ内埋め込み</li>
+      <li>CSSファイル読み込み</li>
+    </ol>
+
+    <section id="section_3_1">
+      <h3>HTMLタグ埋め込み</h3>
+
+      <div>
+        <pre><code class="language-html">&lt;!-- 例 --&gt;
+&lt;p style=&quot;color:red;&quot;&gt;あいうえお&lt;/p&gt;</code></pre>
+      </div>
+    </section>
+
+    <section id="section_3_2">
+      <h3>HTMLページ内埋め込み</h3>
+      <p><b>styleタグ</b>に直接CSSを記述し、ページ内に適用する。</p>
+
+      <div>
+        <pre><code class="language-html">&lt;style&gt;
+div {
+  background:red;
+}
+&lt;/style&gt;</code></pre>
+      </div>
+    </section>
+
+    <section id="section_3_3">
+      <h3>CSSファイル読み込み</h3>
+      <p>
+        基本的にCSSは別ファイルに分けて管理し、<b>linkタグ</b>で読み込みを行いページに適用する。<br />
+      </p>
+
+      <div>
+        <pre><code class="language-html">&lt;!-- common.cssというcssファイルをページ内に適用する例 --&gt;
+&lt;head&gt;
+  &lt;link rel=“stylesheet” type=“text/css” href=“common.css”&gt;
+&lt;/head&gt;
+
+&lt;!-- styleタグを用いたインポートも可能 --&gt;
+&lt;style type=&quot;text/css&quot;&gt;
+  @import “common.css”;
+&lt;/style&gt;</code></pre>
+      </div>
+    </section>
+  </section>
+</div>

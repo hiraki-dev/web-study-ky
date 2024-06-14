@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+
+<html>
+  <!-- ヘッダー情報 -->
+  <head>
+    <!-- ページ内基底URL target属性でタブの表示方法を指定 -->
+    <base href="./asynchronous.html" target="_self" />
+    <!-- ページタイトル -->
+    <title>JS 非同期処理</title>
+
+    <!-- メタデータ設定 -->
+    <!-- 文字コード -->
+    <meta charset="utf-8" />
+    <!-- 読み込み時のページサイズ -->
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <!-- Webページの概要と説明 -->
+    <meta name="description" content="HTMLのフォームに関してまとめたページ" />
+    <!-- 電話番号の自動リンク機能オフ -->
+    <meta name="format-detection" content="telephone=no" />
+
+    <!-- リソース読み込み -->
+    <!-- CSS -->
+    <link rel="stylesheet" href="../../../asset/css/common.css" />
+    <!-- Script -->
+    <script src="../../../asset/js/lib/highlight.min.js"></script>
+    <script src="../../../asset/js/highlight.js"></script>
+    <script src="../../../asset/js/main.js"></script>
+  </head>
+
+  <body>
+    <main>
+      <h1>非同期処理</h1>
+
+      <section id="content_link">
+        <h2>目次</h2>
+
+        <nav>
+          <ol>
+            <li><a href="#section_1">概要</a></li>
+            <ol type="I">
+              <li>
+                <a href="#section_1_1">JavaScriptはどのように処理されるか</a>
+              </li>
+              <li><a href="#section_1_2">コールバック地獄</a></li>
+            </ol>
+            <li><a href="#section_2">Promise</a></li>
+            <ol type="I">
+              <li><a href="#section_2_1">Promiseの構文</a></li>
+              <li><a href="#section_2_2">Promiseチェーン</a></li>
+              <li><a href="#section_2_3">Promise失敗時のハンドリング</a></li>
+              <li><a href="#section_2_4">Promiseの状態</a></li>
+              <li><a href="#section_2_5">Promiseの状態管理メソッド</a></li>
+            </ol>
+            <li><a href="#section_3">async/await</a></li>
+            <ol type="I">
+              <li><a href="#section_3_1">async/awaitの使い方</a></li>
+              <li><a href="#section_3_2">非同期処理失敗時のハンドリング</a></li>
+              <li><a href="#section_3_3">async/awaitの戻り値</a></li>
+            </ol>
+          </ol>
+        </nav>
+      </section>
+
+      <section id="section_1">
+        <h2>概要</h2>
+        <p>
+          通常、プログラムはコードを上から下へなぞる様に順次処理を行っていく。<br />
+          これを<b>同期処理</b>という。<br />
+          <b>非同期処理</b
+          >とはプログラムが一方の処理を待たずに並列に処理を行うことである。<br />
+        </p>
+
+        <section id="section_1_1">
+          <h3>JavaScriptはどのように処理されるか</h3>
+          <p>通常、プログラムは以下の流れに沿って処理を行っていく。</p>
+
+          <ol>
+            <li>プログラムが行う処理を<b>プロセス</b>という単位に分割する。</li>
+            <li>
+              プロセスを処理するための手順を<b>スレッド</b>といい、プロセスをスレッドに分割する。
+            </li>
+            <li>
+              スレッドを<b>キュー</b>という順次処理を行うための機構に登録し、キューをひとつずつ実行してスレッドを完遂する。
+            </li>
+          </ol>
+
+          <p>
+            プログラミング言語には<b>シングルスレッド</b>で処理を行うものと<b>マルチスレッド</b>で処理を行うものがある。
+          </p>
+
+          <ul>
+            <li>
+              シングルスレッドはスレッドをひとつづつスレッドをキューに登録し順次処理を行う。
+            </li>
+            <li>
+              マルチスレッドは複数のキューにスレッドを登録し並列に処理を行う。
+            </li>
+          </ul>
+
+          <blockquote>
+            マルチスレッドは並列処理を行うためシングルスレッドよりも高速に動作するが、処理順の管理が難しいというデメリットがある。<br />
+            シングルスレッドは処理順序や状態の管理が簡単という利点がある。
+          </blockquote>
+
+          <p>
+            <u
+              >JavaScriptはシングルスレッドで処理を行うが、キューに登録された処理は次のキューの処理を待たないため、疑似的な並列処理を行える。</u
+            ><br />
+            以下のコードを実行したとき、2回目の処理は最後に出力される。<br />
+            二回目の処理が終わるのをキューが待たないため、次の三回目の処理を終えてから二回目の処理が実行されるからである。
+          </p>
+
+          <div>
+            <pre><code class="language-js">console.log("1回目の処理");
+
+// 1000ミリ秒後（1秒後）に2回目の処理を実行
+setTimeout(
+  () => console.log("2回目の処理"),
+  1000,
+);
+
+console.log(3回目の処理);</code></pre>
+          </div>
+        </section>
+
+        <section id="section_1_2">
+          <h3>コールバック地獄</h3>
+          <p>
+            JavaScriptは通信処理やタイマー処理などで非同期処理を多用する。<br />
+            非同期処理の例として、スレッドの中で他のスレッドが割り込む処理をコード化すると、以下のような<b>コールバック地獄</b>が起きる。
+          </p>
+
+          <div>
+            <pre><code class="language-js">// 非同期処理の模擬する関数
+const asyncSample = (callback) => {
+  // 1秒後にコールバックを実行
+  setTimeout(
+    () => callback();,
+    1000
+  );
+};
+
+// 非同期処理の呼び出し
+asyncSample(() => {
+  console.log("最初の非同期処理が完了しました。");
+
+  // 関数内で2つ目の非同期処理の呼び出し
+  asyncSample(() => {
+    console.log("2つ目の非同期処理が完了しました。");
+
+    // 2つ目の関数内で3つ目の非同期処理の呼び出し
+    asyncSample(() => {
+      console.log("3つ目の非同期処理が完了しました。");
+
+      // 最後の処理
+      console.log("すべての非同期処理が完了しました。");
+    });
+  });
+});</code></pre>
+          </div>
+
+          <blockquote>
+            コールバック関数とは引数として渡されて実行される関数のこと。
+          </blockquote>
+
+          <p>
+            上記のようなコールバック地獄を防ぐための仕組みとして、JavaScriptでは<b>Promise</b>がサポートされている。
+          </p>
+        </section>
+      </section>
+
+      <section id="section_2">
+        <h2>Promise</h2>
+        <p>
+          <b>Promise</b>は非同期処理を実装するためのオブジェクトである。<br />
+          前項のコールバック地獄をPromiseに置き換えると以下の記述となる。
+        </p>
+
+        <div>
+          <pre><code class="language-js">// 非同期処理をPromiseオブジェクトでラップ
+const asyncFunctionPromise = () => {
+  return new Promise((resolve, reject) => {
+    // 1秒後に成功を返す
+    setTimeout(
+      () => resolve(),
+      1000
+    );
+  });
+};
+
+// 最初の非同期処理の呼び出し
+asyncFunctionPromise()
+  .then((result) => {
+    console.log('最初の非同期処理が完了しました');
+
+    // 2つ目の非同期処理の呼び出し
+    return asyncFunctionPromise();
+  })
+  .then((result) => {
+    console.log('2つ目の非同期処理が完了しました');
+
+    // 3つ目の非同期処理の呼び出し
+    return asyncFunctionPromise();
+  })
+  .then((result) => {
+    console.log('3つ目の非同期処理が完了しました');
+    console.log('すべての非同期処理が完了しました');
+  })
+  .catch((e) => console.error(e));</code></pre>
+        </div>
+
+        <ul>
+          <li>
+            非同期処理の開始地点として呼び出したい関数を<b>Promise</b>オブジェクトでラッピングする。
+          </li>
+          <li>
+            非同期処理は<b>Promise.then()</b>メソッドをチェーンすることで実装する。
+          </li>
+          <li>
+            非同期処理の失敗は<b>Promise.catch()</b>メソッドでエラー情報を受け取り、ハンドリングを行う。
+          </li>
+        </ul>
+
+        <section id="section_2_1">
+          <h3>Promiseの構文</h3>
+          <p>
+            Promiseを用いた非同期処理はPromiseオブジェクトでラッピングすることで実装する。<br />
+            以下はPromiseとして呼び出す処理の構文である。
+          </p>
+
+          <div>
+            <pre><code class="language-js">// Promiseの宣言
+new Promise((resolve, reject) => {
+  try {
+    // ...
+    return resolve();
+  } catch (e) {
+    return reject(e);
+  }
+});
+
+// Promiseの呼び出し
+Promise
+  .then((result) => ...)
+  .then((result) => ...)
+  .then((result) => ...)
+  .catch((e) => ...);
+
+// Promiseをクロージャとして定義する例
+const promiseSample = (data) => {
+  new Promise((resolve, reject) => {
+    ...
+  })
+};
+
+promiseSample("任意のデータ")
+ .then((result) => ...)
+ .then((result) => ...)
+ .catch((e) => ...);</code></pre>
+          </div>
+
+          <ul>
+            <li>
+              Promiseオブジェクトのコンストラクタ引数には非同期処理を行いたいコールバック関数を指定する。
+            </li>
+            <ul>
+              <li>第一引数は成功時のコールバック引数を指定する。</li>
+              <li>第二引数は失敗時のコールバック引数を指定する。（省略可）</li>
+              <li>
+                慣習として、第一引数は<b>resolve</b>、第二引数は<b>reject</b>という引数名が使われる。
+              </li>
+            </ul>
+            <li>
+              処理の成功を実装する場合、成功時のコールバック関数（resolve）を戻り値として返す。
+            </li>
+            <li>
+              処理の失敗を実装する場合、失敗時のコールバック関数（reject）を返す。
+            </li>
+            <li>
+              成功時のコールバック関数の引数は次の同期処理に渡したい任意の値を指定し、失敗時のコールバック関数の引数はエラーオブジェクトを指定する。
+            </li>
+          </ul>
+        </section>
+
+        <section id="section_2_2">
+          <h3>Promiseチェーン</h3>
+          <p>
+            Promiseは<b>Promise.then()</b>メソッドをチェーンすることで非同期処理の処理順序をハンドリングする。<br />
+            以下はthenメソッドの構文である。
+          </p>
+
+          <div>
+            <pre><code class="language-js">const promise = new Promse((resolve, reject) => ...);
+
+promise
+  .then(
+    // 成功時のコールバック関数
+    (resolveの引数に指定された値) => { 成功時の処理 },
+    // 失敗時のコールバック関数（省略可能）
+    (rejectの引数に指定されたエラーオブジェクト) => { 失敗時の処理 }
+  );
+  .then(...)
+  .then(...)
+  .catch(...);</code></pre>
+          </div>
+
+          <p>thenメソッドが呼び出される際は以下の挙動をとる。</p>
+
+          <ol>
+            <li>
+              thenメソッドの実行時、直前に参照されたPromiseオブジェクトのコールバック関数にthenメソッドの引数を渡す。
+            </li>
+            <li>
+              Promiseの処理結果に応じてthenメソッド引数のコールバック関数が実行される。
+            </li>
+            <ol type="I">
+              <li>
+                Promiseの処理が成功した場合、第一引数のコールバック関数が実行される
+              </li>
+              <li>
+                Promiseの処理が失敗した場合、第二引数のコールバック関数が実行される
+              </li>
+            </ol>
+            <li>
+              thenメソッドの戻り値は次のthenメソッドのコールバック関数に渡される。
+            </li>
+            <ol type="I">
+              <li>
+                戻り値にPromiseを指定した場合は次のthenメソッドに対して同様の処理を行う
+              </li>
+              <li>
+                戻り値にPromise以外の値を指定した場合、thenメソッドの成功時のコールバック関数に戻り値として値を渡す
+              </li>
+            </ol>
+          </ol>
+
+          <p>
+            <u
+              >thenメソッドは戻り値を受け取らなくても処理が開始される。（その場合引数にはundefinedがセットされる）</u
+            >
+          </p>
+
+          <p>
+            また、<b>Promise.finally()</b>メソッドをチェーンの最後に指定することで、Promiseの成功/失敗に関わらず完了後処理を指定できる。<br />
+            fnallyメソッドに指定したコールバック関数はPromiseから値を受け取らない。
+          </p>
+
+          <div>
+            <pre><code class="language-js">const promiseFulfilled = new Promise((resolve, reject) => {
+  setTimeout(() => resolve(), 1000);
+});
+
+promiseFulfilled
+  .then(...)
+  .then(...)
+  .catch((e) => ...)
+  // 最後に実行される
+  .finally(() => ...);</code></pre>
+          </div>
+        </section>
+
+        <section id="section_2_3">
+          <h3>Promise失敗時のハンドリング</h3>
+          <p>
+            Promiseから失敗（reject）が返されたとき、最も直近のthenメソッドに指定された第二引数コールバック関数の処理が実行される。
+          </p>
+
+          <div>
+            <pre><code class="language-js">const promise = new Promise((resolve, reject) => {
+  ...
+  return reject(new Error("..."));
+});
+
+promise
+  .then((result) => promise)
+  .then((result) => promise)
+  // Promiseの失敗を検知したとき、最も直近のthenメソッドの第二引数コールバック関数を参照する
+  .then(
+    (result) => ...;
+    (e) => ...;
+  )
+  .catch((e) => ...);</code></pre>
+          </div>
+
+          <p>
+            Promiseチェーンの最後には<b>Promise.catch()</b>メソッドを指定する必要がある。<br />
+            catchメソッドは非同期処理の失敗処理のみを定義して、失敗を検知したときに実行される。<br />
+            thenメソッドの第二引数は省略可能のため、catchメソッドに失敗処理を集約できる。
+          </p>
+
+          <p>
+            注意点として、通常の例外をスローしたときはcatchメソッドでは検知せず、通常の例外処理として扱われる。
+          </p>
+
+          <div>
+            <pre><code class="language-js">try {
+  Promise
+    .then(...)
+    .then(...)
+    .then((result) => {
+      throw new Error(...);
+    })
+    .catch(...);
+} catch (e) {
+  // 例外はこちらでキャッチ
+}</code></pre>
+          </div>
+        </section>
+
+        <section id="section_2_4">
+          <h3>Promiseの状態</h3>
+          <p>Promiseは非同期処理の状態に合わせて以下の3つの値を持つ。</p>
+
+          <div>
+            <table>
+              <thead>
+                <tr>
+                  <th>状態</th>
+                  <th>説明</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>待機（pending）</td>
+                  <td>Promiseの状態が決定されていない</td>
+                </tr>
+                <tr>
+                  <td>成功（fulfilled）</td>
+                  <td>Promiseが成功</td>
+                </tr>
+                <tr>
+                  <td>失敗（rejected）</td>
+                  <td>Promiseが失敗</td>
+                </tr>
+                <tr>
+                  <td>決定 (settled)</td>
+                  <td>Promiseの状態が成功 or 失敗で確定</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <p>
+            <u
+              >Promiseはチェーンされた順にキューにスレッドが登録されるが、直前にチェーンされたスレッドが完了されるまでスレッドの処理は待機される。</u
+            ><br />
+            待機状態のキューをチェーン順に順次処理を行うことで非同期処理の順番を担保する。
+          </p>
+
+          <div>
+            <pre><code class="language-js">const promise = new Promse((resolve, reject) => ...);
+
+promise
+  // キューに登録してスレッドを実行
+  .then(...)
+  // キューに登録して、直前のスレッドの処理が完了したら実行
+  .then(...)
+  // 以下同様
+  .then(...)
+  .catch(...);</code></pre>
+          </div>
+        </section>
+
+        <section id="section_2_5">
+          <h3>Promiseの状態管理メソッド</h3>
+          <p>
+            Promiseでは、状態の管理を効率的に行うための以下のメソッドがサポートされている。<br />
+            Staticメソッドとして実装されているため、プレーンなPromiseオブジェクトから直接指定出来る。
+          </p>
+
+          <div>
+            <table>
+              <thead>
+                <tr>
+                  <th>メソッド</th>
+                  <th>説明</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Promise.all()</td>
+                  <td>
+                    引数に指定したPromiseが全て成功したとき、チェーンされたthenメソッドを実行
+                  </td>
+                </tr>
+                <tr>
+                  <td>Promise.allSettled()</td>
+                  <td>
+                    引数に指定したPromiseが全て完了（成功/失敗）したとき、チェーンされたthenメソッドを実行
+                  </td>
+                </tr>
+                <tr>
+                  <td>Promise.any()</td>
+                  <td>
+                    引数に指定したPromiseのいずれかが成功したとき、チェーンされたthenメソッドを実行
+                  </td>
+                </tr>
+                <tr>
+                  <td>Promise.race()</td>
+                  <td>
+                    引数に指定したPromiseのいずれかが完了（成功/失敗）したとき、チェーンされたthenメソッドを実行
+                  </td>
+                </tr>
+                <tr>
+                  <td>Promise.resolve()</td>
+                  <td>
+                    成功の状態を持つPromiseオブジェクトを生成し、引数に指定した値を戻り値として返す。
+                  </td>
+                </tr>
+                <tr>
+                  <td>Promise.reject()</td>
+                  <td>
+                    失敗の状態を持つPromiseオブジェクトを生成し、引数に指定したエラーオブジェクトを戻り値として返す。
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <p>以下は参考例。</p>
+          <div>
+            <pre><code class="language-js">// Promiseの定義
+const promiseFulfilled = new Promise((resolve, reject) => {
+  setTimeout(() => resolve(), 1000);
+});
+const promiseRejected = new Promise((resolve, reject) => {
+  setTimeout(() => reject(), 1000);
+});
+
+// 引数に配列指定したPromiseが全て成功したら実行
+// 状態を監視するPromiseは配列で指定する
+Promise.all([promiseFulfilled, promiseRejected])
+  .then(() => ...);
+
+// 引数に配列指定したPromiseが全て完了したら実行
+Promise.allSettled([promiseFulfilled, promiseRejected])
+  .then(() => ...);
+
+// 引数に配列指定したPromiseのいずれかが成功したら実行
+Promise.any([promiseFulfilled, promiseRejected])
+  .then(() => ...);
+
+// 引数に配列指定したPromiseのいずれかが完了（成功/失敗）したら実行
+Promise.race([promiseFulfilled, promiseRejected])
+  .then(() => ...);</code></pre>
+          </div>
+        </section>
+      </section>
+
+      <section id="section_3">
+        <h2>async/await</h2>
+        <p>
+          <b>async</b>は非同期処理の宣言を行う制御文である。<br />
+          前項のコールバック地獄をasyncに置き換えると以下の記述となる。
+        </p>
+
+        <p></p>
+        <div>
+          <pre><code class="language-js">// 非同期処理をPromiseオブジェクトでラップ
+const asyncFunctionPromise = () => {
+  return new Promise((resolve, reject) => {
+    // 1秒後に成功を返す
+    setTimeout(() => {
+      resolve();
+    }, 1000);
+  });
+};
+
+// 非同期処理を実行する関数
+const executeAsyncFunctions = async () => {
+  try {
+    // 最初の非同期処理の呼び出し
+    await asyncFunctionPromise();
+    console.log('最初の非同期処理が完了しました');
+
+    // 2つ目の非同期処理の呼び出し
+    await asyncFunctionPromise();
+    console.log('2つ目の非同期処理が完了しました');
+
+    // 3つ目の非同期処理の呼び出し
+    await asyncFunctionPromise();
+    console.log('3つ目の非同期処理が完了しました');
+
+    console.log('すべての非同期処理が完了しました');
+  } catch (e) {
+    console.error('エラーが発生しました:', e);
+  }
+};
+
+// 非同期処理を実行する関数を呼び出す
+executeAsyncFunctions();</code></pre>
+        </div>
+
+        <section id="section_3_1">
+          <h3>async/awaitの使い方</h3>
+          <p>
+            <b>async</b
+            >はPromiseのシンタックスシュガーであり、非同期処理を行いたい関数の先頭にasyncキーワードを付与することで関数をPromise化して非同期処理を行える。<br />
+          </p>
+
+          <div>
+            <pre><code>const asyncFunction = async () => ...;</code></pre>
+          </div>
+
+          <p>
+            async関数内では<b>await</b>が使用出来る。<br />
+            これは非同期処理をチェーンするためのキーワードであり、関数の先頭にawaitを付与することでキューにスレッドを登録出来る。<br />
+            <u
+              >Promise.then()メソッドと同様、awaitは宣言した順に実行順が担保される。</u
+            >
+          </p>
+
+          <div>
+            <pre><code>const asyncFunction = async () => {
+  // 最初の処理
+  await () => ...;
+  // 二番目の処理
+  await () => ...;
+  // 三番目の処理
+  await () => ...;
+}
+
+// 上記は以下と同等である
+Promise
+  .then(...)
+  .then(...)
+  .then(...)</code></pre>
+          </div>
+        </section>
+
+        <section id="section_3_2">
+          <h3>非同期処理失敗時のハンドリング</h3>
+          <p>
+            asyncによる非同期処理失敗時のハンドリングは<b>try ~ catch</b
+            >構文で行える。
+          </p>
+
+          <div>
+            <pre><code class="language-js">const asyncSample = async () => {
+  try {
+    await (data) => ...;
+    await (data) => ...;
+
+    return data;
+  } catch (e) {
+    throw e;
+  }
+}
+
+// 以下と同等
+Promise
+  .then(...)
+  .then(...)
+  .catch((e) => throw e);</code></pre>
+          </div>
+        </section>
+
+        <section id="section_3_3">
+          <h3>async/awaitの戻り値</h3>
+          <p>
+            <u
+              >async関数に戻り値が指定されている場合、戻り値を内包したPromiseオブジェクトを返す。</u
+            ><br />
+            これは非同期処理間の連携を意識されており、以下のような非同期処理の結果を別の非同期処理にチェーンするような使い方が可能。
+          </p>
+
+          <div>
+            <pre><code class="language-js">const muscleInOnAsync = async (data) => {
+  try {
+    await (data) => ...;
+    await (data) => ...;
+
+    return data;
+  } catch (e) {
+    throw e;
+  }
+}
+
+const asyncSample = async () => {
+  const [data1, data2, data3] = [..., ..., ...,];
+
+  try {
+    await muscleInOnAsync(data1);
+    await muscleInOnAsync(data2);
+    await muscleInOnAsync(data3);
+
+    console.log("成功");
+  } catch (e) {
+    console.error(e);
+  }
+}</code></pre>
+          </div>
+
+          <p>
+            awaitキーワードに指定した関数は指定した値に応じて以下の戻り値を持つ。
+          </p>
+          <ul>
+            <li>
+              戻り値がPromiseオブジェクトの関数を指定した場合、Promiseの処理結果を返す。
+            </li>
+            <li>
+              Promise以外の値値または関数の戻り値を値として持つPromiseの成功処理を返す。
+            </li>
+          </ul>
+        </section>
+      </section>
+    </main>
+  </body>
+</html>

@@ -1,0 +1,324 @@
+<div>
+  <h1>セレクタ</h1>
+
+  <section id="content_link">
+    <h2>目次</h2>
+
+    <nav>
+      <ol>
+        <li><a href="#section_1">要素セレクタ</a></li>
+        <li>
+          <a href="#section_1">ユニバーサルセレクタ（全称セレクタ）</a>
+        </li>
+        <li><a href="#section_2">クラスセレクタ</a></li>
+        <li><a href="#section_3">IDセレクタ</a></li>
+        <li><a href="#section_4">子孫セレクタ</a></li>
+        <li><a href="#section_5">子セレクタ</a></li>
+        <li><a href="#section_6">隣接セレクタ</a></li>
+        <li><a href="#section_7">関節セレクタ</a></li>
+        <li><a href="#section_8">属性セレクタ</a></li>
+        <ol type="I">
+          <li><a href="#section_9_1">属性セレクタの基本</a></li>
+          <li><a href="#section_9_2">OR条件</a></li>
+          <li><a href="#section_9_3">前方一致</a></li>
+          <li><a href="#section_9_4">後方一致</a></li>
+          <li><a href="#section_9_5">部分一致</a></li>
+        </ol>
+      </ol>
+    </nav>
+  </section>
+
+  <section id="section_1">
+    <h2>要素セレクタ</h2>
+    <p>要素やタグを指定してスタイルを指定する。</p>
+
+    <div>
+      <pre><code class="language-css">p {
+  color: red;
+}</code></pre>
+    </div>
+  </section>
+
+  <section id="section_2">
+    <h2>ユニバーサルセレクタ（全称セレクタ）</h2>
+    <p>全ての要素を指定してスタイルを適用する。</p>
+
+    <div>
+      <pre><code class="language-css">/* セレクタには*（アスタリスク）を指定する */
+* {
+   color: red;
+}</code></pre>
+    </div>
+  </section>
+
+  <section id="section_3">
+    <h2>クラスセレクタ</h2>
+    <p>
+      セレクタにclass属性を指定することで、そのclass名を持つタグにスタイルを適用する。
+    </p>
+
+    <div>
+      <pre><code class="language-html">&lt;div class=“test1”&gt;
+    &lt;p class=“test2”&gt;
+        ...
+    &lt;/p&gt;
+&lt;/div&gt;</code></pre>
+    </div>
+
+    <div>
+      <pre><code class="language-css">.test1 {
+    color: red;
+}
+
+/* 親要素を指定すると指定した親要素を持つクラスにスタイルが適用される */
+p.test2 {
+  color: blue;
+}</code></pre>
+    </div>
+  </section>
+
+  <section id="section_4">
+    <h2>IDセレクタ</h2>
+    <p>
+      セレクタにid属性を指定することで、そのid名を持つタグにスタイルを適用する。
+    </p>
+
+    <div>
+      <pre><code class="language-html">&lt;div id=“test1”&gt;
+    &lt;p id=“test2”&gt;
+        ...
+    &lt;/p&gt;
+&lt;/div&gt;</code></pre>
+    </div>
+
+    <div>
+      <pre><code class="language-css">#test1 {
+    color: red;
+}
+
+p#test2 {
+    color: blue;
+}</code></pre>
+    </div>
+  </section>
+
+  <section id="section_5">
+    <h2>子孫セレクタ</h2>
+    <p>
+      セレクタを空白で連結して指定することで、先頭のセレクタを親に持つ子セレクタを指定出来る。
+    </p>
+    <ul>
+      <li>子孫セレクタの場合、間に別のセレクタがある場合でも適用される。</li>
+      <li>セレクタはタグ名、クラス名が指定出来る。</li>
+    </ul>
+
+    <div>
+      <pre><code class="language-css">div p {
+    ...
+}</code></pre>
+    </div>
+
+    <div>
+      <pre><code class="language-html">&lt;div&gt;
+    &lt;ul&gt;
+        &lt;p&gt;...&lt;/p&gt;&lt;!-- div配下のpタグに適用される --&gt;
+    &lt;/ul&gt;&lt;!-- 間にulタグが存在しても適用される --&gt;
+&lt;/div&gt;</code></pre>
+    </div>
+  </section>
+
+  <section id="section_6">
+    <h2>子セレクタ</h2>
+    <p>
+      セレクタを
+      <b>></b>
+      で連結して指定することで、先頭のセレクタを親に持つ子セレクタを指定出来る。<br />
+      子孫セレクタとは違い、間に別のセレクタがある場合は適用されない。
+    </p>
+
+    <div>
+      <pre><code class="language-css">div > p {
+    ...
+}</code></pre>
+    </div>
+
+    <div>
+      <pre><code class="language-html">&lt;div&gt;
+    &lt;p&gt;...&lt;/p&gt;&lt;!-- divセレクタ直下のpタグに適用 --&gt;
+&lt;/div&gt;
+
+&lt;div&gt;
+    &lt;ul&gt;
+        &lt;p&gt;...&lt;/p&gt;&lt;!-- 左記のように直下でない場合適用されない --&gt;
+    &lt;/ul&gt;
+&lt;/div&gt;</code></pre>
+    </div>
+  </section>
+
+  <section id="section_7">
+    <h2>隣接セレクタ</h2>
+    <p>
+      セレクタを
+      <b>+</b>
+      で連結して指定することで、先頭のセレクタに隣接するセレクタを指定出来る。<br />
+      間に別のセレクタがある場合は適用されない。
+    </p>
+
+    <div>
+      <pre><code class="language-css">div + p {
+    ...
+}</code></pre>
+    </div>
+
+    <div>
+      <pre><code class="language-html">&lt;p&gt;pタグ&lt;/p&gt;
+&lt;div&gt;divタグ&lt;/div&gt;
+&lt;p&gt;divタグに隣接したpタグ&lt;/p&gt;&lt;!-- divタグに隣接したpタグに適用 --&gt;
+&lt;p&gt;pタグに隣接したpタグ&lt;/p&gt;</code></pre>
+    </div>
+  </section>
+
+  <section id="section_8">
+    <h2>関節セレクタ</h2>
+    <p>
+      セレクタを
+      <b>~</b>
+      で連結して指定することで、先頭のセレクタの配下にあるセレクタを指定出来る。<br />
+      先頭セレクタの配下の外には適用されない。
+    </p>
+
+    <div>
+      <pre><code class="language-css">div ~ p {
+    ...
+}</code></pre>
+    </div>
+
+    <div>
+      <pre><code class="language-html">&lt;div&gt;
+    &lt;h1&gt;...&lt;/h1&gt;
+    &lt;p&gt;...&lt;/p&gt;&lt;!-- 適用 --&gt;
+    &lt;h2&gt;...&lt;/h2&gt;
+    &lt;h3&gt;〜&lt;/h3&gt;
+    &lt;p&gt;...&lt;/p&gt;&lt;!-- 適用 --&gt;
+&lt;/div&gt;
+&lt;p&gt;...&lt;/p&gt;&lt;!-- 非適用 --&gt;</code></pre>
+    </div>
+  </section>
+
+  <section id="section_9">
+    <h2>属性セレクタ</h2>
+    <p>特定のプロパティや値を持つタグにスタイルを指定出来る。<br /></p>
+    <ul>
+      <li><b>タグ名[プロパティ名]</b>と記述する。</li>
+      <li>プロパティ名は複数指定出来る。</li>
+    </ul>
+
+    <section id="section_9_1">
+      <h3>属性セレクタの基本</h3>
+
+      <div>
+        <pre><code class="language-css">/* 例 */
+img[src][alt] {
+    ...
+}
+
+/* 値の指定 */
+img[src=“hoge.jpg”] {
+    ...
+}</code></pre>
+      </div>
+
+      <div>
+        <pre><code class="language-html">&lt;img src=&quot;&quot;&gt;
+&lt;img src=&quot;&quot; alt=&quot;&quot;&gt;&lt;!-- 適用1 --&gt;
+&lt;img src=&quot;hoge.jpg&quot;&gt;&lt;!-- 適用2 --&gt;</code></pre>
+      </div>
+    </section>
+
+    <p>
+      応用として、以下のような指定方法もある。（<a
+        href="https://www.webdesignleaves.com/pr/css/css_basic_01.html#h4_index_10"
+        >参考</a
+      >）
+    </p>
+
+    <section id="section_9_2">
+      <h3>OR条件</h3>
+
+      <div>
+        <pre><code class="language-html">&lt;-- OR条件適用(スペース区切りで判断) --&gt;
+&lt;style&gt;
+p[class~=&quot;bar&quot;] {
+  color : green;
+}
+&lt;/style&gt;
+ 
+&lt;p class=&quot;foo bar&quot;&gt;適用される&lt;/p&gt;
+&lt;p class=&quot;foobar foo&quot;&gt;適用されない（対象外）&lt;/p&gt;
+&lt;p class=&quot;bar&quot;&gt;適用される&lt;/p&gt; 
+
+&lt;-- OR条件適用（ハイフン区切りで判断） --&gt;
+&lt;style type=&quot;text/css&quot;&gt;
+p[lang|=&quot;en&quot;] {
+  background-color: #6EB3E5;
+}
+&lt;/style&gt;
+ 
+&lt;p lang=&quot;en&quot;&gt;適用される&lt;/p&gt;
+&lt;p lang=&quot;ja&quot;&gt;適用されない（対象外）&lt;/p&gt;
+&lt;p lang=&quot;en-US&quot;&gt;適用される&lt;/p&gt;</code></pre>
+      </div>
+    </section>
+
+    <section id="section_9_3">
+      <h3>前方一致</h3>
+
+      <div>
+        <pre><code class="language-html">&lt;-- 前方一致 --&gt;
+&lt;style type=&quot;text/css&quot;&gt;
+a[href^=&quot;http://&quot;] {
+  color: orange;
+}
+&lt;/style&gt;
+ 
+&lt;p&gt;&lt;a href=&quot;https://www.webdesignleaves.com/&quot;&gt;適用される&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;#id&quot;&gt;適用されない（対象外）&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://www.google.com/&quot;&gt;適用されない（対象外）&lt;/a&gt;&lt;/p&gt;</code></pre>
+      </div>
+    </section>
+
+    <section id="section_9_4">
+      <h3>後方一致</h3>
+
+      <div>
+        <pre><code class="language-html">&lt;-- 後方一致 --&gt;
+&lt;style type=&quot;text/css&quot;&gt;
+a[href$=&quot;.pdf&quot;]{
+  background-color: yellow;
+}
+&lt;/style&gt;
+ 
+&lt;p&gt;&lt;a href=&quot;manual.doc&quot;&gt;適用されない（対象外）&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;sample.pdf&quot;&gt;適用される&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;sample.xls&quot;&gt;適用されない（対象外）&lt;/a&gt;&lt;/p&gt;</code></pre>
+      </div>
+    </section>
+
+    <section id="section_9_5">
+      <h3>部分一致</h3>
+
+      <div>
+        <pre><code class="language-html">&lt;-- 部分一致 --&gt;
+&lt;style type=&quot;text/css&quot;&gt;
+img[src*=&quot;/thumb/&quot;] {
+  border: 2px solid #ccc;
+}
+&lt;/style&gt;
+ 
+&lt;p&gt;&lt;img src=&quot;images/small/sky.jpg&quot;&gt;&lt;/p&gt;&lt;!-- 対象外 --&gt;
+&lt;p&gt;&lt;img src=&quot;images/thumb/sea.jpg&quot;&gt;&lt;/p&gt;&lt;!-- 適用される --&gt;
+&lt;p&gt;&lt;img src=&quot;images/large/wood.jpg&quot;&gt;&lt;/p&gt;&lt;!-- 対象外 --&gt;</code></pre>
+      </div>
+    </section>
+  </section>
+</div>

@@ -1,0 +1,514 @@
+<div>
+  <h1>アニメーション</h1>
+
+  <section id="content_link">
+    <h2>目次</h2>
+
+    <nav>
+      <ol>
+        <li><a href="#section_1">概要</a></li>
+        <li><a href="#section_2">animationプロパティ</a></li>
+        <ol type="I">
+          <li><a href="#section_2_1">animation-timing-function</a></li>
+          <li><a href="#section_2_2">animation-direction</a></li>
+          <li><a href="#section_2_3">animation-fill-mode</a></li>
+        </ol>
+        <li><a href="#section_3">@keyframesルール</a></li>
+      </ol>
+    </nav>
+  </section>
+
+  <section id="section_1">
+    <h2>概要</h2>
+    <p>
+      <b>animation</b
+      >プロパティを用いてCSSレイアウトにアニメーションを付与することができる。<br />
+      以下はCSSアニメーションの例である。
+    </p>
+
+    <div>
+      <style>
+        .animation_sample {
+          overflow: hidden;
+
+          & img {
+            width: 25%;
+
+            /* アニメーション名を定義 */
+            animation-name: chikawa-slide;
+            /* アニメーションの実行時間を定義 */
+            animation-duration: 8s;
+          }
+        }
+
+        /* アニメーションの挙動を定義 */
+        @keyframes chikawa-slide {
+          /* 開始時のスタイル */
+          from {
+            margin-left: 100%;
+          }
+
+          /* 終了時のスタイル */
+          to {
+            margin-left: 0%;
+          }
+        }
+      </style>
+
+      <div class="animation_sample">
+        <img
+          src="../../../asset/images/chikawa_1.png"
+          alt="CSSアニメーションの例"
+        />
+      </div>
+    </div>
+
+    <pre><code class="language-html">&lt;style&gt;
+  .animation_sample {
+    overflow: hidden;
+
+    &amp; img {
+      width: 25%;
+
+      /* アニメーション名を定義 */
+      animation-name: chikawa-slide;
+      /* アニメーションの実行時間を定義 */
+      animation-duration: 8s;
+    }
+  }
+
+  /* アニメーションの挙動を定義 */
+  @keyframes chikawa-slide {
+    /* 開始時のスタイル */
+    from {
+      margin-left: 100%;
+    }
+
+    /* 終了時のスタイル */
+    to {
+      margin-left: 0%;
+    }
+  }
+&lt;/style&gt;
+
+&lt;div class=&quot;animation_sample&quot;&gt;
+  &lt;img
+    src=&quot;./asset/images/chikawa_1.png&quot;
+    alt=&quot;CSSアニメーションの例&quot;
+  /&gt;
+&lt;/div&gt;</code></pre>
+
+    <ul>
+      <li>
+        <b>animation</b
+        >関連プロパティでアニメーションの定義、実行時間、動作の繰り返しなどを定義する。
+      </li>
+      <li><b>@keyframes</b>ルールでアニメーションの動きを定義する。</li>
+    </ul>
+  </section>
+
+  <section id="section_2">
+    <h2>animationプロパティ</h2>
+    <p>animationプロパティには以下の種類がある。</p>
+
+    <div>
+      <table>
+        <thead>
+          <tr>
+            <th>プロパティ</th>
+            <th>説明</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>animation-name</td>
+            <td>
+              <b>@keyframes</b
+              >で定義したフレーム名を指定してセレクタとアニメーションの紐付けを行う。
+            </td>
+          </tr>
+          <tr>
+            <td>animation-duration</td>
+            <td>アニメーションの進行が完了するまでの時間を指定する。</td>
+          </tr>
+          <tr>
+            <td>animation-delay</td>
+            <td>アニメーションを開始するまでの遅延時間を指定する。</td>
+          </tr>
+          <tr>
+            <td>animation-iteration-count</td>
+            <td>
+              アニメーションの繰り返し回数を指定する。<br />
+              規定値は1で、<b>infinite</b>を指定すると無限ループされる。
+            </td>
+          </tr>
+          <tr>
+            <td>animation-play-state</td>
+            <td>
+              アニメーションの実行/一時停止を指定する。JavaScriptなどと併用して使用する。
+              <br />
+              <ul>
+                <li><b>running</b>でアニメーションを一時停止する。</li>
+                <li><b>paused</b>でアニメーションを一時停止する。</li>
+              </ul>
+            </td>
+          </tr>
+          <tr>
+            <td>animation-timing-function</td>
+            <td>アニメーション進行がどのように行われるかを指定する。</td>
+          </tr>
+          <tr>
+            <td>animation-direction</td>
+            <td>アニメーションの実施方向を指定する。</td>
+          </tr>
+          <tr>
+            <td>animation-fill-mode</td>
+            <td>アニメーションの開始/終了時のスタイルを指定する。</td>
+          </tr>
+          <tr>
+            <td>animation</td>
+            <td>上記のanimationプロパティを一括定義する</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>以下はanimationプロパティの指定例。</p>
+    <div>
+      <style>
+        .animation_property_sample {
+          width: 300px;
+          height: 200px;
+          overflow: hidden;
+
+          & img {
+            width: 200px;
+
+            animation-name: chikawa-slide-custum;
+            animation-duration: 1s;
+            animation-iteration-count: infinite;
+            animation-timing-function: linear;
+            animation-direction: alternate;
+            animation-delay: normal;
+            animation-fill-mode: both;
+          }
+        }
+
+        @keyframes chikawa-slide-custum {
+          0% {
+            opacity: 100%;
+          }
+
+          20% {
+            opacity: 70%;
+            scale: 80%;
+          }
+
+          35% {
+            opacity: 50%;
+          }
+
+          50% {
+            opacity: 25%;
+            scale: 75%;
+          }
+
+          70% {
+            opacity: 50%;
+          }
+
+          85% {
+            opacity: 70%;
+            scale: 110%;
+          }
+
+          100% {
+            opacity: 100%;
+          }
+        }
+      </style>
+
+      <div class="animation_property_sample">
+        <img
+          src="../../../asset/images/chikawa_1.png"
+          alt="CSSアニメーションの例"
+        />
+      </div>
+    </div>
+
+    <div>
+      <pre><code class="language-html">&lt;style&gt;
+  .animation_property_sample {
+    width: 100vw;
+    height: 130px;
+
+  &amp; img {
+    width: 20%;
+
+      animation-name: chikawa-slide-custum;
+      animation-duration: 1s;
+      animation-iteration-count: infinite;
+      animation-timing-function: linear;
+      animation-direction: alternate;
+      animation-delay: normal;
+      animation-fill-mode: both;
+    }
+  }
+
+  @keyframes chikawa-slide-custum {
+    0% {
+      opacity: 100%;
+    }
+
+    20% {
+      opacity: 70%;
+      scale: 80%;
+    }
+
+    35% {
+      opacity: 50%;
+    }
+
+    50% {
+      opacity: 25%;
+      scale: 75%;
+    }
+  
+    70% {
+      opacity: 50%;
+    }
+
+    85% {
+      opacity: 70%;
+      scale: 110%;
+    }
+
+    100% {
+      opacity: 100%;
+    }
+  }
+&lt;/style&gt;
+  
+&lt;div class=&quot;animation_property_sample&quot;&gt;
+  &lt;img
+    src=&quot;./asset/images/chikawa_1.png&quot;
+    alt=&quot;CSSアニメーションの例&quot;
+  /&gt;
+&lt;/div&gt;</code></pre>
+    </div>
+
+    <section id="section_2_1">
+      <h3>animation-timing-function</h3>
+      <p>
+        アニメーションがどのように進行されるかを指定する。<br />
+        以下の値がある。
+      </p>
+
+      <div>
+        <table>
+          <thead>
+            <tr>
+              <th>プロパティ値</th>
+              <th>説明</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>linear</td>
+              <td>均等に変化する。</td>
+            </tr>
+            <tr>
+              <td>ease</td>
+              <td>
+                中央に向けて素早く変化した後、ゆっくり終了していく。（規定値）
+              </td>
+            </tr>
+            <tr>
+              <td>ease-in</td>
+              <td>中央に向けてゆっくり変化した後、素早く終了していく。</td>
+            </tr>
+            <tr>
+              <td>ease-out</td>
+              <td><b>ease</b>と同様だが、開始スピードがより早い。</td>
+            </tr>
+            <tr>
+              <td>ease-in-out</td>
+              <td>最初と最後がゆっくりで、中央に近づくほど速くなる。</td>
+            </tr>
+            <tr>
+              <td>step-start</td>
+              <td>アニメーション開始時の状態で固定する。</td>
+            </tr>
+            <tr>
+              <td>step-end</td>
+              <td>アニメーション終了時の状態で固定する。</td>
+            </tr>
+            <tr>
+              <td>steps(ステップ数, start|end)</td>
+              <td>
+                ステップ数に指定した値分コマ送りする。<br />
+                第二引数にstartを指定するとすぐにアニメーションが開始され、endを指定するとインターバルを置いてから実行する。
+              </td>
+            </tr>
+            <tr>
+              <td>cubic-bezier(x1, y1, x2, y2)</td>
+              <td>
+                アニメーション進行を任意にカスタムする。<br />
+                x軸は時間経過率で<b>0.0 ~ 1.0</b
+                >の値、y軸は変化率を任意に指定する。
+                <br />
+                以下は参考値である。<br />
+                <ul>
+                  <li>innear: cubic-bezier(0.0, 0.0, 1.0, 1.0)</li>
+                  <li>ease: cubic-bezier(0.25, 0.1, 0.25, 1.0)</li>
+                </ul>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>以下は<b>animation-timing-function: ease-in-out;</b>を指定した例。</p>
+      <div>
+        <style>
+          .animation_ease_in_out_sample {
+            overflow: hidden;
+
+            & img {
+              width: 20%;
+
+              animation-name: chikawa-slide-ease-in-out;
+              animation-duration: 3s;
+              animation-timing-function: ease-in-out;
+            }
+          }
+
+          @keyframes chikawa-slide-ease-in-out {
+            from {
+              margin-left: 100%;
+            }
+
+            to {
+              margin-left: 0%;
+            }
+          }
+        </style>
+
+        <div class="animation_ease_in_out_sample">
+          <img
+            src="../../../asset/images/chikawa_1.png"
+            alt="CSSアニメーションの例"
+          />
+        </div>
+      </div>
+    </section>
+
+    <section id="section_2_2">
+      <h3>animation-direction</h3>
+      <p>アニメーションの実施方向を指定する。</p>
+
+      <div>
+        <table>
+          <thead>
+            <tr>
+              <th>プロパティ値</th>
+              <th>説明</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>normal</td>
+              <td>「開始から終了」と進行。（規定値）</td>
+            </tr>
+            <tr>
+              <td>reverse</td>
+              <td>「終了から開始」と進行。</td>
+            </tr>
+            <tr>
+              <td>alternate</td>
+              <td>「開始から終了」の後、「終了から開始」と進行。</td>
+            </tr>
+            <tr>
+              <td>alternate-reverse</td>
+              <td>「終了から開始」の後、「開始から終了」と進行。</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="section_2_3">
+      <h3>animation-fill-mode</h3>
+      <p>アニメーション開始時、終了時のスタイルを制御する。</p>
+
+      <div>
+        <table>
+          <thead>
+            <tr>
+              <th>プロパティ値</th>
+              <th>説明</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>none</td>
+              <td>
+                開始/終了時にアニメーションを適用せず、ワンテンポ置いて実行する。（規定値）
+              </td>
+            </tr>
+            <tr>
+              <td>both</td>
+              <td>開始/終了時にアニメーションを適用する。</td>
+            </tr>
+            <tr>
+              <td>forwards</td>
+              <td>アニメーション終了時、終了時のスタイルで固定する。</td>
+            </tr>
+            <tr>
+              <td>backwards</td>
+              <td>
+                アニメーション開始時のスタイルを適用する。
+                <br />また、<b>animation-delay</b>指定時、アニメーション開始時のスタイルを適用する。
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </section>
+
+  <section id="section_3">
+    <h2>@keyframesルール</h2>
+    <p>
+      アニメーションのフレームレートを定義する。<br />
+      定義したフレームレート毎にスタイルを適用できる。
+    </p>
+
+    <ul>
+      <li>開始を0%、終了を100%として定義する。</li>
+      <li>0%と100%のみを定義する場合、<b>from</b>、<b>to</b>で表記できる。</li>
+      <li>@keyframesルールはネストの中に定義することはできない。</li>
+    </ul>
+
+    <div>
+      <pre><code class="language-css">.selector {
+  animation-name: test;
+  animation-duration: 3s;
+}
+
+@keyframes test {
+  0% {
+    ...
+  }
+
+  50% {
+    ...
+  }
+
+  100% {
+    ...
+  }
+}</code></pre>
+    </div>
+  </section>
+</div>
