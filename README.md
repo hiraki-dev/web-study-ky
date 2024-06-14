@@ -25,9 +25,9 @@ HTML/CSS/JavaScriptを理解するためにエコシステムを使わずバニ�
 ├── contents.html
 ├── error.html
 ├── index.html
-└── view: Webページに埋め込むコンテンツをhtmlファイルで定義
-    ├── content: コンテンツファイル群
-    ├── error: エラーファイル群
+└── view
+    ├── content
+    ├── error
     └── ...
 ```
 

@@ -1,14 +1,11 @@
 "use strict";
 
 import { bottomMenuComponent } from "./bottom-menu.mjs";
+import { contentComponent } from "./content.mjs";
 
 export class modalComponent extends bottomMenuComponent {
   // 挿入先タグ
   targetElement = "#insert-modal";
-  // モーダルボタン
-  // button = "#open-navigation";
-  // ボトムメニューインスタンス
-  bottomMenuInstance;
   // モーダルビュー
   modalViewId = "modal-view";
   // モーダルコンテンツ
@@ -21,6 +18,8 @@ export class modalComponent extends bottomMenuComponent {
   <div id="${this.modalContentId}"></div>
 </div>
 `;
+  // ボトムメニューインスタンス
+  #bottomMenuInstance;
 
   constructor(bottomMenuInstance) {
     super();
@@ -32,7 +31,7 @@ export class modalComponent extends bottomMenuComponent {
         throw new Error("モーダルはボトムメニューのインスタンスが必須");
       }
 
-      this.bottomMenuInstance = bottomMenuInstance;
+      this.#bottomMenuInstance = bottomMenuInstance;
     } catch (e) {
       console.error(e);
       throw e;
@@ -41,38 +40,46 @@ export class modalComponent extends bottomMenuComponent {
 
   // モーダル表示/非表示
   modalFromBottomMenu = () => {
+    const callback = () => {
+      const modalView = document.getElementById(this.modalViewId);
+
+      modalView.style.display === "none"
+        ? (modalView.style.display = "block")
+        : (modalView.style.display = "none");
+    };
+
+    this.#clickModal(callback);
+  };
+
+  // モーダルにページ内ナビゲーションを挿入
+  insertNavigationInModal = (contentLinkSelecter) => {
+    const callback = () => {
+      //
+      const contentLinks = document.querySelector(contentLinkSelecter).children;
+      const combined = Array.from(contentLinks)
+        .map((element) => element.innerHTML)
+        .join("");
+
+      document.getElementById(this.modalContentId).innerHTML = combined;
+    };
+
+    this.#clickModal(callback);
+  };
+
+  // モーダルクリック時処理の雛形
+  #clickModal = (callback) => {
     try {
       const modalBtn = document.getElementById(
-        this.bottomMenuInstance.navButtonId
+        this.#bottomMenuInstance.navButtonId
       );
 
       modalBtn.addEventListener("click", () => {
-        const modalView = document.getElementById(this.modalViewId);
-
-        modalView.style.display === "none"
-          ? (modalView.style.display = "block")
-          : (modalView.style.display = "none");
+        // モーダルクリック時に引数で受け取ったコールバック関数を実行
+        callback();
       });
-
-      return this;
     } catch (e) {
       console.error(e);
       throw e;
     }
   };
-
-  // モーダルにページ内ナビゲーションを挿入
-  insertNavigationInModal = () => {
-    return this;
-  };
 }
-
-// 閉じるボタンを取得
-// var closeBtn = document.getElementsByClassName("close")[0];
-
-// モーダルの外側がクリックされた時の処理
-// window.onclick = function (event) {
-//   if (event.target == modal) {
-//     modal.style.display = "none";
-//   }
-// };

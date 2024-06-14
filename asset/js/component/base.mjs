@@ -40,7 +40,7 @@ export class baseComponent {
     }
   }
 
-  // 取得したリソースをDOMに変換（HTMLから取得したページリソースの編集用）
+  // 取得したリソーステキストをDOMに変換（HTMLから取得したページリソースの編集用）
   async convertResourcesToDom() {
     try {
       if (this.resource === undefined) {

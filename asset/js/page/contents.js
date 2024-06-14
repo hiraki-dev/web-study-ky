@@ -31,6 +31,9 @@ const pageRendering = async () => {
     const modal = new modalComponent(bottomMenu);
     await modal.insertResourceByElement(modal.targetElement);
     await modal.modalFromBottomMenu();
+
+    const contentLinkId = "#contemt_links";
+    await modal.insertNavigationInModal(contentLinkId);
   } catch (e) {
     console.error(e);
     throw e;

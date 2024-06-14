@@ -1,7 +1,5 @@
 _*
 /*/_*
-.config
+.DS_Store
 .vscode
-_sync
-psd
 rsync_exclude.txt
