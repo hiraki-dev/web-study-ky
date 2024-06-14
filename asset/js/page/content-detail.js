@@ -13,12 +13,12 @@ import { jsonUtil } from "../module/jsonUtil.mjs";
 // コンテンツ
 const createContentResource = async () => {
   try {
-    // クエリパラメータを基にURLを構築
+    // 取得GETパラメータをアンパック代入
     const urlParams = new URLSearchParams(window.location.search);
-    const contentType = urlParams.get("contentType");
-    const contentName = urlParams.get("contentName");
-    const contentsJsonPath = "/asset/js/const/contents.json";
+    const { contentType, contentName } = Object.fromEntries(urlParams);
 
+    // 定数ファイルを取得
+    const contentsJsonPath = "/asset/js/const/contents.json";
     const ju = new jsonUtil();
     const json = await ju.includeConfigJson(contentsJsonPath);
 
@@ -26,6 +26,7 @@ const createContentResource = async () => {
       throw new Error("jsonが取得されていない");
     }
 
+    // クエリパラメータを基にURLを構築
     const contentPath = `${json.basePath}${json[contentType][contentName]}`;
 
     // コンテンツを生成
@@ -59,6 +60,9 @@ const pageRendering = async () => {
     const modal = new modalComponent(bottomMenu);
     await modal.insertResourceByElement(modal.targetElement);
     await modal.modalFromBottomMenu();
+
+    const contentLinkId = "#content_link";
+    await modal.insertNavigationInModal(contentLinkId);
 
     // Highlight JS
     await initializeHighlight();

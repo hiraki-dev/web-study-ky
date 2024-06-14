@@ -1,4 +1,4 @@
-<section>
+<section id="contemt_links">
   <!-- <h2>HTML</h2>
 
   <div class="grid-container">
@@ -40,22 +40,20 @@
     </section>
   </div>
 </section> -->
+
   <!-- TODO クリックするまで内包要素はhiddenにする？ -->
   <section class="content-menu" data-menu-name="css">
     <h2>CSS</h2>
 
     <!-- コンテンツ詳細を呼び出し、該当コンテンツのhtmlを渡す -->
     <div class="grid-container">
-      <section
-        class="content-menu-detail"
-        data-menu-name="css-basis"
-        data-menu-path="/view/content/css/basis"
-      >
+      <section>
         <h3>基礎知識</h3>
 
         <nav>
           <ul>
             <li>
+              <!-- TODO クリック時にdata属性を受け取ってURLを構築する方式にすることでハードコーディングを避ける -->
               <a href="/content-detail.html?contentType=css&contentName=summary"
                 >CSSの概要</a
               >
