@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+
+<html>
+  <!-- ヘッダー情報 -->
+  <head>
+    <!-- ページ内基底URL target属性でタブの表示方法を指定 -->
+    <base href="./array.html" target="_self" />
+    <!-- ページタイトル -->
+    <title>JS 配列</title>
+
+    <!-- メタデータ設定 -->
+    <!-- 文字コード -->
+    <meta charset="utf-8" />
+    <!-- 読み込み時のページサイズ -->
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <!-- Webページの概要と説明 -->
+    <meta name="description" content="HTMLのフォームに関してまとめたページ" />
+    <!-- 電話番号の自動リンク機能オフ -->
+    <meta name="format-detection" content="telephone=no" />
+
+    <!-- リソース読み込み -->
+    <!-- CSS -->
+    <link rel="stylesheet" href="../../../asset/css/common.css" />
+    <!-- Script -->
+    <script src="../../../asset/js/lib/highlight.min.js"></script>
+    <script src="../../../asset/js/highlight.js"></script>
+    <script src="../../../asset/js/main.js"></script>
+  </head>
+
+  <body>
+    <main>
+      <h1>配列</h1>
+
+      <section id="content_link">
+        <h2>目次</h2>
+
+        <nav>
+          <ol>
+            <li><a href="#section_1">配列（リスト）</a></li>
+            <li><a href="#section_2">二次元配列</a></li>
+            <li><a href="#section_3">配列メソッド</a></li>
+            <ol type="I">
+              <li><a href="#section_3_1">length</a></li>
+              <li><a href="#section_3_2">unshift</a></li>
+              <li><a href="#section_3_3">push</a></li>
+            </ol>
+            <li><a href="#section_4">連想配列（ディクショナリ）</a></li>
+            <li><a href="#section_5">集合（セット）</a></li>
+          </ol>
+        </nav>
+      </section>
+
+      <section id="section_1">
+        <h2>配列（リスト）</h2>
+        <p>
+          リスト状に並べられたデータの集合体のことで、配列（Array）、リストなどと呼ばれる。<br />
+          配列は以下のように<b>[ ]</b>で囲って作成する。
+        </p>
+
+        <div>
+          <pre><code class="js language-js">let list = [ 'index1', 'index2', ... ];
+let list = [];</code></pre>
+        </div>
+      </section>
+
+      <section id="section_2">
+        <h2>二次元配列</h2>
+        <p>配列の多次元化は以下のように記述する。</p>
+
+        <div>
+          <pre><code class="js language-js">let two_dimension_array = [
+  [ 1, 2, 3 ],
+  [ 'a', 'b' ],
+  [ 
+    [ 1, 2], 
+    [ 'c', 'd' ],
+  ],
+];
+
+let temp = two_dimension_array[0][2]; // 2</code></pre>
+        </div>
+      </section>
+
+      <section id="section_3">
+        <h2>配列メソッド</h2>
+
+        <section id="section_3_1">
+          <h3>length</h3>
+          <p>配列のindex数を取得する。</p>
+
+          <div>
+            <pre><code class="js language-js">let list = [ 1, 2, 3 ];
+list.length;  // 3</code></pre>
+          </div>
+        </section>
+
+        <section id="section_3_2">
+          <h3>unshift</h3>
+          <p>配列を取り出す。</p>
+        </section>
+
+        <section id="section_3_3">
+          <h3>push</h3>
+          <p>配列を追加する。</p>
+        </section>
+      </section>
+
+      <section id="section_4">
+        <h2>連想配列（ディクショナリ）</h2>
+        <p>
+          KeyとValueをセットに持つ値のことで、マップ、ディクショナリなどと呼ばれる。<br />
+          JavaScriptでは<b>Map</b>オブジェクトとして定義されている。<br />
+          オブジェクトと違い下記のメリットがあり、プログラムの中で単なる連想配列を扱いたい場合にマップを宣言すればいい。
+        </p>
+
+        <ul>
+          <li>キー値に文字列やシンボル以外も扱える。</li>
+          <li>リスト数をsizeメソッドで簡単に得られる。</li>
+          <li><b>for of</b>構文で簡単にループ処理出来る。</li>
+        </ul>
+
+        <div>
+          <pre><code class="js language-js">//マップのインスタンス
+let map = new Map(); 
+//値の追加
+map.set('testNam', 100);
+//値の取得（100）
+map.get('testNam');</code></pre>
+        </div>
+      </section>
+
+      <section id="section_5">
+        <h2>集合（セット）</h2>
+        <p>
+          値が重複せず、追加した順番が保持されるリストのこと。<br />
+          JavaScriptでは<b>Set</b>オブジェクトとして定義されている。
+        </p>
+      </section>
+    </main>
+  </body>
+</html>

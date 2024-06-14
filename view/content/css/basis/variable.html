@@ -1,0 +1,177 @@
+<div>
+  <h1>CSS変数（カスタムプロパティ）</h1>
+
+  <section id="content_link">
+    <h2>目次</h2>
+
+    <nav>
+      <ol>
+        <li><a href="#section_1">カスタムプロパティとは</a></li>
+        <li><a href="#section_2">変数のスコープ</a></li>
+        <li><a href="#section_3">グローバルスコープ</a></li>
+      </ol>
+    </nav>
+  </section>
+
+  <section id="section_1">
+    <h2>カスタムプロパティとは</h2>
+    <p>
+      CSSで定義できる変数のこと。<br />
+      変数とは、データを格納できる器のようなもので、プロパティ値などを格納して他のプロパティから参照できる。<br />
+      カスタムプロパティは異なるセレクタに同じ値を指定する場合などに効力を発揮し、デザインの変更が必要になった際にカスタムプロパティ値を変更することで一括で変更できる。
+    </p>
+
+    <ul>
+      <li>
+        カスタムプロパティは
+        <b>ハイフン2つ（--）</b
+        >をプレフィックス（接頭辞）として付与して定義する。
+      </li>
+      <li>
+        プロパティ値として指定する際は<b>var()</b>変数にカスタムプロパティ名を指定する。
+      </li>
+      <li>
+        カスタムプロパティはCSS変数、カスケード変数とも呼ばれる。（単に変数とも）
+      </li>
+    </ul>
+
+    <p>以下はカスタムプロパティの定義例。</p>
+    <div>
+      <pre><code class="language-css">/* カスタムプロパティの定義 */
+{
+  html {
+    /* --theme-colorという変数に値「red」を指定 */
+    --theme-color: red;
+  }
+
+  p {
+    /* var関数でカスタムプロパティを呼び出すことでredという値が指定される */
+    color: var(--theme-color);
+  }
+
+  section {
+    /* 上記と同様 */
+    background-color: var(--theme-color);
+    /* 第二引数を指定すると、カスタムプロパティが指定されていない場合、第二引数の値が反映される */
+    color: var(--theme-font-color, blue);
+  }
+}</code></pre>
+    </div>
+  </section>
+
+  <section id="section_2">
+    <h2>変数のスコープ</h2>
+    <p>
+      カスタムプロパティは指定した要素の子要素内で有効となる。<br />
+      この定義した値の有効範囲のことを<b>スコープ</b>という。<br />
+      同名のカスタムプロパティが定義されている場合は値が継承され、スコープが近いカスタムプロパティ値が優先される。
+    </p>
+
+    <p>以下はカスタムプロパティのスコープの例。</p>
+    <div>
+      <style>
+        .container-2 {
+          display: grid;
+          grid-template-columns: 100px 100px 100px;
+          gap: 10px;
+
+          /* カスタムプロパティ */
+          --main-color: cyan;
+          --sub-color: magenta;
+
+          & .item {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            background-color: var(--main-color);
+
+            /* カスタムプロパティ値の上書き */
+            --sub-color: yellow;
+          }
+
+          & .sub-item {
+            border: 0.5px solid rgba(0, 0, 0, 0.437);
+            /* 上書きされた値が子要素内では反映されている */
+            background-color: var(--sub-color);
+          }
+        }
+      </style>
+
+      <div class="container-2">
+        <div class="item">aaa</div>
+        <div class="item">bbb</div>
+        <div class="item">
+          <div class="sub-item">ccc</div>
+          <div class="sub-item">ddd</div>
+          <div class="sub-item">eee</div>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <pre><code class="language-html">&lt;style&gt;
+  .container-2 {
+    display: grid;
+    grid-template-columns: 100px 100px 100px;
+    gap: 10px;
+
+    /* カスタムプロパティ */
+    --main-color: cyan;
+    --sub-color: magenta;
+
+    &amp; .item {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      background-color: var(--main-color);
+
+      /* カスタムプロパティ値の上書き */
+      --sub-color: yellow;
+    }
+
+    &amp; .sub-item {
+      border: 0.5px solid rgba(0, 0, 0, 0.437);
+      /* 上書きされた値が子要素内では反映されている */
+      background-color: var(--sub-color);
+    }
+  }
+&lt;/style&gt;
+
+&lt;div class=&quot;container-2&quot;&gt;
+  &lt;div class=&quot;item&quot;&gt;aaa&lt;/div&gt;
+  &lt;div class=&quot;item&quot;&gt;bbb&lt;/div&gt;
+  &lt;div class=&quot;item&quot;&gt;
+    &lt;div class=&quot;sub-item&quot;&gt;ccc&lt;/div&gt;
+    &lt;div class=&quot;sub-item&quot;&gt;ddd&lt;/div&gt;
+    &lt;div class=&quot;sub-item&quot;&gt;eee&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+    </div>
+  </section>
+
+  <section id="section_3">
+    <h2>グローバルスコープ</h2>
+    <p>
+      <b>:root</b
+      >疑似クラスを指定することでCSSファイル内全体で参照可能な変数（グローバル変数）を定義できる。
+    </p>
+
+    <div>
+      <pre><code class="langage-css">/* :root内に定義した変数は全てのセレクタで指定可能 */
+:root {
+  --theme-color: #000000;
+  --theme-font-color: #ffffff;
+  --main-padding: 10px;
+}
+
+div {
+  background-color: var(--theme-color);
+  color: var(--theme-font-color);
+  
+  & section {
+    padding: var(--main-padding);
+    background-color: var(--theme-color);
+    color: var(--theme-font-color);
+  }
+}</code></pre>
+    </div>
+  </section>
+</div>

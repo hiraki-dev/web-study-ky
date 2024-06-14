@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+
+<html>
+  <!-- ヘッダー情報 -->
+  <head>
+    <!-- ページ内基底URL target属性でタブの表示方法を指定 -->
+    <base href="./statement.html" target="_self" />
+    <!-- ページタイトル -->
+    <title>JS 制御文</title>
+
+    <!-- メタデータ設定 -->
+    <!-- 文字コード -->
+    <meta charset="utf-8" />
+    <!-- 読み込み時のページサイズ -->
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <!-- Webページの概要と説明 -->
+    <meta name="description" content="HTMLのフォームに関してまとめたページ" />
+    <!-- 電話番号の自動リンク機能オフ -->
+    <meta name="format-detection" content="telephone=no" />
+
+    <!-- リソース読み込み -->
+    <!-- CSS -->
+    <link rel="stylesheet" href="../../../asset/css/common.css" />
+    <!-- Script -->
+    <script src="../../../asset/js/lib/highlight.min.js"></script>
+    <script src="../../../asset/js/highlight.js"></script>
+    <script src="../../../asset/js/main.js"></script>
+  </head>
+
+  <body>
+    <main>
+      <h1>制御文</h1>
+
+      <section id="content_link">
+        <h2>目次</h2>
+
+        <nav>
+          <ol>
+            <li><a href="#section_1">複合文（ブロック）</a></li>
+            <li><a href="#section_2">条件分岐</a></li>
+            <ol type="I">
+              <li><a href="#section_2_1">if</a></li>
+              <li><a href="#section_2_2">switch</a></li>
+            </ol>
+            <li><a href="#section_3">ループ処理</a></li>
+            <ol type="I">
+              <li><a href="#section_3_1">while</a></li>
+              <li><a href="#section_3_2">for</a></li>
+              <li><a href="#section_3_3">for in</a></li>
+              <li><a href="#section_3_4">for of</a></li>
+              <li><a href="#section_3_5">break/continue</a></li>
+              <li><a href="#section_3_6">label</a></li>
+            </ol>
+            <li><a href="#section_4">例外処理</a></li>
+            <ol type="I">
+              <li><a href="#section_4_1">try catch</a></li>
+              <li><a href="#section_4_2">throw</a></li>
+            </ol>
+            <li><a href="#section_5">モジュール</a></li>
+          </ol>
+        </nav>
+      </section>
+
+      <section id="section_1">
+        <h2>複合文（ブロック）</h2>
+
+        <div>
+          <pre><code class="javascript language-javascript">{
+  // {}で囲った文をひとつのブロックとして扱える
+  // スコープを制限したい処理の記述等に利用
+  let a = 1;
+  let b = "b";
+}
+
+let c = a;  // ブロック内のスコープは外からは参照できないため例外をスローする
+</code></pre>
+        </div>
+      </section>
+
+      <section id="section_2">
+        <h2>条件分岐</h2>
+
+        <section id="section_2_1">
+          <h3>if</h3>
+
+          <div>
+            <pre><code class="javascript language-javascript">// if
+if (条件式) {
+  ...
+} else if {
+  ...
+} else {
+  ...
+}</code></pre>
+          </div>
+        </section>
+
+        <section id="section_2_2">
+          <h3>switch</h3>
+          <div>
+            <pre><code class="javascript language-javascript">// if
+// switch
+switch (条件式) {
+  case 値1:
+    処理
+    // Breakを宣言しない場合順次処理となる
+    break;
+  case 値2:
+    ...
+  case 値3:
+    ...
+  default:
+    どのcaseにも該当しない場合の処理;
+}</code></pre>
+          </div>
+        </section>
+      </section>
+
+      <section id="section_3">
+        <h2>ループ処理</h2>
+      </section>
+
+      <section id="section_3_1">
+        <h3>while</h3>
+
+        <div>
+          <pre><code class="javascript language-javascript">// 指定した条件式がTrueの間ループ
+while (条件式) {
+  ...
+}
+
+// 条件式の結果に拘らず初回のみ実行
+do {
+  ...
+} while (条件式);
+</code></pre>
+        </div>
+      </section>
+
+      <section id="section_3_2">
+        <h3>for</h3>
+
+        <div>
+          <pre><code class="javascript language-javascript">// 指定した条件式がFalseになるまでループ
+for (初期式; 条件式; カウント式) {
+    ...
+}
+// 例
+for (let i = 0; i &gt; userId.length; i++ ) {
+    ...
+}
+</code></pre>
+        </div>
+      </section>
+
+      <section id="section_3_3">
+        <h3>for in</h3>
+        <p>
+          指定したオブジェクトの値を順次取得する。<br />
+          変数には指定したオブジェクトのプロパティ（Index値やKey値等）を返す。
+        </p>
+
+        <div>
+          <pre><code class="javascript language-javascript">for ( let 変数 in オブジェクト ) {
+  ...
+}</code></pre>
+        </div>
+      </section>
+
+      <section id="section_3_4">
+        <h3>for of</h3>
+        <p>
+          配列、マップ、DOMの操作に用いる。<br />
+          配列の中身やディクショナリのvalue値を取り出すのでイテレータをループさせる際に指定する。
+        </p>
+
+        <div>
+          <pre><code class="javascript language-javascript">for ( let 変数 of オブジェクト ) {
+  ...
+}</code></pre>
+        </div>
+      </section>
+
+      <section id="section_3_5">
+        <h3>break/continue</h3>
+
+        <ul>
+          <li>breakはループの強制終了</li>
+          <li>continueはループ処理のスルー</li>
+        </ul>
+      </section>
+
+      <section id="section_3_6">
+        <div>
+          <h3>label</h3>
+          <p>
+            breakやcontinueにラベルを付けることで、gotoのような挙動を実装できる。
+          </p>
+          <pre><code class="javascript language-javascript">for ( let 変数 in オブジェクト ) {
+  break ラベル名:　
+}
+
+ラベル名:
+  // breakしたらここへジャンプ</code></pre>
+        </div>
+      </section>
+
+      <section id="section_4">
+        <h2>例外処理</h2>
+
+        <section id="section_4_1">
+          <h3>try catch</h3>
+
+          <div>
+            <pre><code class="javascript language-javascript">try {
+  ...
+} catch (変数) {
+  // 例外捕捉時の処理
+} finally {
+  // 例外の有無に関わらない終了処理
+}
+</code></pre>
+          </div>
+        </section>
+
+        <section id="section_4_2">
+          <h3>throw</h3>
+          <p>
+            宣言した位置で例外をスローする。<br />
+            式には例外クラスを指定する。
+          </p>
+
+          <div>
+            <pre><code class="javascript language-javascript">throw 例外クラス
+// 例
+throw "myException";</code></pre>
+          </div>
+        </section>
+      </section>
+
+      <section id="section_5">
+        <h2>モジュール</h2>
+        <p>
+          スクリプトファイルの定義・読み込みを行う。<br />
+          外部ファイルに公開する変数や関数を<code>export</code>で定義し、読み込む時は<code>import</code>を指定する。
+        </p>
+
+        <div>
+          <pre><code class="javascript language-javascript">// module.js ... 読み込まれる側のファイル
+export const age = "30";
+export const job = "engineer";
+export const func = () =&gt; {
+    ...
+};
+
+// オブジェクトとしてエクスポートを一括定義できる
+export {age, job, func};
+</code></pre>
+          <pre><code class="javascript language-javascript">// main.js ... 読み込む側のファイル
+import "module.js";                     // 指定したファイルでexport定義されているものを全て読み込む
+import * as mo from "module.js";        // moという名前で定義して全て読み込む
+import { age, job } from "module.js";   // 読み込むものを指定する
+import { age as a } from "module.js";   // 名前をageからaに変更して読み込む
+
+// ダイナミックインポート
+import ("module.js").then(modules =&gt; {
+  console.log(modules.age)        // 30
+  console.log(modules.engineer)   // "engineer"
+});</code></pre>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

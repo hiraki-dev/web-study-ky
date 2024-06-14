@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+
+<html>
+  <!-- ヘッダー情報 -->
+  <head>
+    <!-- ページ内基底URL target属性でタブの表示方法を指定 -->
+    <base href="./table.html" target="_self" />
+    <!-- ページタイトル -->
+    <title>HTML テーブルタグ</title>
+
+    <!-- メタデータ設定 -->
+    <!-- 文字コード -->
+    <meta charset="utf-8" />
+    <!-- 読み込み時のページサイズ -->
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <!-- Webページの概要と説明 -->
+    <meta
+      name="description"
+      content="HTMLのテーブルタグに関してまとめたページ"
+    />
+    <!-- 電話番号の自動リンク機能オフ -->
+    <meta name="format-detection" content="telephone=no" />
+
+    <!-- 外部リソース読み込み -->
+    <!-- CSS -->
+    <link rel="stylesheet" href="../../asset/css/common.css" />
+    <!-- ファビコン -->
+    <!-- <link rel="icon" href="" /> -->
+
+    <!-- スクリプト読み込み -->
+    <script src="../../asset/js/main.js"></script>
+
+    <!-- CSSの直接適用 -->
+    <style></style>
+  </head>
+
+  <body>
+    <main>
+      <h1>テーブルタグ</h1>
+
+      <!-- table -->
+      <section>
+        <h2>tableタグ</h2>
+        <p>テーブルを作成する。</p>
+
+        <ul>
+          <li>captionタグでテーブルの見出しを指定する。</li>
+          <li>trタグでテーブル行を作成する。</li>
+          <li>trタグの子要素として、thタグとtdタグでセルを作成する。</li>
+          <ul>
+            <li>thタグはテーブル行のヘッダー（見出し）セルを作成</li>
+            <li>tdタグでデータセルの作成</li>
+          </ul>
+        </ul>
+
+        <!-- th/td -->
+        <section>
+          <h3>th/tdタグの属性</h3>
+
+          <ul>
+            <li>共通属性</li>
+            <ul>
+              <li>
+                colspan属性で列の数を指定する。（規定値は1で、最高1000まで）
+              </li>
+              <li>
+                rowspan属性で行の数を指定する。（規定値は1で、65534以下の値）
+              </li>
+              <li>
+                headers属性でヘッダーセルのidを指定することでリレーション出来る。（複数指定時のデミリタは半角スペース）<br />
+                scope属性で対応できない複雑な関連付けを行う場合、headers属性の使用を検討する。
+              </li>
+            </ul>
+            <li>thタグ属性</li>
+            <ul>
+              <li>abbr属性でヘッダーセルのラベルを指定する。</li>
+              <li>scope属性でヘッダーセルの見出し範囲を指定する。</li>
+              <ul>
+                <li>scope="row"でthタグ行全てを見出しとする。</li>
+                <li>scope="col"でthタグ列全てを見出しとする。</li>
+                <li>
+                  scope="rowgroup"でthタグ行をグループ化し、グループ範囲全てを見出しとする。
+                </li>
+                <li>
+                  scope="colgroup"でthタグ列をグループ化し、グループ範囲全てを見出しとする。
+                </li>
+                <li>
+                  指定しない場合、文書内容に基づいて自動で見出しを設定する。
+                </li>
+                <li>
+                  <a href="https://www.tagindex.com/html/table/th_scope.html"
+                    >詳細はリンク先を参照すること。</a
+                  >
+                </li>
+              </ul>
+            </ul>
+          </ul>
+        </section>
+
+        <!-- 例 -->
+        <section>
+          <h3>テーブルの作成例</h3>
+
+          <div>
+            <table>
+              <caption>
+                テーブルの作成例
+              </caption>
+              <tbody>
+                <tr>
+                  <th>ヘッダー1</th>
+                  <td>セル1</td>
+                  <td>セル2</td>
+                </tr>
+                <tr>
+                  <th>ヘッダー2</th>
+                  <td>セル1</td>
+                  <td>セル2</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+      </section>
+
+      <!-- caption -->
+      <section>
+        <h2>colgroupタグ</h2>
+        <p>
+          テーブルの列グループを作成する。<br />
+          列グループの数はcolタグまたはspan属性の値（最大値1000）で指定する。
+        </p>
+
+        <div>
+          <table>
+            <caption>
+              列グループの例
+            </caption>
+            <colgroup span="1"></colgroup>
+            <colgroup span="2"></colgroup>
+            <!-- <colgroup>
+              <col />
+            </colgroup>
+            <colgroup>
+              <col />
+              <col />
+            </colgroup> -->
+            <thead>
+              <tr>
+                <th scope="row">見出し</th>
+                <th>列1</th>
+                <th>列2</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">ヘッダー1</th>
+                <td>セル1</td>
+                <td>セル2</td>
+              </tr>
+              <tr>
+                <th scope="row">ヘッダー2</th>
+                <td>セル1</td>
+                <td>セル2</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- thead/tbody -->
+      <section>
+        <h2>thead/tbody/tfootタグ</h2>
+        <p>テーブル本体を作成する。</p>
+
+        <ul>
+          <li>theadタグでテーブルヘッダーを作成する。</li>
+          <li>tbodyタグでテーブル本体を作成する。</li>
+          <li>tfootタグでテーブルフッター行を作成する。</li>
+        </ul>
+
+        <table>
+          <caption>
+            <p cite="https://htmq.com/htmls/tfoot.shtml">粗利益率表</p>
+          </caption>
+          <thead>
+            <tr>
+              <th></th>
+              <th>2008年</th>
+              <th>2007年</th>
+              <th>2006年</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th>純売上高</th>
+              <td>$ 32,479</td>
+              <td>$ 24,006</td>
+              <td>$ 19,315</td>
+            </tr>
+            <tr>
+              <th>売上原価</th>
+              <td>$ 21,334</td>
+              <td>$ 15,852</td>
+              <td>$ 13,717</td>
+            </tr>
+            <tr>
+              <th>粗 利 益</th>
+              <td>$ 11,145</td>
+              <td>$ 8,154</td>
+              <td>$ 5,598</td>
+            </tr>
+            <tr>
+              <th>粗利益率</th>
+              <td>34.3%</td>
+              <td>34.0%</td>
+              <td>29.0%</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- 説明を省略するタグ -->
+      <!-- <section>
+        <h2>説明を省略するタグ</h2>
+        <ul></ul>
+      </section> -->
+    </main>
+  </body>
+</html>

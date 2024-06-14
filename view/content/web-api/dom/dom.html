@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+
+<html>
+  <!-- ヘッダー情報 -->
+  <head>
+    <!-- ページ内基底URL target属性でタブの表示方法を指定 -->
+    <base href="./dom.html" target="_self" />
+    <!-- ページタイトル -->
+    <title>JS DOM</title>
+
+    <!-- メタデータ設定 -->
+    <!-- 文字コード -->
+    <meta charset="utf-8" />
+    <!-- 読み込み時のページサイズ -->
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <!-- Webページの概要と説明 -->
+    <meta name="description" content="HTMLのフォームに関してまとめたページ" />
+    <!-- 電話番号の自動リンク機能オフ -->
+    <meta name="format-detection" content="telephone=no" />
+
+    <!-- リソース読み込み -->
+    <!-- CSS -->
+    <link rel="stylesheet" href="../../../asset/css/common.css" />
+    <!-- Script -->
+    <script src="../../../asset/js/lib/highlight.min.js"></script>
+    <script src="../../../asset/js/highlight.js"></script>
+    <script src="../../../asset/js/main.js"></script>
+  </head>
+
+  <body>
+    <main>
+      <h1>DOM（Document Object Model）</h1>
+
+      <section id="content_link">
+        <h2>目次</h2>
+
+        <nav>
+          <ol>
+            <li><a href="#section_1">概要</a></li>
+            <li><a href="#section_2">DOMツリー</a></li>
+            <li><a href="#section_3">ノード</a></li>
+            <ol type="I">
+              <li><a href="#section_3_1">ノードの種類</a></li>
+              <li><a href="#section_3_2">空白ノード</a></li>
+            </ol>
+            <li><a href="#section_4">DOMのパフォーマンス</a></li>
+            <ol type="I">
+              <li><a href="#section_4_1">CSSOM（CSS Object Model）</a></li>
+              <li><a href="#section_4_2">レンダリングツリー</a></li>
+              <li><a href="#section_4_3">レンダーブロッキング</a></li>
+              <li><a href="#section_4_4">パーサーブロッキング</a></li>
+            </ol>
+            <li><a href="#section_5">DOMインターフェース</a></li>
+          </ol>
+        </nav>
+      </section>
+
+      <section id="section_1">
+        <h2>概要</h2>
+        <p>
+          <u>Webページの要素を操作するための機能を提供しているAPIのこと。</u
+          ><br />
+          DOMを使用することでHTML要素をオブジェクトとして追加/変更を行う事ができる。<br />
+        </p>
+
+        <p>DOMは以下の特徴がある。</p>
+        <ul>
+          <li>
+            DOMはWebブラウザの各種機能をインターフェースとして定義し、インターフェースを基にオブジェクトとして返すように設計されている。
+          </li>
+          <li>
+            DOM自身はWebページを構成するためのWebAPIの一種であり、JavaScriptなどの言語から呼出して使用する。
+          </li>
+          <li>
+            JavaScriptそのものはWebページを操作するための機能を持たず、JavaScriptでDOMを利用することでページの挙動を制御している。
+          </li>
+          <li>
+            Pythonなどの別の言語からでもDOMの利用は可能だが、WebブラウザはJavaScriptで実装されており、DOMもJavaScriptでの操作を前提として設計されている。
+          </li>
+        </ul>
+
+        <p>
+          <u
+            >JavaScript、DOMは共にWebブラウザに標準で組み込まれており、JavaScriptはDOMをインスタンスすることなくリアルタイムで呼び出せる。</u
+          ><br />
+          Python、PHPなどではリアルタイムでDOMを操作できず、WebページへのDOMの表現にサーバーサイドレンダリングが必要となる。（そのためこれらの言語ではスクレイピングなどの用途で利用される）
+        </p>
+      </section>
+
+      <section id="section_2">
+        <h2>DOMツリー</h2>
+        <p>HTMLで構成されたWebページはツリー状の構造となっている。<br /></p>
+
+        <p>例えば、以下のHTML要素があるとする。</p>
+        <div>
+          <pre><code class="language-html">&lt;html lang=&quot;ja&quot;&gt;
+  &lt;head&gt;
+    &lt;title&gt;My document&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;h1&gt;Header&lt;/h1&gt;
+    &lt;p&gt;Paragraoh&lt;/p&gt;
+  &lt;/body&gt;
+&lt;/html&gt;</code></pre>
+        </div>
+
+        <p>これをツリー構造に表すと以下のようになる。</p>
+        <figure>
+          <figcaption>MDN Web Docsから引用</figcaption>
+          <img
+            src="https://developer.mozilla.org/ja/docs/Web/API/Document_object_model/Using_the_Document_Object_Model/using_the_w3c_dom_level_1_core-doctree.jpg"
+            alt="MDN Web Docsから引用"
+          />
+        </figure>
+
+        <p>
+          HTML要素をWebページで解釈する際、DOMは上記のようなツリーを構築する。<br />
+          これを<b>DOMツリー</b>という。<br />
+          DOMツリーの頂点は<b>ルート（root）</b>といい、DOMを操作する際はルートからDOMツリーを辿り、任意の要素を探し当てることで処理を行う。
+        </p>
+      </section>
+
+      <section id="section_3">
+        <h2>ノード</h2>
+        <p>DOMツリーのルートを含む各種要素を<b>ノード</b>という。</p>
+
+        <ul>
+          <li>
+            各種ノードの読み方の規則はHTMLと同様であり、ノード（親ノード）の配下のノードを<b>子ノード</b>、子ノードからネストされた全てのノードは<b>子孫ノード</b>という。
+          </li>
+          <li>ノード同士の仮想的な接続線を<b>エッジ</b>という。</li>
+          <li>DOMツリーを辿ることを<b>トラバーサル</b>という。</li>
+        </ul>
+
+        <section id="section_3_1">
+          <h3>ノードの種類</h3>
+          <p>ノードは以下の種類がある。</p>
+
+          <div>
+            <table>
+              <thead>
+                <tr>
+                  <th scope="rowgroup">ノード名</th>
+                  <th>説明</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>ドキュメントノード</td>
+                  <td>
+                    DOMツリーの頂点（root）となるノード。<br />
+                    Documentインターフェースとして定義されている。
+                  </td>
+                </tr>
+                <tr>
+                  <td>要素ノード</td>
+                  <td>
+                    Webページ内の各種htmlタグを表現するノード。<br />
+                    Elementインターフェースとして定義されている。
+                  </td>
+                </tr>
+                <tr>
+                  <td>テキストノード</td>
+                  <td>
+                    要素内のテキストを表現するノード。<br />
+                    Textインターフェースとして定義されている。
+                  </td>
+                </tr>
+                <tr>
+                  <td>コメントノード</td>
+                  <td>
+                    Webページ内のコメントを表現するノード。<br />
+                    Commentインターフェースとして定義されている。
+                  </td>
+                </tr>
+                <tr>
+                  <td>属性ノード</td>
+                  <td>
+                    要素の属性を表現するノード。<br />
+                    Attrインターフェースとして定義されている。
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <p>例として、以下のHTMLタグで構成されたWebページがあるとする。</p>
+          <div>
+            <pre><code class="language-html">&lt;html&gt;
+  &lt;!-- メタデータ設定 --&gt;
+  &lt;head&gt;
+    &lt;title&gt;タイトル&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;!-- コンテンツ --&gt;
+  &lt;body&gt;
+    &lt;section&gt;
+      &lt;h1 id=&quot;section_title&quot;&gt;見出し&lt;/h1&gt;
+      &lt;p class=&quot;text&quot;&gt;テキスト&lt;/p&gt;
+    &lt;/section&gt;
+  &lt;/body&gt;
+&lt;/html&gt;</code></pre>
+          </div>
+
+          <p>
+            上記WebページをDOMツリーに変換すると以下のノードで構成される。（空白ノードは省略）
+          </p>
+          <div class="node-tree">
+            <ul>
+              <li>[document]</li>
+              <ul>
+                <li>html</li>
+                <ul>
+                  <li>[comment] メタデータ設定</li>
+                  <li>head</li>
+                  <ul>
+                    <li>title</li>
+                    <ul>
+                      <li>[text] タイトル</li>
+                    </ul>
+                  </ul>
+                  <li>body</li>
+                  <ul>
+                    <li>[comment] コンテンツ</li>
+                    <li>section</li>
+                    <ul>
+                      <li>h1 #section_title</li>
+                      <ul>
+                        <li>[text] 見出し</li>
+                      </ul>
+                      <li>p .text</li>
+                      <ul>
+                        <li>[text] テキスト</li>
+                      </ul>
+                    </ul>
+                  </ul>
+                </ul>
+              </ul>
+            </ul>
+          </div>
+        </section>
+
+        <sectio id="section_3_2">
+          <h3>ホワイトスペース（空白）ノード</h3>
+          <p>
+            空白文字、改行、タブ文字などの文字を<b>ホワイトスペース</b>という。<br />
+            <u>
+              通常、HTMLタグ内の不要なホワイトスペースは削除されるが、DOMツリー上ではテキストノードの一部として扱われる。</u
+            >
+          </p>
+
+          <p>以下のHTMLタグで構成されたWebページがあるとする。</p>
+          <div>
+            <pre><code class="language-html">&lt;html&gt;
+  &lt;body&gt;
+    &lt;section&gt;
+      &lt;h1 id=&quot;section_title&quot;&gt;見出し&lt;/h1&gt;
+      &lt;p class=&quot;text&quot;&gt;テキスト&lt;/p&gt;
+    &lt;/section&gt;
+  &lt;/body&gt;
+&lt;/html&gt;</code></pre>
+          </div>
+
+          <p>
+            これをDOMツリーで表したとき、以下のように空白ノードが生成されている。
+          </p>
+          <div class="node-tree">
+            <ul>
+              <li>[document]</li>
+              <ul>
+                <li>html</li>
+                <ul>
+                  <li><span style="color: red">[text] 改行</span></li>
+                  <li>body</li>
+                  <ul>
+                    <li><span style="color: red">[text] 改行</span></li>
+                    <li>section</li>
+                    <ul>
+                      <li><span style="color: red">[text] 改行</span></li>
+                      <li>h1 #section_title</li>
+                      <ul>
+                        <li><span style="color: red">[text] 改行</span></li>
+                        <li>[text] 見出し</li>
+                      </ul>
+                      <li><span style="color: red">[text] 改行</span></li>
+                      <li>p .text</li>
+                      <ul>
+                        <li><span style="color: red">[text] 改行</span></li>
+                        <li>[text] テキスト</li>
+                      </ul>
+                    </ul>
+                  </ul>
+                </ul>
+              </ul>
+            </ul>
+          </div>
+
+          <p>
+            DOMの操作を行う際、誤って空白ノードが参照される場合があるので注意する。
+          </p>
+        </sectio>
+      </section>
+
+      <section id="section_4">
+        <h2>DOMのパフォーマンス</h2>
+        <p>本項ではDOMがどのように生成されるかを解説する。</p>
+
+        <section id="section_4_1">
+          <h3>CSSOM（CSS Object Model）</h3>
+          <p>
+            Webブラウザに読み込まれたCSSはDOMと同様にツリー状に各種ノードに展開される。<br />
+            これを<b>CSSOM</b>といい、CSSOMはDOMツリーの構築中にCSSの参照が存在する場合、参照位置に割り込んで生成される。
+          </p>
+
+          <p>
+            以下はCSSOMのイメージである。<br />
+            CSSカスケードによって適用優先度が決定されるが、以下のような仕組みによって優先度が決まる。
+          </p>
+          <div>
+            <pre><code>&lt;style&gt;
+  div.example {
+    width: 100px;
+    height: 100px;
+    background-color: red;
+    font-size: 16px;
+  }
+
+  .wrap {
+    color: red;
+  }
+&lt;/style&gt;
+  
+&lt;section&gt;
+  &lt;!-- CSSOMの生成開始 --&gt;
+  &lt;div class=&quot;example&quot;&gt;
+    &lt;!-- 生成地点以下のノードに割り当てたCSSが反映される --&gt;
+    &lt;p&gt;aaa&lt;/p&gt;
+    &lt;p&gt;bbb&lt;/p&gt;
+    &lt;!-- 子ノードにCSSの割り当てがある場合は親ノードの割り当てを上書きする --&gt;
+    &lt;p class=&quot;wrap&quot;&gt;ccc&lt;/p&gt;
+  &lt;/div&gt;
+&lt;/section&gt;</code></pre>
+          </div>
+        </section>
+
+        <section id="section_4_2">
+          <h3>レンダリングツリー</h3>
+          <p>
+            DOMとCSSOMによるWebページの生成を行うと<b>レンダリングツリー（レンダーツリー）</b>が作成される。<br />
+          </p>
+
+          <ul>
+            <li>
+              レンダリングツリーが作成されると、それを基に<b>レイアウト</b>が作成される。<br />
+              画面に対するノードの位置情報などを割り当てる。
+            </li>
+            <li>
+              レイアウトを基にして各種ノードやCSS設定を変換して<b
+                >ペインディング（描画）</b
+              >
+              を行う。<br />
+              尚、ペインティングは一度のみ行われ、変更がある場合は再描画（リペイント）を行う。
+            </li>
+          </ul>
+
+          <p>上記の仕組みを基に、以下の流れでWebページはレンダリングされる。</p>
+          <ol>
+            <li>DOMツリーを構築</li>
+            <li>CSSOMツリーを構築</li>
+            <li>レンダリングツリーを生成</li>
+            <li>レンダリングツリーを基にレイアウトを作成</li>
+            <li>レイアウトを基にペインティング</li>
+          </ol>
+        </section>
+
+        <section id="section_4_3">
+          <h3>レンダーブロッキング</h3>
+          <p>
+            DOMとCSSOMは並列で構築されるが、CSSOMは割り込み処理になる関係上DOMよりも構築に時間がかかる。<br />
+            CSSOMの構築が終わらないとレンダリングツリーは生成出来ず、これによるレンダリング処理の中断を<b>レンダーブロッキング</b>という。<br />
+            また、CSSのようなレンダーブロッキングを行うリソースは<b>レンダーブロッキングリソース</b>と呼ばれる。
+          </p>
+
+          <ul>
+            <li>
+              CSSファイルが重くなるにつれレンダーブロッキングが発生しやすくなる。
+            </li>
+            <li>
+              また、CSSOMはキャッシュを生成しないためリロードを行った場合ゼロからCSSOMの構築が開始されてしまう。
+            </li>
+            <li>
+              このレンダーブロッキングを防ぐことがレンダリングのパフォーマンスに繋がり、以下の方法がある。
+            </li>
+            <ul>
+              <li>CSSファイルを一つに纏める</li>
+              <li><b>@import</b>ルールを使わない</li>
+              <li>
+                <b>media</b>属性を指定してCSSの読み込みタイミングを指定する
+              </li>
+            </ul>
+          </ul>
+        </section>
+
+        <section id="section_4_4">
+          <h3>パーサーブロッキング</h3>
+          <p>
+            JavaScriptは<b>HTMLパーサー（ブラウザのHTML解読機能）</b>
+            がソースコードを参照したとき、DOMツリーの構築を中断して実行される。<br />
+            このようにパーサーの処理を中断を<b>パーサーブロッキング</b>、パーサーブロッキングを行うリソースを<b>パーサーブロッキングリソース</b>という。
+          </p>
+
+          <ul>
+            <li>
+              JavaScriptの処理が重くなるとパーサーブロッキングの影響は大きくなる。
+            </li>
+            <li>
+              JavaScriptの記述位置を起点にDOMツリーの構築を中断するので、本来参照したいノードの位置より前にソースコードを記述しないよう注意する。
+            </li>
+          </ul>
+        </section>
+      </section>
+
+      <section id="section_5">
+        <h2>DOMインターフェース</h2>
+        <p>
+          DOMでは、Webページの機能や構成要素ごとにインターフェースが用意されている。<br />
+          以下はDOMを用いてWebページ内のp要素を取得する例である。
+        </p>
+
+        <div>
+          <pre><code class="language-js">// Webページ内の全てのp要素を取得
+const element = document.querySelectorAll("p");
+
+// 取得した全てのp要素を処理
+for (let e of element) {
+  ...
+}</code></pre>
+        </div>
+
+        <p>
+          DOMインターフェースは以下のようなツリー状で、様々なインターフェースが連なり複雑な構造となっている。<br />
+        </p>
+
+        <ol>
+          <li>ブラウザを表す<b> Windowインターフェース</b></li>
+          <li>
+            Windowインターフェースを継承しており、Webページを表す<b
+              >Documentインターフェース</b
+            >
+          </li>
+          <li>
+            Documentインターフェースを継承しており、Webページを構成する要素を表す<b
+              >Elementインターフェース</b
+            >
+          </li>
+        </ol>
+
+        <p>以下で紹介するインターフェースはその一部である。</p>
+        <div>
+          <table>
+            <thead>
+              <tr>
+                <th scope="rowgroup">インターフェース名</th>
+                <th>説明</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>EventTarget</td>
+                <td>
+                  各種インターフェースで起きたイベントの検知を行うためのインターフェース。<br />
+                  <b>Element</b
+                  >、<b>Window</b>、<b>Document</b>はEventTargetクラスを継承しているため、これらのオブジェクトからイベントを参照できる。<br />
+                </td>
+              </tr>
+              <tr>
+                <td>Event</td>
+                <td>
+                  ブラウザ内のイベント関連処理を包含するインターフェース。<br />
+                  <b>EventTarget.addEventListener()</b
+                  >メソッドなどのイベントリスナーからイベントを検知した際に生成される。
+                </td>
+              </tr>
+              <tr>
+                <td>Node</td>
+                <td>
+                  全てのDOMインターフェースの基底クラスであり、ノードの本体となる。<br />
+                  抽象クラスのためNodeオブジェクト自体はサポートされていないがNodeインターフェースに定義されたメソッドは子クラスで指定可能。<br />
+                  （ただし一部インターフェースは使用出来ない場合があり、その場合はnull、undefindが返る）
+                </td>
+              </tr>
+              <tr>
+                <td>Window</td>
+                <td>
+                  ブラウザ本体の機能をサポートしたオブジェクトを返す。<br />
+                  ブラウザはWindowインターフェースを介して動作しており、JavaScriptコード内ではWindowオブジェクトの宣言を省略できる。<br />
+                  <b>Document</b
+                  >はブラウザに表示されているWeb文書を表しており、内部的には<b>Window.document</b>プロパティで参照されている。
+                </td>
+              </tr>
+              <tr>
+                <td>Document</td>
+                <td>
+                  Webページ全体をノード化したDOMツリーをオブジェクトとして返す。<br />
+                  各Webページの構成要素に応じたインターフェースにアクセスするための窓口となる。
+                </td>
+              </tr>
+              <tr>
+                <td>DocumentFragment</td>
+                <td>
+                  親ノードの代替となる簡易的なDOMツリーオブジェクト。<br />
+                  <b>element.childNodes</b
+                  >などでElementオブジェクトから子ノードを抜き出した場合に、一時的な親ノードとして生成される。<br />
+                  子ノードの抜き出し、挿入などの処理に利用する。<br />
+                  <a href="https://uhyohyo.net/javascript/7_4.html">参考</a>
+                  <br />
+                </td>
+              </tr>
+              <tr>
+                <td>Element</td>
+                <td>
+                  Webページの要素をオブジェクトとして返す。<br />
+                  Elementを基底クラスとして、主に以下のクラスなどに細分化されている。<br />
+                  <ul>
+                    <li>HTMLタグを操作する<b>HTMLElement</b></li>
+                    <li>
+                      HTMLElementを継承した各種タグ毎のインターフェース（aタグに該当する<b>HTMLAnchorElement</b>など）
+                    </li>
+                    <li>SVGを操作する<b>SVGElement</b></li>
+                  </ul>
+                </td>
+              </tr>
+              <tr>
+                <td>Attr</td>
+                <td>各種要素の属性をオブジェクトとして返す。</td>
+              </tr>
+              <tr>
+                <td>CharacterData</td>
+                <td>
+                  Webページ内のテキストノードを参照するための抽象クラスで、以下のクラスが実装されている。<br />
+                  <ul>
+                    <li>
+                      各種要素のテキストをオブジェクトとして返す<b>Text</b>
+                    </li>
+                    <li>HTMLコメントをオブジェクトとして返す<b>Comment</b></li>
+                  </ul>
+                </td>
+              </tr>
+              <tr>
+                <td>CSSStyleDeclaration</td>
+                <td>
+                  CSSに関するメソッドやプロパティをサポートしたオブジェクトを返す。<br />
+                  <b>HTMLElement.style</b
+                  >プロパティから取得した値がCSSStyleDeclarationオブジェクトとして返却される。<br />
+                  <a
+                    href="https://zenn.dev/antez/books/6da596a697aa86/viewer/201677#cssstyledeclaration%E3%82%A4%E3%83%B3%E3%82%BF%E3%83%BC%E3%83%95%E3%82%A7%E3%83%BC%E3%82%B9"
+                    >参考</a
+                  >
+                </td>
+              </tr>
+              <tr>
+                <td>DOMString</td>
+                <td>
+                  DOMで扱う文字列は
+                  <b>DOMString</b>インターフェースとして定義されている。<br />
+                  JavaScriptのStringオブジェクトと互換性がある。
+                </td>
+              </tr>
+              <tr>
+                <td>NodeList</td>
+                <td>
+                  各種ノードオブジェクトのコレクションであり、リストとして扱える。<br />
+                  動的なNodeListと静的なNodeListがあり、前者は変更がリアルタイムに反映され、後者は独立したインスタンスを返す。
+                </td>
+              </tr>
+              <tr>
+                <td>HttpCollection</td>
+                <td>
+                  <b>Element</b
+                  >オブジェクトのコレクションであり、リストとして扱える。<br />
+                  動的に取得するためノードへの変更がリアルタイムに反映される。
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

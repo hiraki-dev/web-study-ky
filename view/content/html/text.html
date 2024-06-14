@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+
+<html>
+  <!-- ヘッダー情報 -->
+  <head>
+    <!-- ページ内基底URL target属性でタブの表示方法を指定 -->
+    <base href="./text.html" target="_self" />
+    <!-- ページタイトル -->
+    <title>HTML テキストタグ</title>
+
+    <!-- メタデータ設定 -->
+    <!-- 文字コード -->
+    <meta charset="utf-8" />
+    <!-- 読み込み時のページサイズ -->
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <!-- Webページの概要と説明 -->
+    <meta
+      name="description"
+      content="HTMLのテキストタグに関してまとめたページ"
+    />
+    <!-- 電話番号の自動リンク機能オフ -->
+    <meta name="format-detection" content="telephone=no" />
+
+    <!-- 外部リソース読み込み -->
+    <!-- CSS -->
+    <link rel="stylesheet" href="../../asset/css/common.css" />
+    <!-- ファビコン -->
+    <!-- <link rel="icon" href="" /> -->
+
+    <!-- スクリプト読み込み -->
+    <script src="../../asset/js/main.js"></script>
+
+    <!-- CSSの直接適用 -->
+    <style></style>
+  </head>
+
+  <body>
+    <main>
+      <h1>テキストタグ</h1>
+
+      <!-- a -->
+      <section>
+        <h2>aタグ</h2>
+        <p>リンクを作成する。</p>
+
+        <ul>
+          <li>href属性でリンクを指定</li>
+          <li>target属性でタブ動作を指定</li>
+          <li>
+            download属性を指定するとリソースのダウンロード用リンクとして設定できる
+          </li>
+          <li>rel属性でリンク先とのリレーションを指定できる</li>
+          <li>
+            <a href="https://www.htmq.com/htmls/a.shtml"
+              >その他の属性はリンク先を参照すること</a
+            >
+          </li>
+        </ul>
+      </section>
+
+      <!-- cite -->
+      <section>
+        <h2>citeタグ</h2>
+        <p>
+          要素がタイトルであることを明示する。<br />
+          スタイリングを行う場合はspanタグを用いること。
+        </p>
+        <blockquote>
+          <cite>citeタグ</cite>
+        </blockquote>
+      </section>
+
+      <!-- q -->
+      <section>
+        <h2>qタグ</h2>
+        <p>
+          要素が引用文であることを明示する。<br />
+          cite属性で引用元リンクを指定。
+        </p>
+
+        <blockquote>
+          以下、引用<br />
+          <q cite="https://www.w3.org/Consortium/">
+            ウェブの長期的な成長を保証するプロトコルとガイドラインを整備して
+            World Wide Web の可能性を最大限に引き出す
+          </q>
+        </blockquote>
+      </section>
+
+      <!-- dfn -->
+      <section>
+        <h2>dfnタグ</h2>
+        <p>
+          要素が略語などの定義された言葉であることを明示する。<br />
+          titleタグに正式名称を指定する。
+        </p>
+
+        <blockquote>
+          <p>
+            world wide webは<dnf title="world wide web">www</dnf>と略される。
+          </p>
+        </blockquote>
+
+        <section>
+          <h3>addrタグと組み合わせた略称指定</h3>
+          <p>
+            addrタグを子要素として指定することで、略語を明示できる。<br />
+            通常、dfnタグは文中の最初のみ定義を行う。
+          </p>
+          <blockquote>
+            <p>
+              world wide webは<dfn><abbr title="world wide web">www</abbr></dfn
+              >と略される。
+            </p>
+          </blockquote>
+
+          <h3>aタグとの組み合わせ</h3>
+          <p>
+            ページ内に定義したdfnタグにidを付与することで、aタグで定義したテキストへのリンクを設定することができる。<br />
+            以下はdfnとaタグの組み合わせの例。
+          </p>
+
+          <blockquote>
+            <p>
+              world wide webは<dfn id="www"
+                ><abbr title="world wide web">www</abbr></dfn
+              >と略される。
+            </p>
+            <p>
+              今では<a href="#www"><abbr title="world wide web">www</abbr></a>
+              はインターネットと同義の言葉として扱われる。
+            </p>
+          </blockquote>
+        </section>
+      </section>
+
+      <!-- ruby -->
+      <section>
+        <h2>rubyタグ</h2>
+        <p>テキストにルビを付与する。</p>
+        <ul>
+          <li>rtタグでルビ文字を指定する</li>
+          <li>rubyタグ非対応ブラウザでは、rpタグの要素が括弧で表示される</li>
+        </ul>
+
+        <blockquote>
+          <ruby>
+            魑魅<rt>ちみ</rt>魍魎<rt>もうりょう</rt>が貴方に襲い掛かる。</ruby
+          >
+        </blockquote>
+      </section>
+
+      <!-- data/time -->
+      <section>
+        <h2>data/timeタグ</h2>
+        <p>
+          要素にスクリプトで使用可能な値を付与する。<br />
+          値はvalue属性で指定する。<br />
+          dataタグは汎用的な値を、timeは時間や日付を指定する場合に使用する。
+        </p>
+
+        <blockquote>
+          <p>
+            <data value="1">ID:1</data>
+          </p>
+          <p>
+            <time datetime="2024-03-15">今日の日付は2024/3/15です。</time>
+          </p>
+        </blockquote>
+      </section>
+
+      <!-- ins/del -->
+      <section>
+        <h2>ins/delタグ</h2>
+        <p>
+          ページ内へのテキストの追加/削除を明示する。<br />
+          スクリプト等で動的にテキストを挿入・削除した際に使用するのが好ましい。
+        </p>
+        <ul>
+          <li>insタグは追加</li>
+          <li>delタグは削除</li>
+          <li>cite属性で引用元や詳細のリンクを設定</li>
+          <li>datetime属性でテキストを追加・削除した日付を設定</li>
+        </ul>
+
+        <div>
+          <p>
+            以下は使用例。 <br />
+            <ins>テキストを追加</ins><br />
+            <del>テキストを削除</del>
+          </p>
+        </div>
+      </section>
+
+      <!-- 文字装飾タグ -->
+      <section>
+        <h2>文字装飾タグ</h2>
+        <p>ここでは、文字の装飾を行うタグ群について纏めておく。</p>
+
+        <section>
+          <h3>brタグ</h3>
+          <p>改行を表現する。</p>
+
+          <h3>emタグ</h3>
+          <p><em>テキストを強調する。</em></p>
+
+          <h3>strongタグ</h3>
+          <p><strong>テキストを太字（bold）にする。</strong></p>
+
+          <h3>smallタグ</h3>
+          <p><small>テキストを小さく表示する。</small></p>
+
+          <h3>markタグ</h3>
+          <p><mark>テキストをマーカー表示する。</mark></p>
+
+          <h3>sタグ</h3>
+          <p><s>テキストに中線を引く。</s></p>
+
+          <h3>iタグ</h3>
+          <p><i lang="ja">テキストを強調する。</i></p>
+
+          <h3>bタグ</h3>
+          <p><b>テキストを強調表示する。</b></p>
+
+          <h3>uタグ</h3>
+          <p><u>テキストに下線を引く。</u></p>
+
+          <h3>codeタグ</h3>
+          <p>
+            テキストがコードであることを明示する。<br />
+            <code>console.log("hello world");</code>
+          </p>
+
+          <h3>varタグ</h3>
+          <p>
+            テキストが変数であることを明示する。<br />
+            <var>hoge</var>, <var>huga</var>
+          </p>
+
+          <h3>sampタグ</h3>
+          <p>
+            コンソールなどのコンピューターからの出力であることを明示する。<br />
+            <samp>> y/n?</samp>
+          </p>
+
+          <h3>kbdタグ</h3>
+          <p>
+            コンソールなどへのユーザ入力情報であることを明示する。<br />
+            <samp>> y/n? <kbd>y</kbd></samp>
+          </p>
+
+          <h3>supタグ/subタグ</h3>
+          <p>数式などを表現する際に使用する。</p>
+          <var>E</var>=<var>m</var><var>c</var><sup>2</sup> f(<var>x</var>,
+          <var>n</var>) = log<sub>4</sub><var>x</var><sup><var>n</var></sup>
+        </section>
+      </section>
+
+      <!-- 説明を省略するタグ -->
+      <section>
+        <h2>説明を省略するタグ</h2>
+        <ul>
+          <li>
+            <a href="https://www.htmq.com/htmls/bdi.shtml"
+              >bdiタグ（テキストの左右方向の書式設定）</a
+            >
+          </li>
+          <li>
+            <a href="https://www.htmq.com/htmls/bdo.shtml"
+              >bdoタグ（テキストの左右方向を上書き）</a
+            >
+          </li>
+          <li>
+            <a href="https://www.htmq.com/htmls/wbr.shtml"
+              >wbrタグ（改行箇所の候補を指定）</a
+            >
+          </li>
+        </ul>
+      </section>
+    </main>
+  </body>
+</html>

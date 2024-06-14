@@ -1,0 +1,153 @@
+<div>
+  <h1>疑似クラス/疑似要素</h1>
+
+  <section id="content_link">
+    <h2>目次</h2>
+
+    <nav>
+      <ol>
+        <li><a href="#section_1">疑似クラス/疑似要素</a></li>
+        <li><a href="#section_2">疑似クラスの適用例</a></li>
+        <ol type="I">
+          <li><a href="#section_2_1">link/visited</a></li>
+          <li><a href="#section_2_1">hover/active</a></li>
+        </ol>
+        <li><a href="#section_3">疑似要素の適用例</a></li>
+        <ol type="I">
+          <li><a href="#section_3_1">first-letter/first-line</a></li>
+          <li><a href="#section_3_1">before/after</a></li>
+        </ol>
+      </ol>
+    </nav>
+  </section>
+
+  <section id="section_1">
+    <h2>疑似クラス/疑似要素</h2>
+    <p>
+      疑似クラス/疑似要素を使用することで指定セレクタの特定の要素、特定の状況でスタイルを適用できる。
+    </p>
+
+    <ul>
+      <li>擬似クラス</li>
+      <ul>
+        <li>指定セレクタが特定の状態のときにデザインを適用出来るセレクタ。</li>
+        <li>
+          セレクタの後ろに <b>:擬似クラス名</b> と指定することで適用できる。
+        </li>
+      </ul>
+      <li>疑似要素</li>
+      <ul>
+        <li>指定セレクタの一部に対してデザインを適用出来るセレクタ。</li>
+        <li>
+          セレクタの後ろに <b>::擬似要素名</b> と指定することで適用できる。
+        </li>
+      </ul>
+      <li>詳細な種類は以下を参照すること。</li>
+      <ul>
+        <li>
+          <a href="https://www.htmq.com/style/#sel"
+            >スタイルシートリファレンス（目的別） - セレクタ</a
+          >
+        </li>
+        <li>
+          <a href="https://www.tohoho-web.com/css/selector.htm"
+            >CSSリファレンス(セレクタ)</a
+          >
+        </li>
+      </ul>
+    </ul>
+
+    <section id="section_2">
+      <h2>疑似クラスの適用例</h2>
+
+      <section id="section_2_1">
+        <h3>link/visited</h3>
+
+        <div>
+          <pre><code class="language-html">&lt;style&gt;
+  a:link {
+    ...
+  }
+
+  a:visited {
+    ...
+  }
+&lt;/style&gt;
+
+&lt;!-- :linkはaタグに指定したリンクが未訪問の場合にスタイルを適用する --&gt;
+&lt;a href=&quot;...&quot;&gt;テキスト&lt;/a&gt;
+&lt;!-- :visitedはリンク先に遷移済の場合に適用する --&gt;
+&lt;a href=&quot;...&quot;&gt;テキスト&lt;/a&gt;</code></pre>
+        </div>
+      </section>
+
+      <section id="section_2_2">
+        <h3>hover/active</h3>
+
+        <div>
+          <pre><code class="language-html">&lt;style&gt;
+  .class1:hover {
+    ...
+  }
+
+  .class2:active {
+    ...
+  }
+&lt;/style&gt;
+
+&lt;!-- :hoverはタグに対してマウスが置かれた時にスタイルを適用する --&gt;
+&lt;dev class=&quot;class1&quot;&gt;...&lt;/div&gt;
+&lt;!-- :activeはタグがアクティブ状態の時にスタイルを適用する --&gt;
+&lt;dev class=&quot;class2&quot;&gt;...&lt;/div&gt;</code></pre>
+        </div>
+      </section>
+    </section>
+
+    <section id="section_3">
+      <h2>疑似要素の適用例</h2>
+
+      <section id="section_3_1">
+        <h3>first-letter/first-line</h3>
+
+        <div>
+          <pre><code class="language-html">&lt;style&gt;
+  .class1::first-letter {
+    ...
+  }
+
+  .class2::first-line {
+    ...
+  }
+&lt;/style&gt;
+
+&lt;!-- ::first-letterはタグ内の一文字目にスタイルを適用する --&gt;
+&lt;p class=“class1”&gt;テキスト&lt;/p&gt;
+&lt;!-- ::first-lineはタグ内の一行目にスタイルを適用する --&gt;
+&lt;p class=“class2”&gt;テキスト&lt;/p&gt;</code></pre>
+        </div>
+      </section>
+
+      <section id="section_3_2">
+        <h3>before/after</h3>
+
+        <div>
+          <pre><code class="language-html">&lt;style&gt;
+  /* 以下の疑似クラスはcontentプロパティの指定が必須 */
+  .class1::before {
+    content: &quot;挿入する文字列や画像等&quot;
+  }
+
+  .class2::after {
+    content: &quot;挿入する文字列や画像等&quot;
+  }
+&lt;/style&gt;
+
+&lt;!-- pタグの前にcontentの内容が追加される --&gt;
+&lt;p class=“class1”&gt;テキスト&lt;/p&gt;
+&lt;!-- pタグの後にcontentの内容が追加される --&gt;
+&lt;p class=“class2”&gt;テキスト&lt;/p&gt;</code></pre>
+        </div>
+      </section>
+    </section>
+  </section>
+</div>

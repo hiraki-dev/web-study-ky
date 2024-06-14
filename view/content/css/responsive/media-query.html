@@ -1,0 +1,334 @@
+<div>
+  <h1>メディアクエリー</h1>
+
+  <section id="content_link">
+    <h2>目次</h2>
+
+    <nav>
+      <ol>
+        <li><a href="#section_1">メディアクエリーとは</a></li>
+        <li><a href="#section_2">ビューポートメタタグ</a></li>
+        <li><a href="#section_3">メディアクエリーの構文</a></li>
+        <li><a href="#section_4">メディアタイプ</a></li>
+        <li><a href="#section_5">メディア特性</a></li>
+        <ol type="I">
+          <li><a href="#section_5_1">比較演算子を用いた記述</a></li>
+          <li><a href="#section_5_2">範囲指定</a></li>
+        </ol>
+        <li><a href="#section_6">論理演算子</a></li>
+        <li><a href="#section_7">メディアクエリーのネスト</a></li>
+        <li>
+          <a href="#section_8">モバイルファースト/ブレークポイント</a>
+        </li>
+      </ol>
+    </nav>
+  </section>
+
+  <section id="section_1">
+    <h2>メディアクエリーとは</h2>
+    <p>
+      モバイル、タブレット、PCなどのデバイスによって画面の表示サイズは変化する。<br />
+      それに対応すべく、ビューポートの表示領域に応じてスタイルを適応できるCSSの機能がメディアクエリーである。<br />
+      メディアクエリーを用いることで端末別にデザインを適用できる。
+    </p>
+  </section>
+
+  <section id="section_2">
+    <h2>ビューポートメタタグ</h2>
+    <p>
+      メディアクエリーを使用する際はHTML内に<b>ビューポートメタタグ</b>を定義しておくこと。<br />
+      指定しておかないと表示が崩れるなどの弊害が起きる。
+    </p>
+
+    <div>
+      <pre><code class="language-html">&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width,initial-scale=1&quot; /&gt;</code></pre>
+    </div>
+  </section>
+
+  <section id="section_3">
+    <h2>メディアクエリーの構文</h2>
+    <p>
+      メディアクエリーは<b>@media</b>ルールを指定して定義する。<br />
+      以下はメディアクエリーの構文である。
+    </p>
+
+    <div>
+      <pre><code class="language-css">@media メディアタイプ 論理演算子 (メディア特性) {
+/* 条件に一致した際に適用するCSSを記述 */
+  div {
+    ...
+  }
+}</code></pre>
+    </div>
+
+    <ul>
+      <li>
+        メディアタイプではデバイス画面、印刷ページ、音声出力装置などのメディアを指定する。
+      </li>
+      <li>メディア特性では幅や高さなどのメディアの領域を指定する。</li>
+      <li>and条件、or条件、not条件などの論理演算子を指定できる。</li>
+    </ul>
+  </section>
+
+  <section id="section_4">
+    <h2>メディアタイプ</h2>
+    <p>
+      適用したいメディアに応じて以下のタイプを指定できる。<br />
+      以下に記載していないメディアタイプは非推奨のため省略する。
+    </p>
+
+    <div>
+      <table>
+        <thead>
+          <tr>
+            <th scope="rowgroup">メディアタイプ</th>
+            <th>説明</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>all</td>
+            <td>全メディアタイプ</td>
+          </tr>
+          <tr>
+            <td>screen</td>
+            <td>デバイス画面</td>
+          </tr>
+          <tr>
+            <td>print</td>
+            <td>印刷プレビュー</td>
+          </tr>
+          <tr>
+            <td>speech</td>
+            <td>音声出力デバイス</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>以下は記述例。</p>
+    <div>
+      <pre><code class="language-css">/* 画面 */
+@media screen and (...) {
+  ...
+}
+
+/* 印刷プレビュー */
+@media print and (...) {
+  ...
+}
+
+/* 全デバイス */
+@media all and (...) {
+  ...
+}
+
+/* 全デバイスの場合、以下のように省略できる */
+@media (...) {
+  ...
+}</code></pre>
+    </div>
+  </section>
+
+  <section id="section_5">
+    <h2>メディア特性</h2>
+    <p>
+      画面の幅や高さなどのメディアの領域を指定する。<br />
+      以下に記載していないメディア特性は非推奨のため省略する。
+    </p>
+
+    <div>
+      <table>
+        <thead>
+          <tr>
+            <th scope="rowgroup">メディア特性</th>
+            <th>説明</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>width</td>
+            <td>幅</td>
+          </tr>
+          <tr>
+            <td>max-width</td>
+            <td>幅（最大値）</td>
+          </tr>
+          <tr>
+            <td>min-width</td>
+            <td>幅（最小値）</td>
+          </tr>
+          <tr>
+            <td>height</td>
+            <td>高さ</td>
+          </tr>
+          <tr>
+            <td>orientation</td>
+            <td>縦長モード (portrait) / 横長モード (landscape)</td>
+          </tr>
+          <tr>
+            <td>aspect-ratio</td>
+            <td>幅と高さの比率(アスペクト比)</td>
+          </tr>
+          <tr>
+            <td>resolution</td>
+            <td>解像度</td>
+          </tr>
+          <tr>
+            <td>color</td>
+            <td>色</td>
+          </tr>
+          <tr>
+            <td>grid</td>
+            <td>グリッド</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>以下は記述例。</p>
+    <div>
+      <pre><code class="language-css">/* 画面幅が1024px */
+@media screen and (width: 1024px) {
+  ...
+}
+
+/* 画面幅が768px以上 */
+@media screen and (max-width: 768px) {
+  ...
+}
+
+/* 画面が横長モード */
+@media screen and (orientation: landscape) {
+  ...
+}</code></pre>
+    </div>
+
+    <section id="section_5_1">
+      <h3>比較演算子を用いた記述</h3>
+      <p><b>width</b>と比較演算子を用いて簡略的に記述できる。</p>
+
+      <div>
+        <pre><code class="language-css">@media screen and (min-width: 1024px) {
+
+}
+
+/* 上記と同等 */
+@media screen and (width < 1024px) {
+
+}
+
+/* 上記と違い、1024pxも含む */
+@media screen and (width =< 1024px) {
+
+}</code></pre>
+      </div>
+    </section>
+
+    <section id="section_5_2">
+      <h3>範囲指定</h3>
+      <p>画面幅の範囲などを指定する場合、以下のように省略できる。</p>
+
+      <div>
+        <pre><code class="language-css">/* 以下は同等 */
+@media screen and (min-width: 300px) and (max-width: 500px) {
+  ...
+}
+
+@media screen and (300px <= width <= 500px) {
+  ...
+}</code></pre>
+      </div>
+    </section>
+  </section>
+
+  <section id="section_6">
+    <h2>論理演算子</h2>
+    <p>メディアクエリーは論理演算子を用いた複雑な条件を指定できる。</p>
+
+    <div>
+      <pre><code class="language-css">/* and条件の例 */
+@media screen and (min-width: 1024px) {
+  /* 画面の幅が1024px以下の場合に適用 */
+}
+
+/* or条件の例（カンマで区切る） */
+@media screen and (min-width: 768px) , screen and (orientation: landscape) {
+  /* 画面の幅が768px以下の場合、または横長モードの場合に適用 */
+}
+
+/* not条件の例 */
+@media not screen and (min-width: 1024p000x) {
+  /* 画面の幅が768px以下の場合は適用しない */
+}</code></pre>
+    </div>
+  </section>
+
+  <section id="section_7">
+    <h2>メディアクエリーのネスト</h2>
+    <p>
+      メディアクエリーはネストして指定できる。<br />
+      ネストして指定されたメディアクエリーは、親クエリにand条件として追加される。
+    </p>
+
+    <div>
+      <pre><code class="language-css">@media screen and (width > 768px) {
+  div {
+    ...
+  }
+
+  @media screen and (orientation: landscape) {
+    section {
+      ...
+    }
+  }
+}
+
+/* 上記と同等 */
+@media screen and (width > 768px) {
+  div {
+    ...
+  }
+}
+
+@media screen and (width > 768px) and (orientation: landscape) {
+  section {
+    ...
+  }
+}</code></pre>
+    </div>
+  </section>
+
+  <section id="section_8">
+    <h2>モバイルファースト/ブレークポイント</h2>
+    <p>
+      <b
+        >GoogleはWebページのインデックスやランク付けの指標として、モバイル端末の表示を優先している。</b
+      >
+      これをモバイルファーストといい、レイアウトデザインはモバイルから行うのが望ましいとされている。（対義語がデスクトップファースト）
+    </p>
+
+    <div>
+      <pre><code class="language-css">/* モバイル */
+selector {
+  ...
+}
+
+/* タブレット */
+@media screen and (min-width: 768px) {
+  ...
+}
+            
+/* デスクトップ */
+@media screen and (min-width: 1348px) {
+  ...
+}</code></pre>
+    </div>
+
+    <p>
+      また、メディアクエリーを適用する位置のことを<b>ブレークポイント</b>という。
+      <br />
+      ブレークポイントはデバイスに合わせて置くのが基本だが、デバイスが多様化している現状、デバイスに合わせて設定するよりもコンテンツの表示限界に合わせて設置することが望ましい。
+    </p>
+  </section>
+</div>

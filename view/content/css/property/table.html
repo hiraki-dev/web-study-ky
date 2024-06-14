@@ -1,0 +1,242 @@
+<div>
+  <h1>タイトル</h1>
+
+  <section id="content_link">
+    <h2>目次</h2>
+
+    <nav>
+      <ol>
+        <li><a href="#section_1">テーブルレイアウト</a></li>
+        <li><a href="#section_2">キャプション</a></li>
+        <li><a href="#section_3">セルの表示間隔</a></li>
+        <li><a href="#section_4">テーブルスタイリング</a></li>
+      </ol>
+    </nav>
+  </section>
+
+  <section id="section_1">
+    <h2>テーブルレイアウト</h2>
+    <p>テーブル全体やセルの表示幅は<b>width</b>で指定する。</p>
+    <div>
+      <pre><code class="language-css">.table {
+  /* テーブル全体のデフォルト表示幅 */
+  width: 70%;
+
+  & th {
+    /* テーブルヘッダーのデフォルト表示幅 */
+    width: 5em;
+  }
+}</code></pre>
+    </div>
+
+    <p>
+      また、テーブルの表示幅がデフォルトサイズ以上、またはオーバーフローした際の表示幅は<b>table-layout</b>プロパティで指定できる。
+    </p>
+    <div>
+      <pre><code class="language-css">.table {
+  /* ブラウザの表示幅に合わせて自動で列幅を算出する */
+  table-layout: auto;
+  /* テーブルやセルに指定された幅で固定する */
+  table-layout: fixed;;
+}</code></pre>
+    </div>
+  </section>
+
+  <section id="section_2">
+    <h2>キャプション</h2>
+    <p>キャプションは<b>caption-side</b>プロパティで位置を指定できる。</p>
+    <div>
+      <pre><code class="language-css">.table {
+  /* キャプションを上部へ配置 */
+  caption-side: top;
+  /* キャプションを下部へ配置 */
+  caption-side: bottom;
+}</code></pre>
+    </div>
+  </section>
+
+  <section id="section_3">
+    <h2>セルの表示間隔</h2>
+    <p>
+      <b>border-collapse</b>プロパティでセルの表示間隔を指定できる。<br />
+      また、<b>border-collapse: separate</b
+      >を指定した場合、<b>border-collapse</b>プロパティで上下左右の幅を指定できる。
+    </p>
+
+    <div>
+      <pre><code class="language-css">.table {
+  /* 繋げて表示 */
+  border-collapse: collapse;
+  /* 離して表示 */
+  border-collapse: separate;
+
+  /* 左右の幅を指定（値ひとつの場合は上下左右） */
+  /* border-spacing: 上下幅 左右幅 ; */
+  border-spacing: 0.5em;
+}</code></pre>
+    </div>
+  </section>
+
+  <section id="section_4">
+    <h2>テーブルスタイリング</h2>
+    <p>
+      参考として、本サイトのテーブルスタイリングの設定を記載しておく。（2024/04/16時点）
+    </p>
+
+    <ul>
+      <li>オーバーフロー時に横スクロールバーを表示するように設定する。</li>
+      <ul>
+        <li><b>white-space: nowrap</b>でテキストの折り返しを無効化</li>
+        <li><b>table-layout: fixed</b>でテーブル幅を固定化</li>
+        <li>
+          <b>overflow-x: auto</b>でオーバーフロー時に横スクロールバーを表示
+        </li>
+      </ul>
+      <li>
+        擬似クラス<b>:nth-child(...)</b>を用いて偶数行、奇数行で別々の色を指定する。
+      </li>
+      <ul>
+        <li><b>:nth-child(2n)</b>で2nごとの整数要素（2, 4, 6...）を指定</li>
+        <li><b>:nth-child(2n-1)</b>で2n-1ごとの整数要素（1, 3, 5）を指定</li>
+      </ul>
+    </ul>
+
+    <div>
+      <pre><code class="language-css">/* テーブル共通設定 */
+:root {
+  --table-header-color: rgba(142, 178, 255, 0.966);
+  --table-cell-color-2n: rgba(253, 246, 246, 0.466);
+  --table-cell-color-2n-1: rgba(176, 176, 231, 0.288);
+}
+
+.table {
+  border-collapse: collapse;
+  /* オーバーフロー時のスクロールバー表示 */
+  table-layout: fixed;
+  white-space: nowrap;
+  overflow-x: auto;
+  
+  & caption {
+    caption-side: bottom;
+    text-align: start;
+  }
+  
+  & th,
+  td {
+    padding: 0.25em 0.5em;
+  }
+  
+  & th {
+    background-color: var(--table-header-color);
+    color: rgb(250, 250, 250);
+  }
+  
+  & tr:nth-child(2n-1) {
+    background-color: var(--table-cell-color-2n-1);
+  }
+  
+  & tr:nth-child(2n) {
+    background-color: var(--table-cell-color-2n);
+  }
+}
+
+/* 端末の最大サイズが幅430px以下の場合、モバイル端末と判定 */
+@media screen and (width <= 430px) {
+  table {
+    & caption {
+      margin: 6px;
+      font-size: 12px;
+    }
+
+    & th {
+      min-width: 4em;
+      font-size: 18px;
+    }
+
+    & td {
+      font-size: 16px;
+    }
+  }
+}
+
+/* 端末の最大サイズが幅431px以上 */
+@media screen and (width > 430px) {
+  table {
+    & caption {
+      margin: 10px 0 0 10px;
+      font-size: 10px;
+    }
+
+    & th {
+      min-width: 5em;
+      font-size: 12px;
+      padding: 0.25em;
+    }
+
+    & td {
+      font-size: 12px;
+    }
+  }
+}</code></pre>
+    </div>
+
+    <div>
+      <table>
+        <caption>
+          テーブルスタイリングの例
+        </caption>
+        <thead>
+          <tr>
+            <th scope="rowgroup">\</th>
+            <th>文字数</th>
+            <th>文章</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">Lorem ipsum</th>
+            <td>200</td>
+            <td>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+              eiusmod tempor incididunt ut labore et dolore magna aliqua. <br />
+              Dui id ornare arcu odio ut sem nulla pharetra diam. Risus viverra
+              adipiscing
+            </td>
+          </tr>
+          <tr>
+            <th scope="row">こころ</th>
+            <td>320</td>
+            <td>
+              私はその人を常に先生と呼んでいた。だからここでもただ先生と書くだけで本名は打ち明けない。これは世間を憚かる遠慮というよりも、その方が私にとって自然だからである。<br />
+              私はその人の記憶を呼び起すごとに、すぐ「先生」といいたくなる。筆を執っても心持は同じ事である。よそよそしい頭文字などはとても使う気にならない。<br />
+              私が先生と知り合いになったのは鎌倉である。その時私はまだ若々しい書生であった。<br />
+              暑中休暇を利用して海水浴に行った友達からぜひ来いという端書を受け取ったので、私は多少の金を工面して、出掛ける事にした。<br />
+              私は金の工面に二、三日を費やした。ところが私が鎌倉に着いて三日と経たないうちに、私を呼び寄せた友達は、急に国元から帰れという電報を受け取った。
+            </td>
+          </tr>
+          <tr>
+            <th scope="row">銀河鉄道の夜</th>
+            <td>160</td>
+            <td>
+              「ではみなさんは、そういうふうに川だと言われたり、乳の流れたあとだと言われたりしていた、このぼんやりと白いものがほんとうは何かご承知ですか」先生は、黒板につるした大きな黒い星座の図の、上から下へ白くけぶった銀河帯のようなところを指しながら、みんなに問いをかけました。<br />
+              カムパネルラが手をあげました。
+            </td>
+          </tr>
+          <tr>
+            <th scope="row">Wikipedia</th>
+            <td>500</td>
+            <td>
+              超弦理論が登場する以前に最も小さなスケールを記述した理論は場の量子論である。<br />
+              そこでは粒子を点、すなわち点粒子として扱ってきた（局所場の理論に代わる、広がりを持った粒子の概念を導入したS行列理論や非局所場理論などもあった）。<br />
+              一方、超弦理論では粒子を弦の振動として表す。<br />
+              1960年代、イタリアの物理学者、ガブリエーレ・ヴェネツィアーノが核子の内部で働く強い力の性質をベータ関数で表し、その式の示す構造が「弦
+              (string)」によって記述されることに南部陽一郎、レオナルド・サスキンド、ホルガー・ベック・ニールセンらが気付いたことから始まる。<br />
+              弦には「閉じた弦」と「開いた弦」の2種類を考えることができ、開いた弦はスピン1のゲージ粒子（光子、ウィークボソン、グルーオンなどに相当）を含み、閉じた弦はスピン2の重力子を含む。<br />
+              開いた弦の相互作用を考えるとどうしても閉じた弦、すなわち重力子を含まざるを得ない。
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+</div>

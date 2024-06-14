@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+
+<html>
+  <!-- ヘッダー情報 -->
+  <head>
+    <!-- ページ内基底URL target属性でタブの表示方法を指定 -->
+    <base href="./local-storage.html" target="_self" />
+    <!-- ページタイトル -->
+    <title>JS ローカルストレージ</title>
+
+    <!-- メタデータ設定 -->
+    <!-- 文字コード -->
+    <meta charset="utf-8" />
+    <!-- 読み込み時のページサイズ -->
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <!-- Webページの概要と説明 -->
+    <meta name="description" content="HTMLのフォームに関してまとめたページ" />
+    <!-- 電話番号の自動リンク機能オフ -->
+    <meta name="format-detection" content="telephone=no" />
+
+    <!-- リソース読み込み -->
+    <!-- CSS -->
+    <link rel="stylesheet" href="../../../asset/css/common.css" />
+    <!-- Script -->
+    <script src="../../../asset/js/lib/highlight.min.js"></script>
+    <script src="../../../asset/js/highlight.js"></script>
+    <script src="../../../asset/js/main.js"></script>
+  </head>
+
+  <body>
+    <main>
+      <h1>ローカルストレージ</h1>
+
+      <section id="content_link">
+        <h2>目次</h2>
+
+        <nav>
+          <ol>
+            <li><a href="#section_1">概要</a></li>
+            <li><a href="#section_2">データの保存/取得</a></li>
+            <li><a href="#section_3">データの削除</a></li>
+            <li><a href="#section_4">キーの存在チェック</a></li>
+            <li><a href="#section_5">ローカルストレージの初期化</a></li>
+            <li><a href="#section_6">セッションストレージ</a></li>
+          </ol>
+        </nav>
+      </section>
+
+      <section id="section_1">
+        <h2>概要</h2>
+        <p>ユーザのローカルブラウザ領域にデータを保存する。</p>
+
+        <ul>
+          <li>
+            データの有効期限がないためレスポンス側から削除しない限りデータを保持できる。
+          </li>
+          <li>
+            5MBまでのデータを保存可能で、Cookieと違いリクエスト毎の通信が発生しないメリットがある。
+          </li>
+          <li>
+            簡単に参照できるデータかつ、Stringとjson型のデータしか保存出来ないのでセキュリティを考慮する必要がないデータの保存に使用する。
+          </li>
+          <li>
+            Chromeの場合、開発者ツールを開き、<b>Application</b>タブを選択するとローカルストレージの項目がある。
+          </li>
+        </ul>
+      </section>
+
+      <section id="section_2">
+        <h2>データの保存/取得</h2>
+        <p>ローカルストレージはkeyとvalueで値を管理する。</p>
+
+        <div>
+          <pre><code class="js language-js">// LocalStorageオブジェクトの呼出し
+localStorage.setItem( “key値”, value値 );   //データの保存
+localStorage.getItem( “key値” );            //データの取得
+
+// プロパティ
+localStorage.プロパティ名 = value値;          //データの保存
+let tmp = localStorage.プロパティ名;          //データの取得
+
+// 複数データの場合
+let obj = {
+  last : tarou,
+  first : yamada
+};
+
+//オブジェクトをJSONに変換
+let obj = JSON.stringify(obj);
+localStorage.setItem('Key', obj);</code></pre>
+        </div>
+      </section>
+
+      <section id="section_3">
+        <h2>データの削除</h2>
+
+        <div>
+          <pre><code class="js language-js">localStorage.removeItem( 'key値' );</code></pre>
+        </div>
+      </section>
+
+      <section id="section_4">
+        <h2>キーの存在チェック</h2>
+
+        <div>
+          <pre><code class="js language-js">localStorage.hasOwnProperty( `key値` );</code></pre>
+        </div>
+      </section>
+
+      <section id="section_5">
+        <h2>ローカルストレージの初期化</h2>
+
+        <div>
+          <pre><code class="js language-js">localStorage.clear();</code></pre>
+        </div>
+      </section>
+
+      <section id="section_6">
+        <h2>セッションストレージ</h2>
+        <p>
+          ローカルストレージと違い、ブラウザを終了すると破棄される値をブラウザに保存出来る。<br />
+          <b>localStorage</b>の変わりに<b>sessionStorage</b>を指定する。
+        </p>
+      </section>
+    </main>
+  </body>
+</html>

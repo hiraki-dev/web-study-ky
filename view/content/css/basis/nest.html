@@ -1,0 +1,125 @@
+<div>
+  <h1>ネスト</h1>
+
+  <section id="content_link">
+    <h2>目次</h2>
+
+    <nav>
+      <ol>
+        <li><a href="#section_1">CSSのネスト</a></li>
+        <li><a href="#section_2">&セレクタを用いたネスト</a></li>
+        <ol type="I">
+          <li>
+            <a href="#section_2_1">疑似クラス/疑似要素などのネスト</a>
+          </li>
+          <li>
+            <a href="#section_2_2">親要素を追加するネスト</a>
+          </li>
+        </ol>
+      </ol>
+    </nav>
+  </section>
+
+  <section id="section_1">
+    <h2>CSSのネスト</h2>
+    <p>
+      CSSの定義は <b>{ }</b> 内に記述するが、 <b>{ }</b> の中に更に
+      <b>{ }</b> を作成して定義を行える。<br />
+      これを <b>ネスト</b> という。<br />
+      以下のように、ネストを効果的に用いることでスマートで可読性の高い記述が出来る。
+    </p>
+
+    <div>
+      <pre><code class="language-css">/* ネストの例 */
+div.example {
+  /* divタグ内に適用するスタイル */
+  ...
+  p {
+    /* 該当divタグを親要素に持つpタグに適用するスタイル */ 
+    ...
+  }
+}
+
+/* 上記と以下は同じ挙動である */
+div.example {
+  ...
+}
+
+div.example p {
+  ...
+}</code></pre>
+    </div>
+  </section>
+
+  <section id="section_2">
+    <h2>&セレクタを用いたネスト</h2>
+    <p>
+      <a href="https://developer.mozilla.org/ja/docs/Web/CSS/Nesting_selector"
+        >&セレクタ</a
+      >を使用することで以下のネスト記述が出来る。
+    </p>
+
+    <ul>
+      <li>半角スペースで接続できない疑似クラス/疑似要素などのネスト化</li>
+      <li>親要素をネストで追加</li>
+    </ul>
+
+    <section id="section_2_1">
+      <h3>疑似クラス/疑似要素などのネスト</h3>
+      <p>疑似クラス/疑似要素の前に <b>&</b> を付与することでネスト出来る。</p>
+
+      <div>
+        <pre><code class="language-css">/* 親セレクタがホバーされた場合の例 */
+div.example {
+  ...
+  &:hover {
+    /* 親要素がホバーされた際に適用 */
+    ...
+  }
+}
+
+/* 上記と以下は同じ挙動である */
+div.example {
+  ...
+}
+
+div.example:hover {
+  ...
+}
+</code></pre>
+      </div>
+    </section>
+
+    <section id="section_2_2">
+      <h3>親要素を追加するネスト</h3>
+      <p>
+        セレクタの後に
+        <b>&</b>
+        を付与することで、親要素をネストで追加できる。
+      </p>
+
+      <div>
+        <pre><code class="language-css">/* 例 */
+.supplement {
+  ...
+  .example & {
+    /*
+      class="example"が指定されたdivタグ内の、
+      class="supplement"が指定された要素にスタイルを適用
+    */
+    ...
+  }
+}
+
+/* 上記と以下は同じ挙動である */
+.supplement {
+  ...
+}
+
+.example .supplement {
+  ...
+}</code></pre>
+      </div>
+    </section>
+  </section>
+</div>

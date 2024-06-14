@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+
+<html>
+  <!-- ヘッダー情報 -->
+  <head>
+    <!-- ページ内基底URL target属性でタブの表示方法を指定 -->
+    <base href="./prototype.html" target="_self" />
+    <!-- ページタイトル -->
+    <title>JS 題名</title>
+
+    <!-- メタデータ設定 -->
+    <!-- 文字コード -->
+    <meta charset="utf-8" />
+    <!-- 読み込み時のページサイズ -->
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <!-- Webページの概要と説明 -->
+    <meta name="description" content="HTMLのフォームに関してまとめたページ" />
+    <!-- 電話番号の自動リンク機能オフ -->
+    <meta name="format-detection" content="telephone=no" />
+
+    <!-- リソース読み込み -->
+    <!-- CSS -->
+    <link rel="stylesheet" href="../../../asset/css/common.css" />
+    <!-- Script -->
+    <script src="../../../asset/js/lib/highlight.min.js"></script>
+    <script src="../../../asset/js/highlight.js"></script>
+    <script src="../../../asset/js/main.js"></script>
+  </head>
+
+  <body>
+    <main>
+      <h1>プロトタイプ</h1>
+
+      <section id="content_link">
+        <h2>目次</h2>
+
+        <nav>
+          <ol>
+            <li><a href="#section_1">概要</a></li>
+            <li><a href="#section_2">プロトタイプチェーン</a></li>
+            <li><a href="#section_3">プロトタイプの凍結</a></li>
+          </ol>
+        </nav>
+      </section>
+
+      <section id="section_1">
+        <h2>概要</h2>
+        <p>
+          JavaScriotのオブジェクトはJavaScriptの全てのオブジェクトの基底クラスとなり、オブジェクトを作成する際は内部的には<b>Object</b>クラスを継承している。<br />
+          Objectクラスは全てプロパティの元となる<b>prototype</b>
+          プロパティを持ち、オブジェクトを作成する際はprototypeプロパティがオーバーライドされる。
+        </p>
+
+        <ul>
+          <li>
+            JavaScriptで定義される全てのオブジェクトは<b>__proto__</b>プロパティを保持しており、<b>Object.prototype</b>を参照する。
+          </li>
+          <li>
+            Objectクラスは全てのオブジェクトの基底クラスで、prototypeプロパティには全てのプロパティやメソッドを定義出来る。
+          </li>
+          <li>全てのオブジェクトはprototypeプロパティを内部的に参照する。</li>
+          <li>
+            <b>prototype</b
+            >プロパティにメソッドやプロパティを定義することで全てのオブジェクトで呼び出すことが出来る。
+          </li>
+        </ul>
+      </section>
+
+      <section id="section_2">
+        <h2>プロトタイプチェーン</h2>
+        <p>
+          オブジェクトのプロパティやメソッドを参照する際、内部的には以下の順番で参照している。
+        </p>
+
+        <ol>
+          <li>そのオブジェクトに定義されているプロパティやメソッド</li>
+          <li>Object.prototypeに定義されたプロパティやメソッド</li>
+          <li>
+            Object.prototypeのprototypeプロパティに定義されたプロパティやメソッド
+          </li>
+        </ol>
+
+        <p>
+          この参照の仕組みを<b>プロトタイプチェーン</b>という。<br />
+          全てを参照して見つからなかった場合、undefinedを返す。
+        </p>
+
+        <p>以下はプロトタイプチェーンの例である。</p>
+
+        <pre><code class="js language-js">// 空オブジェクト作成
+let parson = ( ) => { };
+
+// prototypeにメソッドを定義
+parson.prototype.hoge = ( ) => { ... };
+
+// parsonオブジェクトにhogeメソッドが定義されていない場合prototypeに定義されたhogeを探す
+// そのためprototypeは省略出来る
+// こうすることで組み込みメソッド的な使い方が出来て、オブジェクトに定義してインスタンスするよりメモリの節約にもなる
+let hoge = new parson();
+hoge.hoge();</code></pre>
+      </section>
+
+      <section>
+        <h2>プロトタイプの凍結</h2>
+        <p>
+          プロトタイプの不用意な書き換えを防ぐためにプロトタイプの操作に制限を加えることが出来る。<br />
+          <b>Object.freeze</b>など。
+        </p>
+      </section>
+    </main>
+  </body>
+</html>

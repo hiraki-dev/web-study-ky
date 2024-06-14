@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+
+<html>
+  <!-- ヘッダー情報 -->
+  <head>
+    <!-- ページ内基底URL target属性でタブの表示方法を指定 -->
+    <base href="./function.html" target="_self" />
+    <!-- ページタイトル -->
+    <title>JS 関数</title>
+
+    <!-- メタデータ設定 -->
+    <!-- 文字コード -->
+    <meta charset="utf-8" />
+    <!-- 読み込み時のページサイズ -->
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <!-- Webページの概要と説明 -->
+    <meta name="description" content="HTMLのフォームに関してまとめたページ" />
+    <!-- 電話番号の自動リンク機能オフ -->
+    <meta name="format-detection" content="telephone=no" />
+
+    <!-- リソース読み込み -->
+    <!-- CSS -->
+    <link rel="stylesheet" href="../../../asset/css/common.css" />
+    <!-- Script -->
+    <script src="../../../asset/js/lib/highlight.min.js"></script>
+    <script src="../../../asset/js/highlight.js"></script>
+    <script src="../../../asset/js/main.js"></script>
+  </head>
+
+  <body>
+    <main>
+      <h1>関数</h1>
+
+      <section id="content_link">
+        <h2>目次</h2>
+
+        <nav>
+          <ol>
+            <li><a href="#section_1">関数の宣言</a></li>
+            <li><a href="#section_2">アロー関数</a></li>
+            <li><a href="#section_3">即時実行関数</a></li>
+            <li><a href="#section_4">クロージャ</a></li>
+            <li><a href="#section_5">コールバック関数</a></li>
+            <li><a href="#section_6">ビルトイン関数</a></li>
+          </ol>
+        </nav>
+      </section>
+
+      <section id="section_1">
+        <h2>関数の宣言</h2>
+        <p>関数用いることで、ひとつの処理をまとめたものを定義出来る。</p>
+
+        <ul>
+          <li>関数は<b>function</b>で定義する。</li>
+          <li>
+            関数は<b>引数</b>を設定でき、関数に値を渡す際は引数を指定する。
+          </li>
+          <li>関数の処理結果（戻り値）は<b>return</b>で定義する。</li>
+        </ul>
+
+        <div>
+          <pre><code class="js language-js">// 関数定義
+function 関数名(引数1, 引数2, … ) {
+  return 戻り値;
+}
+
+// 関数呼び出し
+関数名(引数1, 引数2, ... );
+
+// 戻り値は以下のように変数などで受け取る
+let val = 関数名(引数1, 引数2, ... );
+
+// デフォルト引数
+function 関数名( arg1 = 0, arg2 = 1 ) {
+  ...
+};
+
+// 関数オブジェクト
+let func = function () {
+  ...
+};
+
+// 可変長引数
+function 関数名( arg1, arg2, ...arg3 ) {
+  for (let i of arg3) {
+    console.log(arg3);
+  };
+};
+// 1, 2, 3
+関数名(1, 2, [1, 2, 3]);
+
+// JavaScriptの関数におけるthisは、関数の呼び出し元のオブジェクトを参照する。
+function test() {
+  ...
+}
+let obj = {}
+// thisはobjとなる
+obj.test = test();  
+</code></pre>
+        </div>
+
+        <p><b>無名関数</b>と呼ばれる関数名を省略した宣言もできる。</p>
+        <div>
+          <pre><code class="js language-js">
+let func = function (arg) {
+  arg = arg * 2;
+
+  return arg; 
+};
+
+// 宣言
+func(10);
+</code></pre>
+        </div>
+      </section>
+
+      <section id="section_2">
+        <h2>アロー関数</h2>
+        <p><b>function</b>を用いた無名関数の省略記法。</p>
+
+        <div>
+          <pre><code class="js language-js">// functionによる関数定義
+      let func = function( arg1, arg2 ) { ... }
+      // アロー関数
+let func = ( arg1, arg2 ) =&gt; { ... };
+
+// 定義例
+let func = (arg1, arg2) =&gt; {
+  return arg1 + arg2;
+};
+
+// 省略文（代入式の結果が戻り値となる）
+let func = (arg1, arg2) =&gt; arg1 + arg2;
+
+// 省略文でオブジェクトを戻り値とする場合は()で括る
+let func = (arg1, arg2) =&gt; (
+  {
+    "x": arg1,
+    "y": arg2
+  }
+);
+
+// 引数がひとつの場合は( )を省略出来る
+let func = arg1 =&gt; arg1 * 2;
+
+// 引数なしの例
+let func = () =&gt;  arg1 * 2;
+
+//  可変引数
+let func = (x, y, z, ..rest) =&gt; {
+  ...
+};
+
+//  デフォルト引数
+let func = (file, mode = "R") =&gt; {
+  ...
+}</code></pre>
+        </div>
+
+        <p>
+          functionとの違いはthisの扱いが異なること。<br />
+          <u
+            >functionでは呼び出し元のオブジェクトをthisとして保持するのに対し、アロー関数では定義したときのオブジェクトをthisとして保持する。</u
+          >
+        </p>
+
+        <div>
+          <pre><code class="js language-js">let obj = {
+  // thisはobj
+  "func": function() {},
+  // thisは"arrow"
+  "arrow": () =&gt; {}
+};</code></pre>
+        </div>
+
+        <p>
+          上記のように適切なスコープで関数を運用できるため、現在はfunctionではなくこちらが利用されている。
+        </p>
+      </section>
+
+      <section id="section_3">
+        <h2>即時実行関数</h2>
+        <p>
+          関数の定義と同時に実行される関数のこと。<br />
+          関数を<b>()</b>で囲むことで定義できる。
+        </p>
+
+        <div>
+          <pre><code class="js language-js">(function() {
+ ...
+})();</code></pre>
+        </div>
+      </section>
+
+      <section id="section_4">
+        <h2>クロージャ</h2>
+        <p>
+          <u>関数内スコープの中で値を保持し続ける関数のこと。</u><br />
+          通常、関数は宣言終了時に関数内の値を破棄するが、クロージャを宣言することで関数実行終了時も値を保持し続ける。
+        </p>
+
+        <p>
+          クロージャは戻り値が関数の関数を作成することで宣言できる。<br />
+          以下は定義例である。
+        </p>
+        <div>
+          <pre><code class="js language-js">// クロージャの宣言
+let simpleMultiplication = (step) => {
+  let multiplication (x, y) => {
+    let num;
+    for (let i of step) {
+      num = x * y;
+    }
+
+    return num;
+  };
+
+  return multiplication;
+};
+
+// クロージャのインスタンス（最初の引数stepに値5がセットされた状態で保持される）
+let sm = simpleMultiplication(5);
+// (2 * 3) * 5 = 30
+console.log(sm(2, 3));
+// (3 * 4) * 5 = 60
+console.log(sm(3, 4));
+
+// 新たに別名で宣言し直すと別の値を保持したインスタンスが生成される
+let bigNum = simpleMultiplication(10000);
+// (10, 5) * 10000 = 500000
+console.log(bigNum(10, 5));</code></pre>
+        </div>
+
+        <p>
+          また、return文に関数をブロック化することでクロージャから関数をチェーンできる。
+        </p>
+        <div>
+          <pre><code class="js language-js">let simpleCalculator = (step) => {
+  let num;
+
+  return {
+    addition (x, y) {
+      for (let i of step) {
+        num = x + y;
+      }
+  
+      return num;
+    };
+
+    subtraction (x, y) {
+      for (let i of step) {
+        num = x - y;
+      }
+  
+      return num;
+    };
+
+    multiplication (x, y) {
+      for (let i of step) {
+        num = x * y;
+      }
+
+      return num;
+    };
+  };
+};
+
+// クロージャインスタンス
+let calc = simpleCalculator(1);
+// 5
+calc.addition(2, 3);
+// -1
+calc.subtraction(2, 3);
+// 6
+calc.multiplication(2, 3);</code></pre>
+        </div>
+      </section>
+
+      <section id="section_5">
+        <h2>コールバック関数</h2>
+        <p>他の関数に引数として渡される関数のこと。<br /></p>
+
+        <div>
+          <pre><code class="js language-js">
+const myAlert = (name) => {
+  alert(`警告: ${name}`);
+}
+
+const stringCallbackInputting(str, callback) {
+  // 第二引数に指定した関数に値を渡して実行
+  callback(str);
+}
+
+// コールバックを利用
+processUserInput(
+  "これは警告文です！",
+  myAlert
+);</code></pre>
+        </div>
+      </section>
+
+      <section id="section_6">
+        <h2>ビルトイン関数</h2>
+        <p>
+          JavaScript内で予め定義されているオブジェクトを介さず直接呼出し可能な関数のこと。<br />
+        </p>
+
+        <div>
+          <pre><code class="js language-js">// 引数に指定した値が数値ではない（NaN）ときtrueを返す
+// 引数に指定した値が文字列の数値の場合、数値型にキャストして判定
+isNaN(値);
+
+// 引数に指定した値をJavaScript構文として解釈し、戻り値を返す
+eval(...);</code></pre>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

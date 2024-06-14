@@ -1,0 +1,1572 @@
+<div>
+  <h1>グリッドレイアウト</h1>
+
+  <section id="content_link">
+    <h2>目次</h2>
+
+    <nav>
+      <ol>
+        <li><a href="#section_1">グリッドレイアウトとは</a></li>
+        <li>
+          <a href="#section_2">グリッドコンテナ/グリッドアイテム</a>
+        </li>
+        <li><a href="#section_3">グリッドライン/グリッドトラック</a></li>
+        <ol type="I">
+          <li>
+            <a href="#section_3_1"
+              >明示的なグリッドトラック/暗黙的なグリッドトラック</a
+            >
+          </li>
+          <li>
+            <a href="#section_3_2">グリッドライン</a>
+          </li>
+        </ol>
+        <li><a href="#section_4">グリッドセル/グリッドエリア</a></li>
+        <ol type="I">
+          <li><a href="#section_4_1">グリッドセルの割合指定</a></li>
+          <li><a href="#section_4_2">グリッドガターの指定</a></li>
+          <li><a href="#section_4_3">グリッドセルの一括指定</a></li>
+          <li>
+            <a href="#section_4_4">グリッドセルの最大値/最小値指定</a>
+          </li>
+        </ol>
+        <li><a href="#section_5">グリッドトラック配置</a></li>
+        <ol type="I">
+          <li><a href="#section_5_1">行トラック指定</a></li>
+          <li><a href="#section_5_2">列トラック指定</a></li>
+          <li>
+            <a href="#section_5_3">暗黙的グリッドトラックの明示指定</a>
+          </li>
+        </ol>
+        <li><a href="#section_6">グリッドライン配置</a></li>
+        <li><a href="#section_7">インライン軸/ボックス軸配置</a></li>
+        <ol type="I">
+          <li><a href="#section_7_1">インライン軸（全体）</a></li>
+          <li><a href="#section_7_2">インライン軸（行）</a></li>
+          <li>
+            <a href="#section_7_3">インライン軸（単体）</a>
+          </li>
+          <li><a href="#section_7_4">ボックス軸（全体）</a></li>
+          <li><a href="#section_7_5">ボックス軸（列）</a></li>
+          <li>
+            <a href="#section_7_6">ボックス軸（単体）</a>
+          </li>
+          <li><a href="#section_7_7">一括指定</a></li>
+        </ol>
+        <li><a href="#section_8">名前付きグリッドエリア</a></li>
+        <li><a href="#section_9">サブグリッド</a></li>
+      </ol>
+    </nav>
+  </section>
+
+  <section id="section_1">
+    <h2>グリッドレイアウトとは</h2>
+    <p>
+      <b
+        >Webページの表示領域を格子状のマス目に見立てたとき、どのマス目にどの要素を配置するかを指定するレイアウト方法。</b
+      >
+      <br />
+      グリッドは列、行、行列間の間隔（溝/ガター）で構成されている。
+    </p>
+  </section>
+
+  <section id="section_2">
+    <h2>グリッドコンテナ/グリッドアイテム</h2>
+    <p>
+      グリッドは<b>グリッドコンテナ</b>と<b>グリッドアイテム</b>で構成される。
+    </p>
+
+    <p>例えば、以下のような要素があるとする。</p>
+    <div>
+      <style>
+        .container-2 {
+          & .item {
+            margin: 10px;
+            width: 100px;
+            border: 1px solid black;
+            border-radius: 4px;
+          }
+        }
+      </style>
+
+      <div class="container-2">
+        <div class="item">aaa</div>
+        <div class="item">bbb</div>
+        <div class="item">ccc</div>
+        <div class="item">ddd</div>
+        <div class="item">eee</div>
+        <div class="item">fff</div>
+        <div class="item">ggg</div>
+      </div>
+    </div>
+
+    <p>
+      グリッド化したい要素の親要素に<b>display: grid</b
+      >を指定することで、親要素が<b>グリッドコンテナ</b>、子要素が<b>グリッドアイテム</b>となる。
+    </p>
+    <div>
+      <style>
+        .container-2 {
+          display: grid;
+          grid-template-columns: 100px 100px 100px;
+          gap: 10px;
+
+          & .item {
+            margin: 10px;
+            border: 1px solid black;
+            border-radius: 4px;
+            width: 100px;
+          }
+        }
+      </style>
+
+      <div class="container-2">
+        <div class="item">aaa</div>
+        <div class="item">bbb</div>
+        <div class="item">ccc</div>
+        <div class="item">ddd</div>
+        <div class="item">eee</div>
+        <div class="item">fff</div>
+        <div class="item">ggg</div>
+      </div>
+    </div>
+
+    <div>
+      <pre><code class="language-html">&lt;style&gt;
+  .container-2 {
+    display: grid;
+    grid-template-columns: 100px 100px 100px;
+    gap: 10px;
+
+    &amp; .item {
+      margin: 10px;
+      border: 1px solid black;
+      border-radius: 4px;
+      width: 100px;
+    }
+  }
+&lt;/style&gt;
+
+&lt;div class=&quot;container-2&quot;&gt;
+  &lt;div class=&quot;item&quot;&gt;aaa&lt;/div&gt;
+  &lt;div class=&quot;item&quot;&gt;bbb&lt;/div&gt;
+  &lt;div class=&quot;item&quot;&gt;ccc&lt;/div&gt;
+  &lt;div class=&quot;item&quot;&gt;ddd&lt;/div&gt;
+  &lt;div class=&quot;item&quot;&gt;eee&lt;/div&gt;
+  &lt;div class=&quot;item&quot;&gt;fff&lt;/div&gt;
+  &lt;div class=&quot;item&quot;&gt;ggg&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+    </div>
+
+    <figure>
+      <figcaption>
+        <a href="https://qiita.com/otsuky/items/7a81b59bee4b352417ce"
+          >グリッドレイアウトの配置アルゴリズムを理解する</a
+        >より引用
+      </figcaption>
+      <img
+        src="https://camo.qiitausercontent.com/7d991f8e77ec81d734e56dbcc6eacbb814df7a91/68747470733a2f2f71696974612d696d6167652d73746f72652e73332e61702d6e6f727468656173742d312e616d617a6f6e6177732e636f6d2f302f3137343434362f35333634626434382d316639392d666135372d316232652d6338383763343665666561362e706e67"
+        alt="グリッドコンテナとグリッドアイテムのイメージ"
+      />
+    </figure>
+
+    <div>
+      <p>
+        グリッドコンテナはボックスモデルに属するが、displayプロパティに指定する値に応じてブロックボックスかインラインボックスかを指定できる。
+      </p>
+
+      <table>
+        <thead>
+          <tr>
+            <th scope="rowgroup">プロパティ/値</th>
+            <th>説明</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>display: grid</td>
+            <td>親要素がブロックボックスのグリッドコンテナを作成する。</td>
+          </tr>
+          <tr>
+            <td>display: inline-grid</td>
+            <td>親要素がインラインボックスのグリッドコンテナを作成する。</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="section_3">
+    <h2>グリッドライン/グリッドトラック</h2>
+    <p>
+      グリッドの縦横の区切り線のことを<b>グリッドライン</b>という。<br />
+      また、グリッドライン間の空間のことを<b>グリッドトラック</b>といい、グリッドトラック上にグリッドアイテムを配置する。
+    </p>
+
+    <ul>
+      <li>行方向のグリッドトラックは<b>行トラック</b>という。</li>
+      <li>列方向のグリッドトラックは<b>列トラック</b>という。</li>
+    </ul>
+
+    <figure>
+      <figcaption>
+        <a href="https://qiita.com/otsuky/items/7a81b59bee4b352417ce"
+          >グリッドレイアウトの配置アルゴリズムを理解する</a
+        >より引用
+      </figcaption>
+      <img
+        src="https://camo.qiitausercontent.com/0152b5f1cd1cfe6ff2151b4bb28ef01fe7937a16/68747470733a2f2f71696974612d696d6167652d73746f72652e73332e61702d6e6f727468656173742d312e616d617a6f6e6177732e636f6d2f302f3137343434362f65623763303839342d636164312d663336382d626636612d3838323033353862333734382e706e67"
+        alt="グリッドラインのイメージ"
+      />
+      <img
+        src="https://camo.qiitausercontent.com/69c762a6b9765d4d5c67612f812df13db8e45c19/68747470733a2f2f71696974612d696d6167652d73746f72652e73332e61702d6e6f727468656173742d312e616d617a6f6e6177732e636f6d2f302f3137343434362f39333065643538622d383531302d303436652d373138342d3731326238663439666664662e706e67"
+        alt="グリッドトラックのイメージ"
+      />
+    </figure>
+
+    <section id="section_3_1">
+      <h3>明示的なグリッドトラック/暗黙的なグリッドトラック</h3>
+      <p>
+        グリッドトラックには<b>明示的なグリッドトラック</b>と<b>暗黙的なグリッドトラック</b>の二種類がある。<br />
+        以下のプロパティで明示的に行トラック/列トラックのサイズを指定した場合、明示的なグリッドトラックとなる。
+      </p>
+
+      <ul>
+        <li>grid-template-rows</li>
+        <li>grid-template-columns</li>
+        <li>grid-template-areas</li>
+      </ul>
+
+      <p>
+        明示的なグリッドトラックが指定されておらず、グリッドアイテムの数がグリッドトラックの数を超過した場合に暗黙的にグリッドトラックが自動的に拡張される。<br />
+        これを暗黙的なグリッドトラックといい、以下のプロパティでサイズを指定する。
+      </p>
+
+      <ul>
+        <li>grid-auto-rows</li>
+        <li>grid-auto-columns</li>
+      </ul>
+    </section>
+
+    <section id="section_3_2">
+      <h3>グリッドライン番号</h3>
+      <p>
+        グリッドラインは行方向、列方向でラインの数に応じて番号が割り振りされている。
+      </p>
+
+      <figure>
+        <figcaption>
+          <a
+            href="https://zenn.dev/umatoma/articles/b970bdd3a148cd#grid%E7%B7%9A"
+            >図で理解する Grid Layout</a
+          >より引用
+        </figcaption>
+        <img
+          src="https://storage.googleapis.com/zenn-user-upload/258967115daf9c1aedcd9647.png"
+          alt="図で理解するGridLayoutから引用"
+        />
+      </figure>
+    </section>
+  </section>
+
+  <section id="section_4">
+    <h2>グリッドセル/グリッドアイテム</h2>
+    <p>
+      グリッドアイテムを配置する際、グリッドのマス目1マスの単位を<b>グリッドセル</b>という。<br />
+      グリッドトラック上の複数のグリッドセル領域のことを<b
+        >グリッドエリアという。</b
+      >
+    </p>
+
+    <ul>
+      <li>グリッドエリアはグリッドライン上に沿うように定義される。</li>
+      <li>そのため、グリッドエリアは必ず長方形の形となる。</li>
+    </ul>
+
+    <div>
+      <style>
+        .container-4 {
+          display: grid;
+          grid-template-columns: 2fr 1fr 1fr;
+          gap: 10px;
+
+          & .item {
+            margin: 10px;
+            border: 1px solid black;
+            border-radius: 4px;
+            text-align: center;
+          }
+        }
+      </style>
+
+      <div class="container-4">
+        <div class="item">グリッドセル<br />2つ分</div>
+        <div class="item">グリッドセル<br />1つ分</div>
+        <div class="item">グリッドセル<br />1つ分</div>
+        <div class="item">グリッドセル<br />2つ分</div>
+      </div>
+    </div>
+
+    <section id="section_4_1">
+      <h3>グリッドセルの割合指定</h3>
+      <p>
+        <b>fr単位</b
+        >を用いることでグリッドトラックの各セル領域の割合を指定出来る。<br />
+        各セルの割合は<b>各グリッドセルのfr値/トラック上のfr値の合計</b>で算出される。
+      </p>
+
+      <div>
+        <pre><code class="language-html">&lt;style&gt;
+  .container-4_1 {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 10px;
+
+    .item {
+      margin: 10px;
+      border: 1px solid black;
+      border-radius: 4px;
+      text-align: center;
+    }
+  }
+&lt;/style&gt;
+
+&lt;div class=&quot;container-4_1&quot;&gt;
+  &lt;div class=&quot;item&quot;&gt;グリッドセル&lt;br /&gt;2つ分&lt;/div&gt;
+  &lt;div class=&quot;item&quot;&gt;グリッドセル&lt;br /&gt;1つ分&lt;/div&gt;
+  &lt;div class=&quot;item&quot;&gt;グリッドセル&lt;br /&gt;1つ分&lt;/div&gt;
+  &lt;div class=&quot;item&quot;&gt;グリッドセル&lt;br /&gt;2つ分&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+      </div>
+    </section>
+
+    <section id="section_4_2">
+      <h3>グリッドガターの指定</h3>
+      <p>
+        グリッドセル間の間隔を<b>グリッドガター</b>という。<br />
+        以下のプロパティでグリッドガターを指定できる。
+      </p>
+
+      <div>
+        <table>
+          <thead>
+            <tr>
+              <th scope="rowgroup">プロパティ</th>
+              <th>説明</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>row-gap</td>
+              <td>行間の間隔</td>
+            </tr>
+            <tr>
+              <td>column-gap</td>
+              <td>列間の間隔</td>
+            </tr>
+            <tr>
+              <td>gap</td>
+              <td>行列の間隔を一括指定</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="section_4_3">
+      <h3>グリッドセルの一括指定</h3>
+      <p>
+        <b>repeat</b
+        >関数を用いることで各グリッドトラックのセル領域を一括指定出来る。<br />
+        仕組みとしては、repeat関数で指定サイズ領域を反復させてグリッドトラック領域のセルを定義する。
+      </p>
+
+      <div>
+        <style>
+          .container-4_3 {
+            display: grid;
+            /* repeat(繰り返す数, サイズ) */
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+
+            & .item {
+              margin: 10px;
+              border: 1px solid black;
+              border-radius: 4px;
+              text-align: center;
+            }
+          }
+        </style>
+
+        <div class="container-4_3">
+          <!-- 行トラックが1frのセル2つで構成されている -->
+          <div class="item">グリッドセル</div>
+          <div class="item">グリッドセル</div>
+          <div class="item">グリッドセル</div>
+          <div class="item">グリッドセル</div>
+        </div>
+      </div>
+
+      <div>
+        <pre><code class="language-html">&lt;style&gt;
+  .container-4_3 {
+    display: grid;
+    /* repeat(繰り返す数, サイズ) */
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+
+    &amp; .item {
+      margin: 10px;
+      border: 1px solid black;
+      border-radius: 4px;
+      text-align: center;
+    }
+  }
+&lt;/style&gt;
+
+&lt;div class=&quot;container-4_3&quot;&gt;
+  &lt;!-- 行トラックが1frのセル2つで構成されている --&gt;
+  &lt;div class=&quot;item&quot;&gt;グリッドセル&lt;/div&gt;
+  &lt;div class=&quot;item&quot;&gt;グリッドセル&lt;/div&gt;
+  &lt;div class=&quot;item&quot;&gt;グリッドセル&lt;/div&gt;
+  &lt;div class=&quot;item&quot;&gt;グリッドセル&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+      </div>
+    </section>
+
+    <section id="section_4_4">
+      <h3>グリッドセルの最大値/最小値指定</h3>
+      <p>
+        <b>minmax</b
+        >関数を用いることで各グリッドセルの最小値と最大値を指定出来る。<br />
+        単一のセルに指定出来るほか、repeat関数との組み合わせでグリッドトラックのセルの柔軟な指定も可能。
+      </p>
+
+      <ul>
+        <li>第一引数に最小値を指定する。</li>
+        <li>第二引数に最大値を指定する。</li>
+        <ul>
+          <li>
+            <b>auto</b>を指定するとブラウザに合わせて自動でサイズを算出する。
+          </li>
+        </ul>
+      </ul>
+
+      <div>
+        <style>
+          .container-4_4 {
+            display: grid;
+            /* 最小値が50px、最大値がブラウザに合わせて変化するグリッドセルを3マス作成 */
+            grid-template-columns: repeat(3, minmax(50px, auto));
+            gap: 10px;
+
+            & .item {
+              margin: 10px;
+              border: 1px solid black;
+              border-radius: 4px;
+              text-align: center;
+            }
+          }
+        </style>
+
+        <div class="container-4_4">
+          <div class="item">グリッドセル</div>
+          <div class="item">グリッドセル</div>
+          <div class="item">グリッドセル</div>
+        </div>
+      </div>
+
+      <div>
+        <pre><code class="language-html">&lt;style&gt;
+  .container-4_4 {
+    display: grid;
+    /* 最小値が50px、最大値がブラウザに合わせて変化するグリッドセルを3マス作成 */
+    grid-template-columns: repeat(3, minmax(50px, auto));
+    gap: 10px;
+
+    &amp; .item {
+      margin: 10px;
+      border: 1px solid black;
+      border-radius: 4px;
+      text-align: center;
+    }
+  }
+&lt;/style&gt;
+
+&lt;div class=&quot;container-4_4&quot;&gt;
+  &lt;div class=&quot;item&quot;&gt;グリッドセル&lt;/div&gt;
+  &lt;div class=&quot;item&quot;&gt;グリッドセル&lt;/div&gt;
+  &lt;div class=&quot;item&quot;&gt;グリッドセル&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+      </div>
+    </section>
+  </section>
+
+  <section id="section_5">
+    <h2>グリッドトラック配置</h2>
+    <p>
+      <b>grid-template-rows</b
+      >、<b>grid-template-columns</b>プロパティでグリッドトラック領域のサイズを指定出来る。
+    </p>
+
+    <section id="section_5_1">
+      <h3>行トラック指定</h3>
+      <p>行トラックは<b>grid-template-rows</b>プロパティで指定する。</p>
+
+      <div>
+        <pre><code class="language-css">.container {
+  display: grid;
+  grid-template-rows: 1fr, 2fr, 1fr;
+}</code></pre>
+      </div>
+
+      <figure>
+        <figcaption>
+          <a
+            href="https://zenn.dev/umatoma/articles/b970bdd3a148cd#grid-template-rows"
+            >図で理解する Grid Layout</a
+          >より引用
+        </figcaption>
+        <img
+          src="https://storage.googleapis.com/zenn-user-upload/01fed6d552d228d451974b90.png"
+          alt="図で理解するGridLayoutから引用"
+        />
+      </figure>
+    </section>
+
+    <section id="section_5_2">
+      <h3>列トラック指定</h3>
+      <p>列トラックは<b>grid-template-columns</b>プロパティで指定する。</p>
+
+      <div>
+        <pre><code class="language-css">.container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+}</code></pre>
+      </div>
+
+      <figure>
+        <figcaption>
+          <a
+            href="https://zenn.dev/umatoma/articles/b970bdd3a148cd#grid-template-columns"
+            >図で理解する Grid Layout</a
+          >より引用
+        </figcaption>
+        <img
+          src="https://storage.googleapis.com/zenn-user-upload/0fdafe6d273e36968da96d3a.png"
+          alt="図で理解するGridLayoutから引用"
+        />
+      </figure>
+    </section>
+
+    <section id="section_5_3">
+      <h3>暗黙的グリッドトラックの明示指定</h3>
+      <p>
+        暗黙的なグリッドトラックはデフォルトでは<b>auto</b>でサイズ指定される。<br />
+        <b>grid-auto-rows</b
+        >プロパティと<b>grid-auto-columns</b>プロパティを指定することで暗黙的グリッドトラックのサイズを明示して指定出来る。
+      </p>
+
+      <div>
+        <pre><code class="language-css">.container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-auto-rows: 1fr 2fr 1fr;
+}</code></pre>
+      </div>
+    </section>
+  </section>
+
+  <section id="section_6">
+    <h2>グリッドライン配置</h2>
+    <p>
+      グリッドアイテムに以下のプロパティを指定することでグリッドラインに沿ったグリッドアイテムの配置が出来る。
+    </p>
+
+    <ul>
+      <li>行方向</li>
+      <ul>
+        <li><b>grid-row-start</b></li>
+        <li><b>grid-row-end</b></li>
+      </ul>
+      <li>列方向</li>
+      <ul>
+        <li><b>grid-column-start</b></li>
+        <li><b>grid-column-end</b></li>
+      </ul>
+      <li><b>grid-row</b>で行方向を一括指定</li>
+      <li><b>grid-column</b>で列方向を一括指定</li>
+    </ul>
+
+    <div>
+      <style>
+        .container-6 {
+          display: grid;
+          grid-template-columns: repeat(3, 100px);
+          gap: 10px;
+
+          & .item {
+            border: 2px solid black;
+            border-radius: 4px;
+            text-align: center;
+          }
+
+          & .item.line-item {
+            border: 4px solid rgb(255, 0, 0);
+
+            /* 行番号2 ~ 4、列番号1 ~ 3の領域にアイテムを配置 */
+            grid-row-start: 2;
+            grid-row-end: 4;
+            grid-column-start: 1;
+            grid-column-end: 3;
+
+            /* 上記の一括指定 */
+            grid-row: 2 / 4;
+            grid-column: 1 / 3;
+          }
+
+          & .item.line-span-item {
+            border: 4px solid rgb(68, 0, 255);
+
+            /* spanで開始位置からの相対的な位置を指定できる */
+            grid-row-start: 3;
+            grid-row-end: span 3;
+            grid-column-start: 2;
+            grid-column-end: span 2;
+          }
+        }
+      </style>
+
+      <div class="container-6">
+        <div class="item">item</div>
+        <div class="item">item</div>
+        <div class="item">item</div>
+        <div class="item">item</div>
+        <div class="item">item</div>
+        <div class="item">item</div>
+        <div class="item">item</div>
+        <div class="item">item</div>
+        <div class="item">item</div>
+        <div class="item line-item">line-item</div>
+        <div class="item line-span-item">line-span</div>
+      </div>
+    </div>
+
+    <div>
+      <pre><code class="language-html">&lt;style&gt;
+.container-6 {
+  display: grid;
+  grid-template-columns: repeat(3, 100px);
+  gap: 10px;
+
+    &amp; .item {
+      border: 2px solid black;
+      border-radius: 4px;
+      text-align: center;
+    }
+
+    &amp; .item.line-item {
+      border: 4px solid rgb(255, 0, 0);
+
+      /* 行番号2 ~ 4、列番号1 ~ 3の領域にアイテムを配置 */
+      grid-row-start: 2;
+      grid-row-end: 4;
+      grid-column-start: 1;
+      grid-column-end: 3;
+
+      /* 上記の一括指定 */
+      grid-row: 2 / 4;
+      grid-column: 1 / 3;
+    }
+
+    &amp; .item.line-span-item {
+      border: 4px solid rgb(68, 0, 255);
+
+      /* spanで開始位置からの相対的な位置を指定できる */
+      grid-row-start: 3;
+      grid-row-end: span 3;
+      grid-column-start: 2;
+      grid-column-end: span 2;
+    }
+  }
+&lt;/style&gt;
+
+&lt;div class=&quot;container-6&quot;&gt;
+  &lt;div class=&quot;item&quot;&gt;item&lt;/div&gt;
+  &lt;div class=&quot;item&quot;&gt;item&lt;/div&gt;
+  &lt;div class=&quot;item&quot;&gt;item&lt;/div&gt;
+  &lt;div class=&quot;item&quot;&gt;item&lt;/div&gt;
+  &lt;div class=&quot;item&quot;&gt;item&lt;/div&gt;
+  &lt;div class=&quot;item&quot;&gt;item&lt;/div&gt;
+  &lt;div class=&quot;item&quot;&gt;item&lt;/div&gt;
+  &lt;div class=&quot;item&quot;&gt;item&lt;/div&gt;
+  &lt;div class=&quot;item&quot;&gt;item&lt;/div&gt;
+  &lt;div class=&quot;item line-item&quot;&gt;line-item&lt;/div&gt;
+  &lt;div class=&quot;item line-span-item&quot;&gt;line-span&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+    </div>
+  </section>
+
+  <section id="section_7">
+    <h2>インライン軸/ボックス軸配置</h2>
+    <p>
+      グリッドアイテムを並べる場合、行方向は<b>インライン軸</b>、列方向は<b>ブロック軸</b>という。
+    </p>
+
+    <figure>
+      <figcaption>
+        <a href="https://zenn.dev/umatoma/articles/b970bdd3a148cd#%E8%BB%B8"
+          >図で理解する Grid Layout</a
+        >より引用
+      </figcaption>
+      <img
+        src="https://storage.googleapis.com/zenn-user-upload/fa5ba05b33c6ee16a2addfed.png"
+        alt="図で理解するGridLayoutから引用"
+      />
+    </figure>
+
+    <section id="section_7_1">
+      <h3>インライン軸（全体）</h3>
+      <p>
+        <b>justify-content</b
+        >プロパティでインライン軸方向の全体的なレイアウトを指定できる。<br />
+        以下の値を指定できる。
+      </p>
+
+      <div>
+        <table>
+          <caption>
+            <a
+              href="https://zenn.dev/umatoma/articles/b970bdd3a148cd#justify-content"
+              >図で理解する Grid Layout</a
+            >より引用
+          </caption>
+          <thead>
+            <tr>
+              <th scope="rowgroup">プロパティ値</th>
+              <th>説明</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>start</td>
+              <td>先頭寄せ</td>
+            </tr>
+            <tr>
+              <td>end</td>
+              <td>末尾寄せ</td>
+            </tr>
+            <tr>
+              <td>center</td>
+              <td>中央寄せ</td>
+            </tr>
+            <tr>
+              <td>space-between</td>
+              <td>
+                <ul>
+                  <li>均等配置</li>
+                  <li>コンテナとアイテム間の余白なし</li>
+                </ul>
+              </td>
+            </tr>
+            <tr>
+              <td>space-around</td>
+              <td>
+                <ul>
+                  <li>均等配置</li>
+                  <li>
+                    コンテナとアイテム間の余白は、隣接するアイテム間の余白の半分になる
+                  </li>
+                </ul>
+              </td>
+            </tr>
+            <tr>
+              <td>space-evenly</td>
+              <td>
+                <ul>
+                  <li>均等配置</li>
+                  <li>
+                    コンテナとアイテム間の余白は、隣接するアイテム間の余白と同じになる
+                  </li>
+                </ul>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <figure>
+        <figcaption>
+          <a
+            href="https://zenn.dev/umatoma/articles/b970bdd3a148cd#justify-content"
+            >図で理解する Grid Layout</a
+          >より引用
+        </figcaption>
+        <img
+          src="https://storage.googleapis.com/zenn-user-upload/bbd2295cfe51d2781e44f676.png"
+          alt="図で理解するGridLayoutから引用"
+        />
+      </figure>
+    </section>
+
+    <section id="section_7_2">
+      <h3>インライン軸（行）</h3>
+      <p>
+        <b>justify-items</b
+        >プロパティでインライン軸方向のレイアウトを指定できる。<br />
+        以下の値を指定できる。
+      </p>
+
+      <div>
+        <table>
+          <caption>
+            <a
+              href="https://zenn.dev/umatoma/articles/b970bdd3a148cd#justify-items"
+              >図で理解する Grid Layout</a
+            >より引用
+          </caption>
+          <thead>
+            <tr>
+              <th scope="rowgroup">プロパティ値</th>
+              <th>説明</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>start</td>
+              <td>先頭寄せ</td>
+            </tr>
+            <tr>
+              <td>end</td>
+              <td>末尾寄せ</td>
+            </tr>
+            <tr>
+              <td>center</td>
+              <td>中央寄せ</td>
+            </tr>
+            <tr>
+              <td>stretch</td>
+              <td>各アイテムのサイズを均一にして配置</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <figure>
+        <figcaption>
+          <a
+            href="https://zenn.dev/umatoma/articles/b970bdd3a148cd#justify-items"
+            >図で理解する Grid Layout</a
+          >より引用
+        </figcaption>
+        <img
+          src="https://storage.googleapis.com/zenn-user-upload/621963216cf30753328e8a77.png"
+          alt="図で理解するGridLayoutから引用"
+        />
+      </figure>
+    </section>
+
+    <section id="section_7_3">
+      <h3>インライン軸（単体）</h3>
+      <p>
+        <b>justify-self</b
+        >プロパティでインライン軸方向のアイテム単体のレイアウトを指定できる。<br />
+        以下の値を指定できる。<br />
+        justify-selfが指定されている場合、justify-itemsの値が上書きされる。
+      </p>
+
+      <div>
+        <table>
+          <caption>
+            <a
+              href="https://zenn.dev/umatoma/articles/b970bdd3a148cd#justify-self"
+              >図で理解する Grid Layout</a
+            >より引用
+          </caption>
+          <thead>
+            <tr>
+              <th scope="rowgroup">プロパティ値</th>
+              <th>説明</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>start</td>
+              <td>先頭寄せ</td>
+            </tr>
+            <tr>
+              <td>end</td>
+              <td>末尾寄せ</td>
+            </tr>
+            <tr>
+              <td>center</td>
+              <td>中央寄せ</td>
+            </tr>
+            <tr>
+              <td>stretch</td>
+              <td>各アイテムのサイズを均一にして配置</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <figure>
+        <figcaption>
+          <a
+            href="https://zenn.dev/umatoma/articles/b970bdd3a148cd#justify-self"
+            >図で理解する Grid Layout</a
+          >より引用
+        </figcaption>
+        <img
+          src="https://storage.googleapis.com/zenn-user-upload/94b61bf1978511526ddc1f27.png"
+          alt="図で理解するGridLayoutから引用"
+        />
+      </figure>
+    </section>
+
+    <section id="section_7_4">
+      <h3>ブロック軸（全体）</h3>
+      <p>
+        <b>align-content</b
+        >プロパティでブロック軸方向の全体的なレイアウトを指定できる。<br />
+        以下の値を指定できる。
+      </p>
+
+      <div>
+        <table>
+          <caption>
+            <a
+              href="https://zenn.dev/umatoma/articles/b970bdd3a148cd#align-content"
+              >図で理解する Grid Layout</a
+            >より引用
+          </caption>
+          <thead>
+            <tr>
+              <th scope="rowgroup">プロパティ値</th>
+              <th>説明</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>start</td>
+              <td>先頭寄せ</td>
+            </tr>
+            <tr>
+              <td>end</td>
+              <td>末尾寄せ</td>
+            </tr>
+            <tr>
+              <td>center</td>
+              <td>中央寄せ</td>
+            </tr>
+            <tr>
+              <td>space-between</td>
+              <td>
+                <ul>
+                  <li>均等配置</li>
+                  <li>コンテナとアイテム間の余白なし</li>
+                </ul>
+              </td>
+            </tr>
+            <tr>
+              <td>space-around</td>
+              <td>
+                <ul>
+                  <li>均等配置</li>
+                  <li>
+                    コンテナとアイテム間の余白は、隣接するアイテム間の余白の半分になる
+                  </li>
+                </ul>
+              </td>
+            </tr>
+            <tr>
+              <td>space-evenly</td>
+              <td>
+                <ul>
+                  <li>均等配置</li>
+                  <li>
+                    コンテナとアイテム間の余白は、隣接するアイテム間の余白と同じになる
+                  </li>
+                </ul>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <figure>
+        <figcaption>
+          <a
+            href="https://zenn.dev/umatoma/articles/b970bdd3a148cd#align-content"
+            >図で理解する Grid Layout</a
+          >より引用
+        </figcaption>
+        <img
+          src="https://storage.googleapis.com/zenn-user-upload/1c3b510b5de13462d9992467.png"
+          alt="図で理解するGridLayoutから引用"
+        />
+      </figure>
+    </section>
+
+    <section id="section_7_5">
+      <h3>ブロック軸（列）</h3>
+      <p>
+        <b>align-items</b
+        >プロパティでボックス軸方向のレイアウトを指定できる。<br />
+        以下の値を指定できる。
+      </p>
+
+      <div>
+        <table>
+          <caption>
+            <a
+              href="https://zenn.dev/umatoma/articles/b970bdd3a148cd#align-items"
+              >図で理解する Grid Layout</a
+            >より引用
+          </caption>
+          <thead>
+            <tr>
+              <th scope="rowgroup">プロパティ値</th>
+              <th>説明</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>start</td>
+              <td>先頭寄せ</td>
+            </tr>
+            <tr>
+              <td>end</td>
+              <td>末尾寄せ</td>
+            </tr>
+            <tr>
+              <td>center</td>
+              <td>中央寄せ</td>
+            </tr>
+            <tr>
+              <td>baseline</td>
+              <td>
+                各アイテムのベースライン（テキストの位置）を均一にして配置
+              </td>
+            </tr>
+            <tr>
+              <td>stretch</td>
+              <td>各アイテムのサイズを均一にして配置</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <figure>
+        <figcaption>
+          <a href="https://zenn.dev/umatoma/articles/b970bdd3a148cd#align-items"
+            >図で理解する Grid Layout</a
+          >より引用
+        </figcaption>
+        <img
+          src="https://storage.googleapis.com/zenn-user-upload/4e7da7a115e8e374ef5aca48.png"
+          alt="図で理解するGridLayoutから引用"
+        />
+      </figure>
+    </section>
+
+    <section id="section_7_6">
+      <h3>ブロック軸（単体）</h3>
+      <p>
+        <b>align-self</b
+        >プロパティでボックス軸方向のアイテム単体のレイアウトを指定できる。<br />
+        以下の値を指定できる。<br />
+        align-selfが指定されている場合、align-itemsの値が上書きされる。
+      </p>
+
+      <div>
+        <table>
+          <caption>
+            <a
+              href="https://zenn.dev/umatoma/articles/b970bdd3a148cd#align-self"
+              >図で理解する Grid Layout</a
+            >より引用
+          </caption>
+          <thead>
+            <tr>
+              <th scope="rowgroup">プロパティ値</th>
+              <th>説明</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>start</td>
+              <td>先頭寄せ</td>
+            </tr>
+            <tr>
+              <td>end</td>
+              <td>末尾寄せ</td>
+            </tr>
+            <tr>
+              <td>center</td>
+              <td>中央寄せ</td>
+            </tr>
+            <tr>
+              <td>stretch</td>
+              <td>各アイテムのサイズを均一にして配置</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <figure>
+        <figcaption>
+          <a href="https://zenn.dev/umatoma/articles/b970bdd3a148cd#align-self"
+            >図で理解する Grid Layout</a
+          >より引用
+        </figcaption>
+        <img
+          src="https://storage.googleapis.com/zenn-user-upload/5a0911d35d18337f971afd81.png"
+          alt="図で理解するGridLayoutから引用"
+        />
+      </figure>
+    </section>
+
+    <section id="section_7_7">
+      <h3>一括指定</h3>
+      <p>
+        以下のプロパティでボックス軸とインライン軸のレイアウトを一括指定出来る。
+      </p>
+
+      <ul>
+        <li>place-content</li>
+        <ul>
+          <li>justify-contentとalign-contentを一括指定できる。</li>
+          <li>1つ目の値がalign-contentを指定する。</li>
+          <li>2つ目の値はjustify-contentを指定する。</li>
+        </ul>
+        <li>place-items</li>
+        <ul>
+          <li>justify-itemsとalign-itemsを一括指定できる。</li>
+          <li>1つ目の値がalign-itemsを指定する。</li>
+          <li>2つ目の値はjustify-itemsを指定する。</li>
+        </ul>
+        <li>place-self</li>
+        <ul>
+          <li>justify-selfとalign-selfを一括指定できる。</li>
+          <li>1つ目の値がalign-selfを指定する。</li>
+          <li>2つ目の値はjustify-selfを指定する。</li>
+        </ul>
+      </ul>
+
+      <div>
+        <pre><code class="language-css">.container {
+  display: grid;
+  place-content: start end;
+  
+  & .item {
+    place-items: start end;
+    place-self: start end;
+  }  
+}</code></pre>
+      </div>
+    </section>
+  </section>
+
+  <section id="section_8">
+    <h2>名前付きグリッドエリア</h2>
+    <p>
+      <b>grid-template-areas</b
+      >プロパティでグリッドエリアに名前を定義することが出来る。<br />
+      <b>grid-area</b
+      >プロパティを用いてグリッドアイテムに定義した名前を指定することで任意のエリアにアイテムを配置できる。
+    </p>
+
+    <ul>
+      <li>
+        <b>grid-template-areas: エリア名 エリア名 ...</b
+        >と記述して名前付きグリッドエリアを定義する。
+      </li>
+      <ul>
+        <li>エリア名はスペースで区切る</li>
+        <li>
+          エリア名は重複して記載でき、その場合複数のグリッドセルを使用したエリアとなる
+        </li>
+        <li>スペースで区切った数が列トラックのアイテム数となる</li>
+        <li>改行してエリア名を記述することで行トラックを表現できる</li>
+        <li>
+          何も指定しないエリア（無名グリッドエリア）は<b>none（または.）</b>を指定する
+        </li>
+      </ul>
+      <li>
+        グリッドアイテムに<b>grid-area: エリア名</b
+        >と指定することでエリア名を記述した位置にアイテムを配置できる。
+      </li>
+      <li>
+        grid-template-rows、grid-template-columnsで名前付きグリッドエリアの領域幅の指定が出来る。
+      </li>
+    </ul>
+
+    <p>以下は定義例。</p>
+    <div>
+      <style>
+        .container-8 {
+          display: grid;
+          grid-template-areas:
+            "area-header area-header"
+            "area-main area-side"
+            "area-main area-aside"
+            "area-main ."
+            "area-footer area-footer";
+          grid-template-rows: 50px 150px 100px 50px 50px;
+          /* grid-template-rows: 1.25fr 3.75fr 2.5fr 1.25fr 1.25fr; */
+          grid-template-columns: 2fr 1fr;
+          gap: 10px;
+
+          & .header {
+            grid-area: area-header;
+            background-color: red;
+          }
+
+          & .main {
+            grid-area: area-main;
+            background-color: yellow;
+          }
+
+          & .footer {
+            grid-area: area-footer;
+            background-color: blue;
+          }
+
+          & .side {
+            grid-area: area-side;
+            background-color: green;
+          }
+
+          & .aside {
+            grid-area: area-aside;
+            background-color: orange;
+          }
+        }
+      </style>
+
+      <div class="container-8">
+        <div class="header">header</div>
+        <div class="main">main</div>
+        <div class="footer">footer</div>
+        <div class="side">side</div>
+        <div class="aside">aside</div>
+        <!-- <div class="item">item</div>
+              <div class="item">item</div>
+              <div class="item">item</div>
+              <div class="item">item</div> -->
+      </div>
+    </div>
+
+    <div>
+      <pre><code class="language-html">&lt;style&gt;
+  .container-8 {
+    display: grid;
+    grid-template-areas:
+      &quot;area-header area-header&quot;
+      &quot;area-main area-side&quot;
+      &quot;area-main area-aside&quot;
+      &quot;area-main .&quot;
+      &quot;area-footer area-footer&quot;;
+    grid-template-rows: 50px 150px 100px 50px 50px;
+    /* grid-template-rows: 1.25fr 3.75fr 2.5fr 1.25fr 1.25fr; */
+    grid-template-columns: 2fr 1fr;
+    gap: 10px;
+  
+    &amp; .header {
+      grid-area: area-header;
+      background-color: red;
+    }
+  
+    &amp; .main {
+      grid-area: area-main;
+      background-color: yellow;
+    }
+  
+    &amp; .footer {
+      grid-area: area-footer;
+      background-color: blue;
+    }
+  
+    &amp; .side {
+      grid-area: area-side;
+      background-color: green;
+    }
+  
+    &amp; .aside {
+      grid-area: area-aside;
+      background-color: orange;
+    }
+  }
+&lt;/style&gt;
+  
+&lt;div class=&quot;container-8&quot;&gt;
+  &lt;div class=&quot;header&quot;&gt;header&lt;/div&gt;
+  &lt;div class=&quot;main&quot;&gt;main&lt;/div&gt;
+  &lt;div class=&quot;footer&quot;&gt;footer&lt;/div&gt;
+  &lt;div class=&quot;side&quot;&gt;side&lt;/div&gt;
+  &lt;div class=&quot;aside&quot;&gt;aside&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+    </div>
+  </section>
+
+  <section id="section_9">
+    <h2>サブグリッド</h2>
+    <p>
+      親グリッドの子要素にグリッドボックスを作成することで入れ子構造のグリッドを定義出来る。
+    </p>
+
+    <p>以下は定義例。</p>
+    <div>
+      <style>
+        .container-9_1 {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(300px, auto));
+          gap: 10px;
+
+          & .contents {
+            border: 2px solid rgba(41, 141, 228, 0.485);
+          }
+
+          & .contents .content {
+            padding: 10px;
+            background-color: rgba(198, 249, 249, 0.705);
+          }
+
+          & .contents .title {
+            border-bottom: 2px solid rgba(0, 0, 0, 0.508);
+            font-size: large;
+            font-weight: bold;
+          }
+
+          & .contents .text {
+            /* テキスト領域をサブグリッド化して高さを一括指定 */
+            display: grid;
+            grid-template-rows: 260px;
+            padding: 10px;
+            font-size: small;
+          }
+        }
+      </style>
+
+      <div class="container-9_1">
+        <div class="contents">
+          <div class="content">
+            <p class="title">タイトル</p>
+            <p class="text">
+              そのころ、東京中の町という町、家という家では、ふたり以上の人が顔をあわせさえすれば、まるでお天気のあいさつでもするように、怪人「二十面相」のうわさをしていました。「二十面相」というのは、毎日毎日、新聞記事をにぎわしている、ふしぎな盗賊のあだ名です。その賊は二十のまったくちがった顔を持っているといわれていました。つまり、変装がとびきりじょうずなのです。どんなに明るい場所で、どんなに近よってながめても...
+            </p>
+          </div>
+        </div>
+        <div class="contents">
+          <div class="content">
+            <p class="title">タイトル</p>
+            <p class="text">
+              恥の多い生涯を送って来ました。自分には、人間の生活というものが、見当つかないのです。自分は東北の田舎に生れましたので、汽車をはじめて見たのは、よほど大きくなってからでした。自分は停車場のブリッジを、上って、降りて、そうしてそれが線路をまたぎ越えるために造られたものだという事には全然気づかず、ただそれは停車場の構内を外国の遊戯場みたいに、複雑に楽しく、ハイカラにするためにのみ、設備せられてあるものだ...
+            </p>
+          </div>
+        </div>
+        <div class="contents">
+          <div class="content">
+            <p class="title">タイトル</p>
+            <p class="text">
+              日本国民は、正当に選挙された国会における代表者を通じて行動し、われらとわれらの子孫のために、諸国民との協和による成果と、わが国全土にわたつて自由のもたらす恵沢を確保し、政府の行為によつて再び戦争の惨禍が起ることのないやうにすることを決意し、ここに主権が国民に存することを宣言し、この憲法を確定する。そもそも国政は、国民の厳粛な信託によるものであつて、その権威は国民に由来し、その権力は国民の代表者がこ...
+            </p>
+          </div>
+        </div>
+        <div class="contents">
+          <div class="content">
+            <p class="title">タイトル</p>
+            <p class="text">
+              くぅ～疲れましたw これにて滅亡です！<br />
+              実は、マヤの暦が2012年で終わっていたのが始まりでした<br />
+              本当は1999年だったのですが←<br />
+              ご厚意を無駄にするわけには行かないので流行りの太陽フレアで挑んでみた所存ですw<br />
+              以下、予言者達のみんなへのメッセジをどぞ<br />
+              <br />
+              リチャード・ボイラン「みんな、見てくれてありがとう！ちょっと腹黒なところも見えちゃったけど・・・気にしないでね！」<br />
+              ノストラダムス「いやーありがと！恐怖の大王は二十分に降ってきたかな？」<br />
+              エドガー・ケイシー「滅んでくれたのは嬉しいけどちょっと恥ずかしいわね・・・」<br />
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <pre><code class="language-html">&lt;style&gt;
+  .container-9 {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, auto));
+    gap: 10px;
+
+    &amp; .contents {
+      border: 2px solid rgba(41, 141, 228, 0.485);
+    }
+
+    &amp; .contents .content {
+      padding: 10px;
+      background-color: rgba(198, 249, 249, 0.705);
+    }
+
+    &amp; .contents .title {
+      border-bottom: 2px solid rgba(0, 0, 0, 0.508);
+      font-size: large;
+      font-weight: bold;
+    }
+
+    &amp; .contents .text {
+      /* テキスト領域をサブグリッド化して高さを一括指定 */
+      display: grid;
+      grid-template-rows: 260px;
+      padding: 10px;
+      font-size: small;
+    }
+  }
+&lt;/style&gt;
+
+&lt;div class=&quot;container-9&quot;&gt;
+  &lt;div class=&quot;contents&quot;&gt;
+    &lt;div class=&quot;content&quot;&gt;
+      &lt;p class=&quot;title&quot;&gt;タイトル&lt;/p&gt;
+      &lt;p class=&quot;text&quot;&gt;
+        そのころ、東京中の町という町、家という家では、ふたり以上の人が顔をあわせさえすれば、まるでお天気のあいさつでもするように、怪人「二十面相」のうわさをしていました。「二十面相」というのは、毎日毎日、新聞記事をにぎわしている、ふしぎな盗賊のあだ名です。その賊は二十のまったくちがった顔を持っているといわれていました。つまり、変装がとびきりじょうずなのです。どんなに明るい場所で、どんなに近よってながめても...
+      &lt;/p&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;contents&quot;&gt;
+    &lt;div class=&quot;content&quot;&gt;
+      &lt;p class=&quot;title&quot;&gt;タイトル&lt;/p&gt;
+      &lt;p class=&quot;text&quot;&gt;
+        恥の多い生涯を送って来ました。自分には、人間の生活というものが、見当つかないのです。自分は東北の田舎に生れましたので、汽車をはじめて見たのは、よほど大きくなってからでした。自分は停車場のブリッジを、上って、降りて、そうしてそれが線路をまたぎ越えるために造られたものだという事には全然気づかず、ただそれは停車場の構内を外国の遊戯場みたいに、複雑に楽しく、ハイカラにするためにのみ、設備せられてあるものだ...
+      &lt;/p&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;contents&quot;&gt;
+    &lt;div class=&quot;content&quot;&gt;
+      &lt;p class=&quot;title&quot;&gt;タイトル&lt;/p&gt;
+      &lt;p class=&quot;text&quot;&gt;
+        日本国民は、正当に選挙された国会における代表者を通じて行動し、われらとわれらの子孫のために、諸国民との協和による成果と、わが国全土にわたつて自由のもたらす恵沢を確保し、政府の行為によつて再び戦争の惨禍が起ることのないやうにすることを決意し、ここに主権が国民に存することを宣言し、この憲法を確定する。そもそも国政は、国民の厳粛な信託によるものであつて、その権威は国民に由来し、その権力は国民の代表者がこ...
+      &lt;/p&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;contents&quot;&gt;
+    &lt;div class=&quot;content&quot;&gt;
+      &lt;p class=&quot;title&quot;&gt;タイトル&lt;/p&gt;
+      &lt;p class=&quot;text&quot;&gt;
+        くぅ～疲れましたw これにて滅亡です！&lt;br /&gt;
+        実は、マヤの暦が2012年で終わっていたのが始まりでした&lt;br /&gt;
+        本当は1999年だったのですが←&lt;br /&gt;
+        ご厚意を無駄にするわけには行かないので流行りの太陽フレアで挑んでみた所存ですw&lt;br /&gt;
+        以下、予言者達のみんなへのメッセジをどぞ&lt;br /&gt;
+        &lt;br /&gt;
+        リチャード・ボイラン「みんな、見てくれてありがとう！ちょっと腹黒なところも見えちゃったけど・・・気にしないでね！」&lt;br /&gt;
+        ノストラダムス「いやーありがと！恐怖の大王は二十分に降ってきたかな？」&lt;br /&gt;
+        エドガー・ケイシー「滅んでくれたのは嬉しいけどちょっと恥ずかしいわね・・・」&lt;br /&gt;
+      &lt;/p&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+    </div>
+
+    <p>
+      また、grid-template-rows、grid-template-columnsのプロパティ値に<b>subgrid</b>を指定することで親要素の行/列の値をサブグリッドに継承出来る。
+    </p>
+
+    <div>
+      <style>
+        .container-9_2 {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 10px;
+
+          & .item {
+            display: grid;
+            grid-template-rows: repeat(auto-fit, 50px);
+            background-color: aqua;
+          }
+
+          & .item.item-sub-grid {
+            display: grid;
+            grid-row: 1 / span 3;
+            grid-column: 2 / span 2;
+            /* 親グリッドの行列を引き継ぐ */
+            grid-template-rows: subgrid;
+            grid-template-columns: subgrid;
+            gap: 10px;
+          }
+
+          & .item.item-sub-grid .sub-item {
+            background-color: salmon;
+          }
+        }
+      </style>
+
+      <div class="container-9_2">
+        <div class="item">item</div>
+        <div class="item">item</div>
+        <div class="item item-sub-grid">
+          <div class="sub-item">sub-item</div>
+          <div class="sub-item">sub-item</div>
+          <div class="sub-item">sub-item</div>
+          <div class="sub-item">sub-item</div>
+          <div class="sub-item">sub-item</div>
+        </div>
+        <div class="item">item</div>
+        <div class="item">item</div>
+        <div class="item">item</div>
+        <div class="item">item</div>
+        <div class="item">item</div>
+        <div class="item">item</div>
+      </div>
+    </div>
+
+    <div>
+      <pre><code class="language-html">&lt;style&gt;
+  .container-9_2 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+  
+    &amp; .item {
+      display: grid;
+      grid-template-rows: repeat(auto-fit, 50px);
+      background-color: aqua;
+    }
+  
+    &amp; .item.item-sub-grid {
+      display: grid;
+      grid-row: 1 / span 3;
+      grid-column: 2 / span 2;
+      /* 親グリッドの行列を引き継ぐ */
+      grid-template-rows: subgrid;
+      grid-template-columns: subgrid;
+      gap: 10px;
+    }
+  
+    &amp; .item.item-sub-grid .sub-item {
+      background-color: salmon;
+    }
+  }
+&lt;/style&gt;
+  
+&lt;div class=&quot;container-9_2&quot;&gt;
+  &lt;div class=&quot;item&quot;&gt;item&lt;/div&gt;
+  &lt;div class=&quot;item&quot;&gt;item&lt;/div&gt;
+  &lt;div class=&quot;item item-sub-grid&quot;&gt;
+    &lt;div class=&quot;sub-item&quot;&gt;sub-item&lt;/div&gt;
+    &lt;div class=&quot;sub-item&quot;&gt;sub-item&lt;/div&gt;
+    &lt;div class=&quot;sub-item&quot;&gt;sub-item&lt;/div&gt;
+    &lt;div class=&quot;sub-item&quot;&gt;sub-item&lt;/div&gt;
+    &lt;div class=&quot;sub-item&quot;&gt;sub-item&lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;item&quot;&gt;item&lt;/div&gt;
+  &lt;div class=&quot;item&quot;&gt;item&lt;/div&gt;
+  &lt;div class=&quot;item&quot;&gt;item&lt;/div&gt;
+  &lt;div class=&quot;item&quot;&gt;item&lt;/div&gt;
+  &lt;div class=&quot;item&quot;&gt;item&lt;/div&gt;
+  &lt;div class=&quot;item&quot;&gt;item&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+    </div>
+  </section>
+</div>
