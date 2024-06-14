@@ -52,10 +52,10 @@ export class modalComponent extends bottomMenuComponent {
   };
 
   // モーダルにページ内ナビゲーションを挿入
-  insertNavigationInModal = (contentLinkId) => {
+  insertNavigationInModal = (contentLinkSelecter) => {
     const callback = () => {
       //
-      const contentLinks = document.querySelector(contentLinkId).children;
+      const contentLinks = document.querySelector(contentLinkSelecter).children;
       const combined = Array.from(contentLinks)
         .map((element) => element.innerHTML)
         .join("");

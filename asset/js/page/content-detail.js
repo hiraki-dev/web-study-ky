@@ -10,8 +10,8 @@ import { modalComponent } from "../component/modal.mjs";
 import { initializeHighlight } from "../module/highlight.mjs";
 import { jsonUtil } from "../module/jsonUtil.mjs";
 
-// コンテンツ
-const createContentResource = async () => {
+// コンテンツリソースパスの生成
+const createContentResourcePath = async () => {
   try {
     // 取得GETパラメータをアンパック代入
     const urlParams = new URLSearchParams(window.location.search);
@@ -29,9 +29,7 @@ const createContentResource = async () => {
     // クエリパラメータを基にURLを構築
     const contentPath = `${json.basePath}${json[contentType][contentName]}`;
 
-    // コンテンツを生成
-    const content = new contentComponent();
-    await content.insertContent(contentPath);
+    return contentPath;
   } catch (e) {
     console.error(e);
     throw e;
@@ -54,14 +52,15 @@ const pageRendering = async () => {
     await bottomMenu.insertResourceByElement(bottomMenu.targetElement);
 
     // コンテンツ
-    await createContentResource();
+    const contentLinkId = "#content_link";
+    const content = new contentComponent();
+    await content.insertContent(await createContentResourcePath());
+    await content.wrapperNavigationAddCurrentUrl(contentLinkId);
 
     // モーダル
     const modal = new modalComponent(bottomMenu);
     await modal.insertResourceByElement(modal.targetElement);
     await modal.modalFromBottomMenu();
-
-    const contentLinkId = "#content_link";
     await modal.insertNavigationInModal(contentLinkId);
 
     // Highlight JS

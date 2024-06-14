@@ -17,7 +17,5 @@ export class headerComponent extends base {
 
   constructor() {
     super();
-
-    this.insertResourceByElement(this.targetElement);
   }
 }
