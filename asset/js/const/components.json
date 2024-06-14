@@ -1,0 +1,23 @@
+{
+  "basePath": "/view/component",
+  "heador": {
+    "name": "ヘッダー",
+    "file": "/header.html",
+    "targetElement": "#insert-header"
+  },
+  "footer": {
+    "name": "フッター",
+    "file": "/footer.html",
+    "targetElement": "#insert-footer"
+  },
+  "bottomMenu": {
+    "name": "ボトムメニュー",
+    "file": "/bottom-menu.html",
+    "targetElement": "#insert-buttom"
+  },
+  "modal": {
+    "name": "モーダル",
+    "file": "/modal.html",
+    "targetElement": "#insert-modal"
+  }
+}

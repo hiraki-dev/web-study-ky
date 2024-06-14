@@ -1,0 +1,14 @@
+{
+  "basePath": "/view/content",
+  "html": {
+    "basis": "/html/basis.html",
+    "form": "/html/form.html"
+  },
+  "css": {
+    "summary": "/css/basis/summary.html",
+    "blook-model": "/css/basis/blook-model.html",
+    "position": "/css/property/position.html"
+  },
+  "javascript": {},
+  "web-api": {}
+}
